@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotJEM.Json.Validation", "DotJEM.Json.Validation\DotJEM.Json.Validation.csproj", "{2441E582-2ED0-4815-99A3-CD5B65A1592A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotJEM.Json.Validation.Test", "DotJEM.Json.Validation.Test\DotJEM.Json.Validation.Test.csproj", "{B1CF546C-6A9A-4032-B499-1B1FE0821594}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotJEM.Json.Validation.IntegrationTest", "DotJEM.Json.Validation.IntegrationTest\DotJEM.Json.Validation.IntegrationTest.csproj", "{F150F2BB-5FE8-4F2C-AE4F-98C945A899A5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2441E582-2ED0-4815-99A3-CD5B65A1592A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2441E582-2ED0-4815-99A3-CD5B65A1592A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2441E582-2ED0-4815-99A3-CD5B65A1592A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2441E582-2ED0-4815-99A3-CD5B65A1592A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1CF546C-6A9A-4032-B499-1B1FE0821594}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1CF546C-6A9A-4032-B499-1B1FE0821594}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1CF546C-6A9A-4032-B499-1B1FE0821594}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1CF546C-6A9A-4032-B499-1B1FE0821594}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F150F2BB-5FE8-4F2C-AE4F-98C945A899A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F150F2BB-5FE8-4F2C-AE4F-98C945A899A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F150F2BB-5FE8-4F2C-AE4F-98C945A899A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F150F2BB-5FE8-4F2C-AE4F-98C945A899A5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

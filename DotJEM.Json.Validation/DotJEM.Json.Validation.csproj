@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2441E582-2ED0-4815-99A3-CD5B65A1592A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotJEM.Json.Validation</RootNamespace>
+    <AssemblyName>DotJEM.Json.Validation</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constraints\AndJsonConstraint.cs" />
+    <Compile Include="Constraints\Common\IsDefinedJsonConstraint.cs" />
+    <Compile Include="Constraints\Common\ValidatorConstraintFactoryCommonExtensions.cs" />
+    <Compile Include="Constraints\CompositeJsonConstraint.cs" />
+    <Compile Include="Constraints\Generic\InConstraint.cs" />
+    <Compile Include="Constraints\Generic\ValidatorConstraintFactoryStringExtensions.cs" />
+    <Compile Include="Constraints\JsonConstraint.cs" />
+    <Compile Include="Constraints\NotJsonConstraint.cs" />
+    <Compile Include="Constraints\OrJsonConstraint.cs" />
+    <Compile Include="Constraints\Results\AndJsonConstraintResult.cs" />
+    <Compile Include="Constraints\Results\BasicJsonConstraintResult.cs" />
+    <Compile Include="Constraints\Results\CompositeJsonConstraintResult.cs" />
+    <Compile Include="Constraints\Results\JsonConstraintResult.cs" />
+    <Compile Include="Constraints\Results\NotJsonConstraintResult.cs" />
+    <Compile Include="Constraints\Results\OrJsonConstraintResult.cs" />
+    <Compile Include="Constraints\String\Length\ExactStringLengthJsonConstraint.cs" />
+    <Compile Include="Constraints\String\Length\MaxStringLengthJsonConstraint.cs" />
+    <Compile Include="Constraints\String\Length\MinStringLengthJsonConstraint.cs" />
+    <Compile Include="Constraints\String\Length\StringLengthJsonConstraint.cs" />
+    <Compile Include="Constraints\String\MatchStringJsonConstraint.cs" />
+    <Compile Include="Constraints\String\StringEqualsJsonConstraint.cs" />
+    <Compile Include="Constraints\String\ValidatorConstraintFactoryStringExtensions.cs" />
+    <Compile Include="Context\JsonValidationContext.cs" />
+    <Compile Include="Descriptive\JsonConstraintDescription.cs" />
+    <Compile Include="Descriptive\JsonConstraintDescriptionAttribute.cs" />
+    <Compile Include="Descriptive\JsonValidatorDescription.cs" />
+    <Compile Include="Factories\IConstraintFactory.cs" />
+    <Compile Include="JsonFieldValidator.cs" />
+    <Compile Include="JsonValidator.cs" />
+    <Compile Include="JsonValidatorResult.cs" />
+    <Compile Include="JsonValidatorRuleFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\AndJsonRule.cs" />
+    <Compile Include="Rules\BasicJsonRule.cs" />
+    <Compile Include="Rules\CompositeJsonRule.cs" />
+    <Compile Include="Rules\JsonRule.cs" />
+    <Compile Include="Rules\NotJsonRule.cs" />
+    <Compile Include="Rules\OrJsonRule.cs" />
+    <Compile Include="Rules\Results\AndJsonRuleResult.cs" />
+    <Compile Include="Rules\Results\BasicJsonRuleResult.cs" />
+    <Compile Include="Rules\Results\CompositeJsonRuleResult.cs" />
+    <Compile Include="Rules\Results\JsonRuleResult.cs" />
+    <Compile Include="Rules\Results\NotJsonRuleResult.cs" />
+    <Compile Include="Rules\Results\OrJsonRuleResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Constraints\Number\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
