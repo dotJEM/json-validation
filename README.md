@@ -19,7 +19,7 @@ The goal would be to:
     {
         public TestValidator()
         {
-            When("test", Has.MaxLength(5)).Then("test", Must.Have.MaxLength(200));
+            When("test", Has.MinLength(5)).Then("test", Must.Have.MaxLength(200));
             When("other", Has.MinLength(0)).Then("test", Must.Have.MaxLength(25));
 
             When(Field("test", Has.MinLength(5))).Then(Field("other", Should.Be.Equal("0")));
