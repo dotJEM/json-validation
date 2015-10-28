@@ -21,9 +21,7 @@ namespace DotJEM.Json.Validation
 
         public JsonValidatorResultDescription Describe()
         {
-
-
-            return new JsonValidatorResultDescription(results.Where(r => r.Value));
+            return new JsonValidatorResultDescription(results.Where(r=>!r.Value).Select(r => r.Describe()));
         }
     }
 }

@@ -39,9 +39,12 @@ namespace DotJEM.Web.Host.Test.Validation2
             }));
 
             string rdesc = result.Describe().ToString();
+            Console.WriteLine("RESULT:");
             Console.WriteLine(rdesc);
 
             string description = validator.Describe().ToString();
+            Console.WriteLine("");
+            Console.WriteLine("VALIDATOR:");
             Console.WriteLine(description);
             Assert.That(result.IsValid, Is.False);
         }
@@ -54,6 +57,7 @@ namespace DotJEM.Web.Host.Test.Validation2
     {
         public TestValidator()
         {
+
             When(Any).Then("x", Must.Have.MinLength(3));
 
             When("name", Is.Defined()).Then("test", Must.Have.MaxLength(200));

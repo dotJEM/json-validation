@@ -10,8 +10,8 @@ namespace DotJEM.Json.Validation.Context
 
     public class JsonValidationContext : IJsonValidationContext
     {
-        public JObject Updated { get; private set; }
-        public JObject Deleted { get; private set; }
+        public JObject Updated { get; }
+        public JObject Deleted { get; }
 
         public JsonValidationContext(JObject updated, JObject deleted)
         {

@@ -7,35 +7,21 @@ using DotJEM.Json.Validation.Rules.Results;
 
 namespace DotJEM.Json.Validation.Descriptive
 {
-    public abstract class Description : IDescription
-    {
-        public override string ToString()
-        {
-            return WriteTo(new DescriptionWriter()).ToString();
-        }
-
-        public abstract IDescriptionWriter WriteTo(IDescriptionWriter writer);
-    }
-
     public class JsonValidatorResultDescription : Description
     {
-        private readonly IEnumerable<JsonRuleResult> failed;
+        private readonly IEnumerable<JsonRuleResultDescription> failed;
 
-        public JsonValidatorResultDescription(IEnumerable<JsonRuleResult> failed)
+        public JsonValidatorResultDescription(IEnumerable<JsonRuleResultDescription> failed)
         {
-            this.failed = failed;
+            this.failed = failed.ToList();
         }
 
         public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
         {
             using (writer.Indent())
             {
-                foreach (JsonRuleResult result in failed)
-                {
-                    
-                }
+                return failed.Aggregate(writer, (w, description) => description.WriteTo(w));
             }
-            return writer;
         }
     }
 
@@ -159,86 +145,6 @@ namespace DotJEM.Json.Validation.Descriptive
                 });
             }
             return writer;
-        }
-    }
-
-    public interface IDescribable
-    {
-        IDescription Describe();
-    }
-
-    public interface IDescription
-    {
-        IDescriptionWriter WriteTo(IDescriptionWriter writer);
-    }
-
-    public interface IDescriptionWriter
-    {
-        IDisposable Indent();
-        IDescriptionWriter Write(string format, params object[] arg);
-        IDescriptionWriter WriteLine(string format, params object[] arg);
-        IDescriptionWriter WriteLine();
-    }
-
-    public class DescriptionWriter : IDescriptionWriter
-    {
-        private int indentation;
-        private readonly TextWriter inner;
-
-        public DescriptionWriter()
-            : this(new StringWriter())
-        {
-        }
-
-        public DescriptionWriter(TextWriter inner)
-        {
-            this.inner = inner;
-        }
-
-        public IDisposable Indent()
-        {
-            return new IndentationScope(this);
-        }
-
-        public IDescriptionWriter Write(string format, params object[] arg)
-        {
-            format = new string(' ', indentation) + format;
-            inner.Write(format, arg);
-            return this;
-        }
-
-        public IDescriptionWriter WriteLine(string format, params object[] arg)
-        {
-            format = new string(' ', indentation) + format;
-            inner.WriteLine(format, arg);
-            return this;
-        }
-
-        public IDescriptionWriter WriteLine()
-        {
-            inner.WriteLine();
-            return this;
-        }
-
-        public override string ToString()
-        {
-            return inner.ToString();
-        }
-
-        private sealed class IndentationScope : IDisposable
-        {
-            private readonly DescriptionWriter writer;
-
-            public IndentationScope(DescriptionWriter writer)
-            {
-                this.writer = writer;
-                writer.indentation++;
-            }
-
-            public void Dispose()
-            {
-                writer.indentation--;
-            }
         }
     }
 }

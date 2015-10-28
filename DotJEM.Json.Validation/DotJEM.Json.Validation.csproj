@@ -67,6 +67,8 @@
     <Compile Include="Constraints\String\StringEqualsJsonConstraint.cs" />
     <Compile Include="Constraints\String\ValidatorConstraintFactoryStringExtensions.cs" />
     <Compile Include="Context\JsonValidationContext.cs" />
+    <Compile Include="Descriptive\Description.cs" />
+    <Compile Include="Descriptive\DescriptionWriter.cs" />
     <Compile Include="Descriptive\JsonConstraintDescription.cs" />
     <Compile Include="Descriptive\JsonConstraintDescriptionAttribute.cs" />
     <Compile Include="Descriptive\JsonValidatorDescription.cs" />

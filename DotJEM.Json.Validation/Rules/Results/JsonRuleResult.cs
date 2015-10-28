@@ -1,4 +1,6 @@
-﻿namespace DotJEM.Json.Validation.Rules.Results
+﻿using DotJEM.Json.Validation.Descriptive;
+
+namespace DotJEM.Json.Validation.Rules.Results
 {
     public abstract class JsonRuleResult
     {
@@ -30,11 +32,40 @@
         }
     }
 
-    public class JsonRuleResultDescription
+    public class CompositeRuleResultDescription : Description
     {
+        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
+        {
+            return writer;
+        }
+    }
+
+    public class JsonRuleResultDescription : Description
+    {
+        private readonly JsonRuleResult result;
+
         public JsonRuleResultDescription(JsonRuleResult result)
         {
+            this.result = result;
+        }
+
+        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
+        {
+            BasicJsonRuleResult basic = result as BasicJsonRuleResult;
+            if (basic != null)
+            {
+                return writer.WriteLine($"{basic.Path ?? basic.Selector} was invalid");
+            }
+
+            NotJsonRuleResult not = result as NotJsonRuleResult;
+            if (not != null)
+            {
+                return writer.WriteLine("Not failed " + result.Value + " failed.");
+            }
+
             
+
+            return writer;
         }
     }
 }
