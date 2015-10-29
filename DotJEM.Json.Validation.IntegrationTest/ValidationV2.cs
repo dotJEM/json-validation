@@ -1,5 +1,4 @@
 ﻿using System;
-using DotJEM.Json.Validation;
 using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.String;
@@ -7,7 +6,7 @@ using DotJEM.Json.Validation.Context;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace DotJEM.Web.Host.Test.Validation2
+namespace DotJEM.Json.Validation.IntegrationTest
 {
     [TestFixture]
     public class ValidationV2ConstraintBuilder
