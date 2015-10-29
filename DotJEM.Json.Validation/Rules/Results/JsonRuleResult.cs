@@ -60,12 +60,24 @@ namespace DotJEM.Json.Validation.Rules.Results
             NotJsonRuleResult not = result as NotJsonRuleResult;
             if (not != null)
             {
+                
+
                 return writer.WriteLine("Not failed " + result.Value + " failed.");
             }
 
-            
+            AndJsonRuleResult and = result as AndJsonRuleResult;
+            if (and != null)
+            {
+                return writer.WriteLine("And failed " + result.Value + " failed.");
+            }
 
-            return writer;
+            OrJsonRuleResult or = result as OrJsonRuleResult;
+            if (or != null)
+            {
+                return writer.WriteLine("Or failed " + result.Value + " failed.");
+            }
+
+            return writer.WriteLine("N/A");
         }
     }
 }
