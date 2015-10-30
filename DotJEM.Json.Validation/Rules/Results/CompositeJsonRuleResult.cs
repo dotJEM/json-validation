@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Rules.Results
 {
@@ -29,6 +31,24 @@ namespace DotJEM.Json.Validation.Rules.Results
                     }
                     return c;
                 });
+        }
+
+        protected IDescriptionWriter JoinWriteTo(IDescriptionWriter writer, Func<JsonRuleResult, bool> filter, string join)
+        {
+            //TODO: (jmd 2015-10-30) Delegate. 
+            IEnumerable<JsonRuleResult> filtered = Results.Where(filter);
+            using (writer.Indent())
+            {
+                filtered.Aggregate(false, (notFirst, result) =>
+                {
+                    if (notFirst)
+                        writer.Write(join);
+
+                    result.WriteTo(writer);
+                    return true;
+                });
+                return writer;
+            }
         }
     }
 }

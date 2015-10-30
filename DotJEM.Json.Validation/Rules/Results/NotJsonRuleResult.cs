@@ -1,3 +1,5 @@
+using DotJEM.Json.Validation.Descriptive;
+
 namespace DotJEM.Json.Validation.Rules.Results
 {
     public sealed class NotJsonRuleResult : JsonRuleResult
@@ -15,6 +17,11 @@ namespace DotJEM.Json.Validation.Rules.Results
         {
             NotJsonRuleResult not = Result as NotJsonRuleResult;
             return not != null ? not.Result : base.Optimize();
+        }
+
+        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
+        {
+            return Result.WriteTo(writer.Write("not "));
         }
     }
 }

@@ -1,4 +1,5 @@
 using DotJEM.Json.Validation.Constraints.Results;
+using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Rules.Results
 {
@@ -17,10 +18,10 @@ namespace DotJEM.Json.Validation.Rules.Results
 
             this.result = result.Optimize();
         }
-    }
 
-    public sealed class AnyJsonRuleResult : JsonRuleResult
-    {
-        public override bool Value { get; } = true;
+        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
+        {
+            return writer.WriteLine($"{Path ?? Selector} = {Value}");
+        }
     }
 }

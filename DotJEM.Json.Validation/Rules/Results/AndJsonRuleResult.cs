@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Rules.Results
 {
@@ -27,5 +28,9 @@ namespace DotJEM.Json.Validation.Rules.Results
             return OptimizeAs<AndJsonRuleResult>();
         }
 
+        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
+        {
+            return JoinWriteTo(writer, result => true, "and ");
+        }
     }
 }

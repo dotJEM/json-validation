@@ -31,13 +31,12 @@ namespace DotJEM.Json.Validation.IntegrationTest
         {
             TestValidator validator = new TestValidator();
 
-
             JsonValidatorResult result = validator.Validate(new JsonValidationContext(null, null), JObject.FromObject(new
             {
                 test= "01234567890123456789", other="0", A = "asd"
             }));
 
-            string rdesc = result.Describe().ToString();
+            string rdesc = result.ToString();
             Console.WriteLine("RESULT:");
             Console.WriteLine(rdesc);
 
@@ -74,11 +73,11 @@ namespace DotJEM.Json.Validation.IntegrationTest
 
     public class FakeJsonConstraint : JsonConstraint
     {
-        public string Name { get; private set; }
+        public string Name { get; }
 
         public FakeJsonConstraint(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         public override string ToString()
