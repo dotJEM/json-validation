@@ -21,9 +21,7 @@ namespace DotJEM.Json.Validation.Descriptive
         public override string ToString()
         {
             StringWriter writer = new StringWriter();
-
             descriptions.ForEach(d => writer.WriteLine(d.ToString()));
-
             return writer.ToString();
         }
 
@@ -45,7 +43,6 @@ namespace DotJEM.Json.Validation.Descriptive
             this.rule = rule;
             this.guard = guard;
         }
-
 
         public override string ToString()
         {
