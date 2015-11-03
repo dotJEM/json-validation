@@ -1,6 +1,8 @@
-﻿namespace DotJEM.Json.Validation.Constraints.Results
+﻿using DotJEM.Json.Validation.Descriptive;
+
+namespace DotJEM.Json.Validation.Constraints.Results
 {
-    public abstract class JsonConstraintResult
+    public abstract class JsonConstraintResult : Description
     {
         public virtual bool Value { get; private set; }
 
@@ -17,6 +19,8 @@
         #region Operator Overloads
         public static JsonConstraintResult operator &(JsonConstraintResult x, JsonConstraintResult y)
         {
+            //TODO: (jmd 2015-11-03) IF either is already a Or construct, we can reuse that and save the optimize. 
+
             if (x == null)
                 return y;
 
@@ -28,6 +32,8 @@
 
         public static JsonConstraintResult operator |(JsonConstraintResult x, JsonConstraintResult y)
         {
+            //TODO: (jmd 2015-11-03) IF either is already a Or construct, we can reuse that and save the optimize. 
+
             if (x == null)
                 return y;
 
