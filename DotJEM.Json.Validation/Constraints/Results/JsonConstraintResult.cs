@@ -1,6 +1,8 @@
-﻿namespace DotJEM.Json.Validation.Constraints.Results
+﻿using DotJEM.Json.Validation.Descriptive;
+
+namespace DotJEM.Json.Validation.Constraints.Results
 {
-    public abstract class JsonConstraintResult
+    public abstract class JsonConstraintResult 
     {
         public virtual bool Value { get; private set; }
 
