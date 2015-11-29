@@ -7,24 +7,6 @@ using DotJEM.Json.Validation.Rules.Results;
 
 namespace DotJEM.Json.Validation.Descriptive
 {
-    public class JsonValidatorResultDescription : Description
-    {
-        private readonly IEnumerable<JsonRuleResultDescription> failed;
-
-        public JsonValidatorResultDescription(IEnumerable<JsonRuleResultDescription> failed)
-        {
-            this.failed = failed.ToList();
-        }
-
-        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
-        {
-            using (writer.Indent())
-            {
-                return failed.Aggregate(writer, (w, description) => description.WriteTo(w));
-            }
-        }
-    }
-
     public class JsonValidatorDescription : Description
     {
         private readonly JsonValidator validator;

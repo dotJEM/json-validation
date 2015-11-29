@@ -85,6 +85,7 @@
     <Compile Include="Rules\NotJsonRule.cs" />
     <Compile Include="Rules\OrJsonRule.cs" />
     <Compile Include="Rules\Results\AndJsonRuleResult.cs" />
+    <Compile Include="Rules\Results\AnyJsonRuleResult.cs" />
     <Compile Include="Rules\Results\BasicJsonRuleResult.cs" />
     <Compile Include="Rules\Results\CompositeJsonRuleResult.cs" />
     <Compile Include="Rules\Results\JsonRuleResult.cs" />

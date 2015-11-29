@@ -1,4 +1,6 @@
 using DotJEM.Json.Validation.Constraints.Results;
+using DotJEM.Json.Validation.Descriptive;
+using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules.Results
 {
@@ -9,18 +11,23 @@ namespace DotJEM.Json.Validation.Rules.Results
         public override bool Value => result.Value;
         public string Selector { get; }
         public string Path { get; }
+        public JToken Token { get; }
 
-        public BasicJsonRuleResult(string selector, string path, JsonConstraintResult result)
+        public BasicJsonRuleResult(string selector, JToken token, JsonConstraintResult result)
         {
-            Path = path;
+            Token = token;
+            Path = token?.Path;
             Selector = selector;
 
             this.result = result.Optimize();
         }
-    }
 
-    public sealed class AnyJsonRuleResult : JsonRuleResult
-    {
-        public override bool Value { get; } = true;
+        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
+        {
+            writer.Write($"{Path ?? Selector}: ");
+            result.WriteTo(writer);
+            writer.WriteLine($" but was: {Token}");
+            return writer.WriteLine();
+        }
     }
 }

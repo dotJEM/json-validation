@@ -5,7 +5,7 @@ using DotJEM.Json.Validation.Rules.Results;
 
 namespace DotJEM.Json.Validation
 {
-    public class JsonValidatorResult
+    public class JsonValidatorResult : Description
     {
         private readonly List<JsonRuleResult> results;
 
@@ -19,9 +19,9 @@ namespace DotJEM.Json.Validation
             this.results = results;
         }
 
-        public JsonValidatorResultDescription Describe()
+        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
         {
-            return new JsonValidatorResultDescription(results.Where(r=>!r.Value).Select(r => r.Describe()));
+            return results.Aggregate(writer, (w, r) => r.WriteTo(w));
         }
     }
 }
