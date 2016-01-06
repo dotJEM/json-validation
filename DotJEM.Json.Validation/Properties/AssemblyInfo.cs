@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DotJEM.Json.Validation")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Validation Framework for validating JSON using Json.NET objects.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("N/A")]
 [assembly: AssemblyProduct("DotJEM.Json.Validation")]
 [assembly: AssemblyCopyright("Copyright © dotJEM  2015")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("N/A")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
