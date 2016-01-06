@@ -63,16 +63,18 @@ namespace DotJEM.Json.Validation
             validators.Add(jsonFieldValidator);
         }
 
-
-        public JsonValidatorResult Validate(IJsonValidationContext context, JObject entity)
+        public virtual JsonValidatorResult Validate(IJsonValidationContext context, JObject entity)
         {
             IEnumerable<JsonRuleResult> results
                 = from validator in validators
                   let result = validator.Validate(context, entity)
                   where result != null
                   select result.Optimize();
+
+
             return new JsonValidatorResult(results.ToList());
         }
+        
 
         public JsonValidatorDescription Describe()
         {
