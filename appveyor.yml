@@ -1,10 +1,13 @@
+buildnumber: reset
 version: 0.0.{build}
 
 configuration: Release
 
 init:
 - ps: Update-AppveyorBuild -Version "0.0.$env:appveyor_build_number-sha.$($env:appveyor_repo_commit.substring(0,7))"
-- echo %appveyor_build_version%
+
+nuget:
+  disable_publish_on_pr: true
 
 assembly_info:
   patch: true
