@@ -1,3 +1,5 @@
+<image src="https://ci.appveyor.com/api/projects/status/at67620962onli32?svg=true" width="160">
+
 # json-validation
 
 While JsonSchema largely allows us to validate Json objects, we had trouble finding heads and tails in how cross validation and conditional validation would work. For the examples we have seen it also seemed dificult to read and write all these rules.
