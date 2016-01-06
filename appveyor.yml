@@ -16,12 +16,15 @@ assembly_info:
 before_build:
   nuget restore
 
+build_script:
+  - build NugetPackage
+
 artifacts:
-- path: .\*.nupkg
+  - path: Build\NuGet\*.nupkg
+    name: NugetPackages
 
 deploy:
   provider: NuGet
   api_key:
     secure: KEHWtW02rf5aCAlwchP0Siow5EA24hwtm09uvsR58bMWirJ8uXl1SidBnNCfJ3cw
   skip_symbols: false
-  artifact: /.*\.nupkg/
