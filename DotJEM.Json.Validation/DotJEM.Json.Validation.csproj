@@ -93,6 +93,7 @@
     <Compile Include="Rules\Results\OrJsonRuleResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DotJEM.Json.Validation.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

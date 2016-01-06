@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>jeme</authors>
+    <owners>jeme</owners>
+    <licenseUrl>https://github.com/dotJEM/json-validation/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/dotJEM/json-validation</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>https://github.com/dotJEM/json-validation/releases</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>Json Validation Fluent</tags>
+  </metadata>
+</package>
