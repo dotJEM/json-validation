@@ -16,12 +16,10 @@ assembly_info:
 before_build:
   nuget restore
 
-build_script:
-  - build NugetPackage
-
-artifacts:
-  - path: Build\NuGet\*.nupkg
-    name: NugetPackages
+build:
+  project: DropNetRT.sln
+  publish_nuget: true
+  publish_nuget_symbols: true
 
 deploy:
   provider: NuGet
