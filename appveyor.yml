@@ -2,6 +2,9 @@ version: 0.0.{build}
 
 configuration: Release
 
+init:
+- ps: Update-AppveyorBuild -Version '0.0.$env:appveyor_build_number-$($env:appveyor_repo_commit.substring(0,7))'
+
 assembly_info:
   patch: true
   file: AssemblyInfo.*
