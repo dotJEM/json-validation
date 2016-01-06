@@ -18,6 +18,8 @@ assembly_info:
 matrix:
   fast_finish: true # fail fast!
 
+clone_depth: 3  
+
 before_build:
   nuget restore
 
