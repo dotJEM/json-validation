@@ -71,7 +71,6 @@ namespace DotJEM.Json.Validation
                   where result != null
                   select result.Optimize();
 
-
             return new JsonValidatorResult(results.ToList());
         }
         
