@@ -1,4 +1,6 @@
-﻿using DotJEM.Json.Validation.Constraints;
+﻿using System;
+using DotJEM.Json.Validation.Constraints;
+using DotJEM.Json.Validation.Factories;
 using DotJEM.Json.Validation.Rules;
 
 namespace DotJEM.Json.Validation
@@ -6,7 +8,8 @@ namespace DotJEM.Json.Validation
     public interface IJsonValidatorRuleFactory
     {
         void Then(JsonRule validator);
-        void Then(string selector, JsonConstraint validator);
+        void Then(string selector, CapturedConstraint validator);
+        void Then(ISelfReferencingRule @ref, CapturedConstraint constraint);
     }
 
     public class JsonValidatorRuleFactory : IJsonValidatorRuleFactory
@@ -22,17 +25,21 @@ namespace DotJEM.Json.Validation
 
         public void Then(JsonRule rule)
         {
+            rule.RuleContext = "Then";
             validator.AddValidator(new JsonFieldValidator(this.rule, rule));
         }
 
-        public void Then(string selector, JsonConstraint constraint)
-        {
-            Then(selector, selector,constraint);
-        }
+        public void Then(string selector, CapturedConstraint constraint) => Then(selector, selector, constraint);
 
-        public void Then(string selector, string alias, JsonConstraint constraint)
+        public void Then(string selector, string alias, CapturedConstraint constraint) => Then(new BasicJsonRule(selector, alias, constraint));
+
+        public void Then(ISelfReferencingRule @ref, CapturedConstraint constraint)
         {
-            Then(new BasicJsonRule(selector, alias, constraint));
+            BasicJsonRule basic = rule as BasicJsonRule;
+            if (basic == null)
+                throw new InvalidOperationException("A self referencing rule (It) can only be used when a single field is used in the When clause.");
+
+            Then(basic.Selector, basic.Alias, constraint);
         }
     }
 }

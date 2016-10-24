@@ -11,4 +11,5 @@ namespace DotJEM.Json.Validation.Rules.Results
             return writer;
         }
     }
+
 }

@@ -5,10 +5,13 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
+
     public abstract class JsonRule
     {
-        public abstract JsonRuleResult Test(IJsonValidationContext contenxt, JObject entity);
+        public string RuleContext { get; internal set; }
 
+        public abstract JsonRuleResult Test(IJsonValidationContext contenxt, JObject entity);
+        
         public static AndJsonRule operator &(JsonRule x, JsonRule y)
         {
             return new AndJsonRule(x, y);

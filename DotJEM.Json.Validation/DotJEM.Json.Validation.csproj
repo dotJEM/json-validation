@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="Constraints\AndJsonConstraint.cs" />
     <Compile Include="Constraints\Common\IsDefinedJsonConstraint.cs" />
-    <Compile Include="Constraints\Common\ValidatorConstraintFactoryCommonExtensions.cs" />
+    <Compile Include="Constraints\Common\CommonConstraintFactoryExtensions.cs" />
     <Compile Include="Constraints\CompositeJsonConstraint.cs" />
     <Compile Include="Constraints\Generic\InConstraint.cs" />
     <Compile Include="Constraints\Generic\ValidatorConstraintFactoryStringExtensions.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="Constraints\Results\JsonConstraintResult.cs" />
     <Compile Include="Constraints\Results\NotJsonConstraintResult.cs" />
     <Compile Include="Constraints\Results\OrJsonConstraintResult.cs" />
+    <Compile Include="Constraints\Common\FuncJsonConstraint.cs" />
     <Compile Include="Constraints\String\Length\ExactStringLengthJsonConstraint.cs" />
     <Compile Include="Constraints\String\Length\MaxStringLengthJsonConstraint.cs" />
     <Compile Include="Constraints\String\Length\MinStringLengthJsonConstraint.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Constraints\String\MatchStringJsonConstraint.cs" />
     <Compile Include="Constraints\String\StringEqualsJsonConstraint.cs" />
     <Compile Include="Constraints\String\ValidatorConstraintFactoryStringExtensions.cs" />
+    <Compile Include="Constraints\TypedJsonConstraint.cs" />
     <Compile Include="Context\JsonValidationContext.cs" />
     <Compile Include="Descriptive\Description.cs" />
     <Compile Include="Descriptive\DescriptionWriter.cs" />

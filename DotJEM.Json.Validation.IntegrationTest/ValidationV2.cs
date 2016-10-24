@@ -3,6 +3,7 @@ using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.String;
 using DotJEM.Json.Validation.Context;
+using DotJEM.Json.Validation.Factories;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
@@ -55,8 +56,9 @@ namespace DotJEM.Json.Validation.IntegrationTest
     {
         public TestValidator()
         {
-
             When(Any).Then("x", Must.Have.MinLength(3));
+
+            When("name", x => true, "is true").Then(It, Must.Match(x => true, "be true"));
 
             When("name", Is.Defined()).Then("test", Must.Have.MaxLength(200));
             When("surname", Is.Defined()).Then("test", Must.Have.MaxLength(25));
