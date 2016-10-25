@@ -8,7 +8,7 @@
     <owners>jeme</owners>
     <licenseUrl>https://github.com/dotJEM/json-validation/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/dotJEM/json-validation</projectUrl>
-    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>https://github.com/dotJEM/json-validation/releases</releaseNotes>
     <copyright>Copyright 2016</copyright>
