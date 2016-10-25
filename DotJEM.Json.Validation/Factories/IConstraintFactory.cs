@@ -33,7 +33,6 @@ namespace DotJEM.Json.Validation.Factories
         public CapturedConstraint Capture(JsonConstraint constraint)
         {
             string stack = new StackTrace().ToString();
-
             string salutation = pre != null ? pre.verb + " " + this.verb : this.verb;
 
             return new CapturedConstraint(constraint);
