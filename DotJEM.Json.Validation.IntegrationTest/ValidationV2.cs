@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.String;
@@ -59,6 +60,26 @@ namespace DotJEM.Json.Validation.IntegrationTest
             When(Any).Then("x", Must.Have.MinLength(3));
 
             When("name", x => true, "is true").Then(It, Must.Match(x => true, "be true"));
+            //When(Field("name", x => true, "is true")).Then(It.MustHave);
+
+            dynamic s = this;
+
+            s.For("items", s.Use<TestValidator>());
+            s.When("items").Then(s.For("items").Use<TestValidator>());
+
+            When(x => true);
+
+            s.ForEach("items",
+                When("name", Is.LengthBetween(2,5)).Then(It, Must.Match("[A-Z]{2}\\d{3}")),
+                When("name", Is.LengthBetween(6, 7)).Then(It, Must.Match("[A-Z]{2}\\d{3}\\-Z[1-6]"))
+                );
+
+            //When validating content in arrays, the framework should support some additional hooks:
+            // - For each item in the array, if the item matches rule A then it must fulfill rule B (contextual validation)
+            // - When A contains X elements(or another broad precondition) each element MUST...
+            // - Some Elements must...
+            // - At least one element must...
+            //etc.
 
             When("name", Is.Defined()).Then("test", Must.Have.MaxLength(200));
             When("surname", Is.Defined()).Then("test", Must.Have.MaxLength(25));
@@ -69,6 +90,16 @@ namespace DotJEM.Json.Validation.IntegrationTest
                 .Then(
                       Field("A", Must.Be.Equal("") | Must.Be.Equal(""))
                     & Field("B", Must.Be.Equal("")));
+
+
+        }
+    }
+
+    public class ChildValidator : JsonValidator
+    {
+        public ChildValidator()
+        {
+            When("")
         }
     }
 

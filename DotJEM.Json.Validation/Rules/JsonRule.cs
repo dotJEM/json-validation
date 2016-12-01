@@ -5,7 +5,6 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
-
     public abstract class JsonRule
     {
         public string RuleContext { get; internal set; }
@@ -33,5 +32,26 @@ namespace DotJEM.Json.Validation.Rules
         }
 
         public abstract Description Describe();
+
+        public virtual TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor:IJsonRuleVisitor
+        {
+            return visitor.Visit((dynamic) this);
+        }
+    }
+
+    public interface IJsonRuleVisitor
+    {
+        IJsonRuleVisitor Visit(JsonRule rule);
+    }
+
+    public interface IJsonRuleVisitor<in TRule> where TRule : JsonRule
+    {
+        IJsonRuleVisitor Visit(TRule rule);
+    }
+
+    public abstract class JsonRuleVisitor : IJsonRuleVisitor
+    {
+        public virtual IJsonRuleVisitor Visit(JsonRule rule) => this;
+
     }
 }

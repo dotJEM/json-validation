@@ -40,9 +40,11 @@ namespace DotJEM.Json.Validation
             return new JsonValidatorRuleFactory(this, rule);
         }
 
-        protected IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc)
+        
+
+        protected IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc, string explain)
         {
-            return When(new FuncJsonRule(constraintFunc));
+            return When(new FuncJsonRule(constraintFunc, explain));
         }
 
         protected IJsonValidatorRuleFactory When(string selector, Func<JToken, bool> constraintFunc, string explain)
@@ -78,6 +80,16 @@ namespace DotJEM.Json.Validation
         protected JsonRule Field(string selector, CapturedConstraint captured)
         {
             return Field(selector, selector, captured);
+        }
+
+        protected JsonRule Field(string selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        {
+            return Field(selector, selector, Is.Matching(constraintFunc, explain));
+        }
+
+        protected JsonRule Field(string selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        {
+            return Field(selector, alias, Is.Matching(constraintFunc, explain));
         }
 
         protected JsonRule Field(string selector, string alias, CapturedConstraint captured)
