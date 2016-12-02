@@ -67,12 +67,12 @@ namespace DotJEM.Json.Validation.IntegrationTest
             s.For("items", s.Use<TestValidator>());
             s.When("items").Then(s.For("items").Use<TestValidator>());
 
-            When(x => true);
+            //When(x => true);
 
-            s.ForEach("items",
-                When("name", Is.LengthBetween(2,5)).Then(It, Must.Match("[A-Z]{2}\\d{3}")),
-                When("name", Is.LengthBetween(6, 7)).Then(It, Must.Match("[A-Z]{2}\\d{3}\\-Z[1-6]"))
-                );
+            //s.ForEach("items",
+            //    When("name", Is.LengthBetween(2,5)).Then(It, Must.Match("[A-Z]{2}\\d{3}")),
+            //    When("name", Is.LengthBetween(6, 7)).Then(It, Must.Match("[A-Z]{2}\\d{3}\\-Z[1-6]"))
+            //    );
 
             //When validating content in arrays, the framework should support some additional hooks:
             // - For each item in the array, if the item matches rule A then it must fulfill rule B (contextual validation)
