@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectSingleSelectorVisitor.cs" />
     <Compile Include="Constraints\AndJsonConstraint.cs" />
     <Compile Include="Constraints\Common\IsDefinedJsonConstraint.cs" />
     <Compile Include="Constraints\Common\CommonConstraintFactoryExtensions.cs" />

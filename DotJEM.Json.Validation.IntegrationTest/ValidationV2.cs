@@ -62,17 +62,36 @@ namespace DotJEM.Json.Validation.IntegrationTest
             When("name", x => true, "is true").Then(It, Must.Match(x => true, "be true"));
             //When(Field("name", x => true, "is true")).Then(It.MustHave);
 
-            dynamic s = this;
+            When(Any).Use<ChildValidator>().For(It);
+            When(Any).Use<ChildValidator>().For("ASDASDASD");
+            When(Any).Use<ChildValidator>().For(Each(""));
 
-            s.For("items", s.Use<TestValidator>());
-            s.When("items").Then(s.For("items").Use<TestValidator>());
+            //NOTE: Old Syntax proposal
+            //dynamic s = this;
+            //s.For("items", s.Use<TestValidator>());
+            //s.When("items").Then(s.For("items").Use<TestValidator>());
+
+            //NOTE: Syntax proposal
+            //s.Use<TestValidator>().For(Field("x"));
+            //s.Use<TestValidator>().For(All("items"));
+
+            //NOTE: Syntax proposal
+            //s.When("x", Is.Defined()).Use<TestValidator>().For(It);
+            //s.When("x", Is.Defined()).Use<TestValidator>().For(Field("x"));
+            //s.When("x", Is.Defined()).Use<TestValidator>().For(All("items"));
 
             //When(x => true);
 
+            //NOTE: Old Syntax proposal
             //s.ForEach("items",
             //    When("name", Is.LengthBetween(2,5)).Then(It, Must.Match("[A-Z]{2}\\d{3}")),
             //    When("name", Is.LengthBetween(6, 7)).Then(It, Must.Match("[A-Z]{2}\\d{3}\\-Z[1-6]"))
             //    );
+
+            //NOTE: Syntax proposal
+            //When(Any).Then(All("", Should.Have.Length(42)));
+            //When(Any).Then(Some("", Should.Have.Length(42)));
+            //When(Any).Then(None("", Should.Have.Length(42)));
 
             //When validating content in arrays, the framework should support some additional hooks:
             // - For each item in the array, if the item matches rule A then it must fulfill rule B (contextual validation)
