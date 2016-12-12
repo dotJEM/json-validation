@@ -1,6 +1,6 @@
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
-using DotJEM.Json.Validation.Rules.Results;
+using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
@@ -9,7 +9,7 @@ namespace DotJEM.Json.Validation.Rules
     {
         public string RuleContext { get; internal set; }
 
-        public abstract JsonRuleResult Test(IJsonValidationContext contenxt, JObject entity);
+        public abstract AbstractResult Test(IJsonValidationContext contenxt, JObject entity);
         
         public static AndJsonRule operator &(JsonRule x, JsonRule y)
         {

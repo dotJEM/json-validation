@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Linq;
-using DotJEM.Json.Validation.Constraints.Results;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
+using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints
@@ -26,9 +26,9 @@ namespace DotJEM.Json.Validation.Constraints
 
         public abstract bool Matches(IJsonValidationContext context, JToken token);
 
-        internal virtual JsonConstraintResult DoMatch(IJsonValidationContext context, JToken token)
+        internal virtual AbstractResult DoMatch(IJsonValidationContext context, JToken token)
         {
-            return new BasicJsonConstraintResult(Matches(context, token), Describe(context, token), GetType());
+            return new Result(this, token, Matches(context, token));
         }
 
         public virtual IDescription Describe()

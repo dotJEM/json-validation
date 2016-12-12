@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using DotJEM.Json.Validation.Constraints.Results;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
+using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints
@@ -23,9 +23,9 @@ namespace DotJEM.Json.Validation.Constraints
             return OptimizeAs<AndJsonConstraint>();
         }
 
-        internal override JsonConstraintResult DoMatch(IJsonValidationContext context, JToken token)
+        internal override AbstractResult DoMatch(IJsonValidationContext context, JToken token)
         {
-            return Constraints.Aggregate((JsonConstraintResult) null, (a, b) => a & b.DoMatch(context, token));
+            return Constraints.Aggregate((AndResult) null, (a, b) => a & b.DoMatch(context, token));
         }
 
         public override string ToString()

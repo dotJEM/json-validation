@@ -6,7 +6,7 @@ using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Factories;
-using DotJEM.Json.Validation.Rules.Results;
+using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
@@ -29,11 +29,11 @@ namespace DotJEM.Json.Validation.Rules
             this.hasArray = arraySelector.IsMatch(selector);
         }
 
-        public override JsonRuleResult Test(IJsonValidationContext context, JObject entity)
+        public override AbstractResult Test(IJsonValidationContext context, JObject entity)
         {
-            return new AndJsonRuleResult(
+            return new AndResult(
                 (from token in SelectTokens(entity)
-                 select (JsonRuleResult)new BasicJsonRuleResult(Selector, token, constraint.DoMatch(context, token))).ToList());
+                 select (AbstractResult)new DecoratedResult(this, constraint.DoMatch(context, token))).ToList());
         }
 
         private IEnumerable<JToken> SelectTokens(JObject entity)
@@ -53,9 +53,9 @@ namespace DotJEM.Json.Validation.Rules
 
     public sealed class AnyJsonRule : JsonRule
     {
-        public override JsonRuleResult Test(IJsonValidationContext contenxt, JObject entity)
+        public override AbstractResult Test(IJsonValidationContext contenxt, JObject entity)
         {
-            return new AnyJsonRuleResult();
+            return new Result(this, entity, true);
         }
 
         public override Description Describe()
@@ -75,9 +75,9 @@ namespace DotJEM.Json.Validation.Rules
             this.explain = explain;
         }
 
-        public override JsonRuleResult Test(IJsonValidationContext contenxt, JObject entity)
+        public override AbstractResult Test(IJsonValidationContext contenxt, JObject entity)
         {
-            return new FuncJsonRuleResult(func, func(entity));
+            return new Result(this, entity, func(entity));
         }
 
         public override Description Describe()

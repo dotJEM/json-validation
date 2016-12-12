@@ -1,7 +1,7 @@
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
+using DotJEM.Json.Validation.Results;
 using DotJEM.Json.Validation.Rules;
-using DotJEM.Json.Validation.Rules.Results;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation
@@ -17,9 +17,9 @@ namespace DotJEM.Json.Validation
             this.rule = rule.Optimize();
         }
 
-        public JsonRuleResult Validate(IJsonValidationContext context, JObject entity)
+        public AbstractResult Validate(IJsonValidationContext context, JObject entity)
         {
-            JsonRuleResult gr = guard.Test(context, entity);
+            AbstractResult gr = guard.Test(context, entity);
             return !gr.Value 
                 ? null 
                 : rule.Test(context, entity);

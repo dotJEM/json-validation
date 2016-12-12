@@ -23,10 +23,7 @@ namespace DotJEM.Json.Validation.Rules.Results
         {
         }
 
-        public override JsonRuleResult Optimize()
-        {
-            return OptimizeAs<AndJsonRuleResult>();
-        }
+        public override JsonRuleResult Optimize() => OptimizeAs<AndJsonRuleResult>();
 
         public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
         {

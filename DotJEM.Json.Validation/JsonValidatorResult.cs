@@ -1,27 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DotJEM.Json.Validation.Descriptive;
-using DotJEM.Json.Validation.Rules.Results;
+using DotJEM.Json.Validation.Results;
 
 namespace DotJEM.Json.Validation
 {
     public class JsonValidatorResult : Description
     {
-        private readonly List<JsonRuleResult> results;
+        private readonly List<AbstractResult> results;
 
         public bool IsValid
         {
             get { return results.All(r => r.Value); }
         }
 
-        public JsonValidatorResult(List<JsonRuleResult> results)
+        public JsonValidatorResult(List<AbstractResult> results)
         {
             this.results = results;
         }
 
         public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
         {
-            return results.Aggregate(writer, (w, r) => r.WriteTo(w));
+            throw new NotImplementedException();
+            //return results.Aggregate(writer, (w, r) => r.WriteTo(w));
         }
     }
 }

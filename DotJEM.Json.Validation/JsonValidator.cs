@@ -8,8 +8,8 @@ using DotJEM.Json.Validation.Constraints.String;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Factories;
+using DotJEM.Json.Validation.Results;
 using DotJEM.Json.Validation.Rules;
-using DotJEM.Json.Validation.Rules.Results;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation
@@ -108,7 +108,7 @@ namespace DotJEM.Json.Validation
 
         public virtual JsonValidatorResult Validate(IJsonValidationContext context, JObject entity)
         {
-            IEnumerable<JsonRuleResult> results
+            IEnumerable<AbstractResult> results
                 = from validator in validators
                   let result = validator.Validate(context, entity)
                   where result != null

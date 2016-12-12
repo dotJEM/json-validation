@@ -99,7 +99,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
     {
         public ChildValidator()
         {
-            When("")
+            When("", Is.Defined()).Then("A", Should.Be.Defined());
         }
     }
 
