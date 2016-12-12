@@ -119,11 +119,12 @@ namespace DotJEM.Json.Validation
         
         public JsonValidatorDescription Describe()
         {
-            IEnumerable<JsonFieldValidatorDescription> descriptions
-                = from validator in validators
-                  select validator.Describe();
+            //IEnumerable<JsonFieldValidatorDescription> descriptions
+            //    = from validator in validators
+            //      select validator.Describe();
 
-            return new JsonValidatorDescription(this, descriptions.ToList());
+            //return new JsonValidatorDescription(this, descriptions.ToList());
+            return null;
         }
     }
 }

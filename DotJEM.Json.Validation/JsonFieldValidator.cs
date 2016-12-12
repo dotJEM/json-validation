@@ -25,9 +25,9 @@ namespace DotJEM.Json.Validation
                 : rule.Test(context, entity);
         }
 
-        public JsonFieldValidatorDescription Describe()
-        {
-            return new JsonFieldValidatorDescription(guard.Describe(), rule.Describe());
-        }
+        //public JsonFieldValidatorDescription Describe()
+        //{
+        //    return new JsonFieldValidatorDescription(guard.Describe(), rule.Describe());
+        //}
     }
 }

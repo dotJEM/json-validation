@@ -59,12 +59,13 @@ namespace DotJEM.Json.Validation.IntegrationTest
         {
             When(Any).Then("x", Must.Have.MinLength(3));
 
+            When(Any).Then("something", Must.Match(token => (bool?)token == true, "somthing must be boolean and true!"));
             When("name", x => true, "is true").Then(It, Must.Match(x => true, "be true"));
             //When(Field("name", x => true, "is true")).Then(It.MustHave);
 
-            When(Any).Use<ChildValidator>().For(It);
-            When(Any).Use<ChildValidator>().For("ASDASDASD");
-            When(Any).Use<ChildValidator>().For(Each(""));
+            //When(Any).Use<ChildValidator>().For(It);
+            //When(Any).Use<ChildValidator>().For("ASDASDASD");
+            //When(Any).Use<ChildValidator>().For(Each(""));
 
             //NOTE: Old Syntax proposal
             //dynamic s = this;

@@ -45,10 +45,10 @@ namespace DotJEM.Json.Validation.Rules
             return new[] { entity.SelectToken(Selector) };
         }
 
-        public override Description Describe()
-        {
-            return new BasicJsonRuleDescription(Alias, Selector, constraint);
-        }
+        //public override Description Describe()
+        //{
+        //    return new BasicJsonRuleDescription(Alias, Selector, constraint);
+        //}
     }
 
     public sealed class AnyJsonRule : JsonRule
@@ -58,10 +58,10 @@ namespace DotJEM.Json.Validation.Rules
             return new Result(this, entity, true);
         }
 
-        public override Description Describe()
-        {
-            return new AnyJsonRuleDescription();
-        }
+        //public override Description Describe()
+        //{
+        //    return new AnyJsonRuleDescription();
+        //}
     }
 
     public sealed class FuncJsonRule : JsonRule
@@ -80,9 +80,9 @@ namespace DotJEM.Json.Validation.Rules
             return new Result(this, entity, func(entity));
         }
 
-        public override Description Describe()
-        {
-            throw new System.NotImplementedException();
-        }
+        //public override Description Describe()
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }

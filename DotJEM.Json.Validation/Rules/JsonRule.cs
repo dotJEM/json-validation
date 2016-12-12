@@ -31,7 +31,7 @@ namespace DotJEM.Json.Validation.Rules
             return this;
         }
 
-        public abstract Description Describe();
+        //public abstract Description Describe();
 
         public virtual TVisitor Accept<TVisitor>(TVisitor visitor) where TVisitor:IJsonRuleVisitor
         {
