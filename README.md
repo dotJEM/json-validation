@@ -30,6 +30,25 @@ The goal would be to:
                 .Then(
                       Field("A", Must.Be.Equal("") | Must.Be.Equal(""))
                     & Field("B", Must.Be.Equal("")));
+            
+            //Various functional overloads:
+            When(Any).Then("something", Must.Match(token => (bool)token == true, "somthing must be boolean and true!"));
+            When("name", x => true, "is true").Then(It, Must.Match(x => true, "be true"));
+            
+            //Using other/partial validators for e.g. each items in arrays etc:
+            //NOTE: Syntax proposal
+            //Use<TestValidator>().For(Field("x"));
+            //Use<TestValidator>().For(All("items"));
+            
+            //NOTE: Syntax proposal
+            //When("x", Is.Defined()).Use<TestValidator>().For(It);
+            //When("x", Is.Defined()).Use<TestValidator>().For(Field("x"));
+            //When("x", Is.Defined()).Use<TestValidator>().For(All("items")); / Each
+            
+            //NOTE: Syntax proposal
+            //When(Any).Then(All("", Should.Have.Length(42)));
+            //When(Any).Then(Some("", Should.Have.Length(42)));
+            //When(Any).Then(None("", Should.Have.Length(42)));
         }
     }
 ```
