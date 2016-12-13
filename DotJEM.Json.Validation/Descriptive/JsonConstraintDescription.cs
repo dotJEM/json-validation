@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -6,6 +7,17 @@ using DotJEM.Json.Validation.Constraints;
 
 namespace DotJEM.Json.Validation.Descriptive
 {
+    public static class JsonConstraintDesciptionExtensions
+    {
+        public static IDescription Describe(this JsonConstraint self)
+        {
+            JsonConstraintDescriptionAttribute att = self.GetType()
+                .GetCustomAttribute<JsonConstraintDescriptionAttribute>(false);
+
+            return new JsonConstraintDescription(self, att?.Format);
+        }
+    }
+
     public class JsonConstraintDescription : IDescription
     {
         // { field or property, spacing : format }

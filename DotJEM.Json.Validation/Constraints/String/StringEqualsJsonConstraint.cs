@@ -4,7 +4,7 @@ using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Constraints.String
 {
-    [JsonConstraintDescription("be equal to '{value}' ({comparison}).")]
+    [JsonConstraintDescription("equal to '{value}' ({comparison}).")]
     public class StringEqualsJsonConstraint : TypedJsonConstraint<string>
     {
         private readonly string value;

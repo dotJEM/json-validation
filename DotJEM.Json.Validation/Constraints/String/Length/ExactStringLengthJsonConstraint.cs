@@ -3,10 +3,7 @@ using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Constraints.String.Length
 {
-    //TODO: We need to figure out what the correct auxiliary verb is so we can correctly format this as:
-    // When length is x then length must be y. So "must be" should be interchangeable with "is" here.
-    //https://en.wikipedia.org/wiki/Modal_verb
-    [JsonConstraintDescription("length must be '{length}'.")]
+    [JsonConstraintDescription("length equal to '{length}'.")]
     public class ExactStringLengthJsonConstraint : TypedJsonConstraint<string>
     {
         private readonly int length;

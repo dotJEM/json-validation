@@ -6,7 +6,7 @@ using DotJEM.Json.Validation.Results;
 
 namespace DotJEM.Json.Validation
 {
-    public class JsonValidatorResult : Description
+    public class JsonValidatorResult 
     {
         private readonly List<AbstractResult> results;
 
@@ -19,11 +19,6 @@ namespace DotJEM.Json.Validation
         {
             this.results = results;
         }
-
-        public override IDescriptionWriter WriteTo(IDescriptionWriter writer)
-        {
-            throw new NotImplementedException();
-            //return results.Aggregate(writer, (w, r) => r.WriteTo(w));
-        }
+        
     }
 }

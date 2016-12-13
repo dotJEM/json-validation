@@ -19,5 +19,4 @@ namespace DotJEM.Json.Validation.Constraints.Generic
             return values.Contains(value);
         }
     }
-   
 }

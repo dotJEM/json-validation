@@ -32,15 +32,9 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.Descriptive
             private int number = 42;
             private string text = "Hello Field";
 
-            public int NumberProperty
-            {
-                get { return 26; }
-            }
+            public int NumberProperty => 26;
 
-            public string TextProperty
-            {
-                get { return "Hello Property"; }
-            }
+            public string TextProperty => "Hello Property";
 
             public override bool Matches(IJsonValidationContext context, JToken token)
             {

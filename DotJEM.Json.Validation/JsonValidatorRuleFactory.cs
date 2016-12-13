@@ -33,6 +33,7 @@ namespace DotJEM.Json.Validation
 
         public void Then(JsonRule rule)
         {
+            //Note: Captured Rule.
             rule.RuleContext = "Then";
             validator.AddValidator(new JsonFieldValidator(this.rule, rule));
         }
@@ -58,5 +59,12 @@ namespace DotJEM.Json.Validation
         {
             throw new NotImplementedException();
         }
+    }
+    public interface ISelfReferencingRule
+    {
+    }
+
+    public class SelfReferencingRule : ISelfReferencingRule
+    {
     }
 }

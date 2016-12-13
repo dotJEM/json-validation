@@ -3,7 +3,7 @@ using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Constraints.String.Length
 {
-    [JsonConstraintDescription("length must be more than or equal to '{minLength}'.")]
+    [JsonConstraintDescription("length more than or equal to '{minLength}'.")]
     public class MinStringLengthJsonConstraint : TypedJsonConstraint<string>
     {
         private readonly int minLength;

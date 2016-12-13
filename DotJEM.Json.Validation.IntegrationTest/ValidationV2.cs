@@ -33,7 +33,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
         {
             TestValidator validator = new TestValidator();
 
-            JsonValidatorResult result = validator.Validate(new JsonValidationContext(null, null), JObject.FromObject(new
+            JsonValidatorResult result = validator.Validate(new JsonValidationContext(), JObject.FromObject(new
             {
                 test= "01234567890123456789", other="0", A = "asd"
             }));
@@ -42,11 +42,12 @@ namespace DotJEM.Json.Validation.IntegrationTest
             Console.WriteLine("RESULT:");
             Console.WriteLine(rdesc);
 
-            string description = validator.Describe().ToString();
-            Console.WriteLine("");
-            Console.WriteLine("VALIDATOR:");
-            Console.WriteLine(description);
             Assert.That(result.IsValid, Is.False);
+            //string description = validator.Describe().ToString();
+            //Console.WriteLine("");
+            //Console.WriteLine("VALIDATOR:");
+            //Console.WriteLine(description);
+            //
         }
 
         public int counter = 1;
@@ -104,12 +105,18 @@ namespace DotJEM.Json.Validation.IntegrationTest
             When("name", Is.Defined()).Then("test", Must.Have.MaxLength(200));
             When("surname", Is.Defined()).Then("test", Must.Have.MaxLength(25));
 
-            When(Field("test", Has.MinLength(5))).Then(Field("other", Should.Be.Equal("0")));
+            When(Field("test", Has.MinLength(5)))
+                .Then(Field("other", Should.Be.Equal("0"))
+                    | Field("other", Should.Be.Equal("1")));
+
+            When(Field("test", Has.MinLength(5)))
+                .Then(Field("other", Should.Be.Equal("0") | Should.Be.Equal("1")));
+
 
             When(Field("A", Is.Defined()) | Field("B", Is.Defined()))
                 .Then(
                       Field("A", Must.Be.Equal("") | Must.Be.Equal(""))
-                    & Field("B", Must.Be.Equal("")));
+                    & Field("B", Must.Match(".*")));
 
 
         }

@@ -33,7 +33,7 @@ namespace DotJEM.Json.Validation.Rules
         {
             return new AndResult(
                 (from token in SelectTokens(entity)
-                 select (AbstractResult)new DecoratedResult(this, constraint.DoMatch(context, token))).ToList());
+                 select (AbstractResult)new RuleResult(this, constraint.DoMatch(context, token))).ToList());
         }
 
         private IEnumerable<JToken> SelectTokens(JObject entity)
@@ -55,7 +55,7 @@ namespace DotJEM.Json.Validation.Rules
     {
         public override AbstractResult Test(IJsonValidationContext contenxt, JObject entity)
         {
-            return new Result(this, entity, true);
+            return new RuleResult(this, new AnyResult());
         }
 
         //public override Description Describe()
@@ -77,7 +77,7 @@ namespace DotJEM.Json.Validation.Rules
 
         public override AbstractResult Test(IJsonValidationContext contenxt, JObject entity)
         {
-            return new Result(this, entity, func(entity));
+            return new RuleResult(this, new Result(func(entity)));
         }
 
         //public override Description Describe()

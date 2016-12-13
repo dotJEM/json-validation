@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DotJEM.Json.Validation.Constraints;
+using DotJEM.Json.Validation.Rules;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Results
@@ -17,17 +18,33 @@ namespace DotJEM.Json.Validation.Results
             return this;
         }
 
-        public static AndResult operator &(AbstractResult x, AbstractResult y)
+        public static AbstractResult operator &(AbstractResult x, AbstractResult y)
         {
+            //TODO: (jmd 2015-11-03) IF either is already a Or construct, we can reuse that and save the optimize. 
+
+            if (x == null)
+                return y;
+
+            if (y == null)
+                return x;
+
             return new AndResult(x, y);
         }
 
-        public static OrResult operator |(AbstractResult x, AbstractResult y)
+        public static AbstractResult operator |(AbstractResult x, AbstractResult y)
         {
+            //TODO: (jmd 2015-11-03) IF either is already a Or construct, we can reuse that and save the optimize. 
+
+            if (x == null)
+                return y;
+
+            if (y == null)
+                return x;
+
             return new OrResult(x, y);
         }
 
-        public static NotResult operator !(AbstractResult x)
+        public static AbstractResult operator !(AbstractResult x)
         {
             return new NotResult(x);
         }
@@ -124,21 +141,39 @@ namespace DotJEM.Json.Validation.Results
     {
         public override bool Value { get; }
 
-        public Result(object context, JToken token, bool value)
+        public Result(bool value)
         {
             Value = value;
         }
     }
 
-    public class DecoratedResult : AbstractResult
+    public abstract class Result<T> : Result
     {
-        private readonly AbstractResult decorated;
-
-        public override bool Value => decorated.Value;
-
-        public DecoratedResult(object context, AbstractResult decorated)
+        protected Result(T context, bool value) : base(value)
         {
-            this.decorated = decorated;
         }
     }
+
+    public class ConstraintResult : Result<JsonConstraint>
+    {
+        public ConstraintResult(JsonConstraint context, JToken token, bool value) : base(context, value)
+        {
+        }
+    }
+
+    public class AnyResult : Result
+    {
+        public AnyResult() : base(true)
+        {
+        }
+    }
+
+
+    public class RuleResult : Result<JsonRule>
+    {
+        public RuleResult(JsonRule context, AbstractResult result) : base(context, result.Value)
+        {
+        }
+    }
+
 }

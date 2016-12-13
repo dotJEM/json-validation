@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using DotJEM.Json.Validation.Constraints;
 
 namespace DotJEM.Json.Validation.Factories
@@ -7,60 +8,64 @@ namespace DotJEM.Json.Validation.Factories
     {
         CapturedConstraint Capture(JsonConstraint constraint);
     }
-    public interface IHaveConstraintFactory : IConstraintFactory
-    {
-    }
+    /// <summary>
+    /// Guidance interface for supporting a fluent syntax.
+    /// </summary>
+    public interface IHaveConstraintFactory : IConstraintFactory { }
 
-    public interface IBeConstraintFactory : IConstraintFactory
-    {
-    }
+    /// <summary>
+    /// Guidance interface for supporting a fluent syntax.
+    /// </summary>
+    public interface IBeConstraintFactory : IConstraintFactory { }
 
-    public interface IGuardConstraintFactory : IBeConstraintFactory, IHaveConstraintFactory
-    {
-    }
+    /// <summary>
+    /// Guidance interface for supporting a fluent syntax.
+    /// </summary>
+    public interface IGuardConstraintFactory : IBeConstraintFactory, IHaveConstraintFactory { }
 
     public class ConstraintFactory : IGuardConstraintFactory
     {
-        private readonly string verb;
-        private readonly ConstraintFactory pre;
+        private readonly string context;
 
-        public ConstraintFactory(ConstraintFactory pre, string verb)
+        public ConstraintFactory(string context)
         {
-            this.pre = pre;
-            this.verb = verb;
+            this.context = context;
+        }
+
+        public ConstraintFactory(ConstraintFactory pre, string context) : this(pre.context + " " + context)
+        {
         }
 
         public CapturedConstraint Capture(JsonConstraint constraint)
         {
-            string stack = new StackTrace().ToString();
-            string salutation = pre != null ? pre.verb + " " + this.verb : this.verb;
-
-            return new CapturedConstraint(constraint);
+            return new CapturedConstraint(constraint, context);
         }
     }
 
     public sealed class CapturedConstraint
     {
+        private readonly string context;
         public JsonConstraint Constraint { get; }
 
-        public CapturedConstraint(JsonConstraint constraint)
+        public CapturedConstraint(JsonConstraint constraint, string context)
         {
+            this.context = context;
             Constraint = constraint;
         }
 
         public static CapturedConstraint operator &(CapturedConstraint x, CapturedConstraint y)
         {
-            return new CapturedConstraint(x.Constraint & y.Constraint);
+            return new CapturedConstraint(x.Constraint & y.Constraint, String.Empty);
         }
 
         public static CapturedConstraint operator |(CapturedConstraint x, CapturedConstraint y)
         {
-            return new CapturedConstraint(x.Constraint | y.Constraint);
+            return new CapturedConstraint(x.Constraint | y.Constraint, String.Empty);
         }
 
         public static CapturedConstraint operator !(CapturedConstraint x)
         {
-            return new CapturedConstraint(!x.Constraint);
+            return new CapturedConstraint(!x.Constraint, String.Empty);
         }
     }
 
@@ -70,27 +75,20 @@ namespace DotJEM.Json.Validation.Factories
         IHaveConstraintFactory Have { get; }
         CapturedConstraint Capture(JsonConstraint constraint);
     }
-    
 
     public class ValidatorConstraintFactory : ConstraintFactory, IValidatorConstraintFactory
     {
         public IBeConstraintFactory Be { get; }
         public IHaveConstraintFactory Have { get; }
 
-        public ValidatorConstraintFactory(ConstraintFactory pre, string verb) : base(pre, verb)
+        public ValidatorConstraintFactory(ConstraintFactory pre, string context) 
+            : base(pre, context)
         {
             Be = new ConstraintFactory(this, "Be");
             Have = new ConstraintFactory(this, "Have");
         }
     }
 
-    public interface ISelfReferencingRule
-    {
-    }
-
-    public class SelfReferencingRule : ISelfReferencingRule
-    {
-    }
 
     //public static class CommonConstraintFactoryExtensions
     //{

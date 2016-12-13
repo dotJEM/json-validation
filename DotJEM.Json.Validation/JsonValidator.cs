@@ -17,7 +17,7 @@ namespace DotJEM.Json.Validation
     public interface IJsonValidator
     {
         JsonValidatorResult Validate(IJsonValidationContext contenxt, JObject entity);
-        JsonValidatorDescription Describe();
+        //JsonValidatorDescription Describe();
     }
 
 
@@ -36,11 +36,10 @@ namespace DotJEM.Json.Validation
         protected IJsonValidatorRuleFactory When(JsonRule rule)
         {
             if (rule == null) throw new ArgumentNullException(nameof(rule));
+            //Note: Captured Rule.
             rule.RuleContext = "When";
             return new JsonValidatorRuleFactory(this, rule);
         }
-
-        
 
         protected IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc, string explain)
         {
@@ -117,14 +116,5 @@ namespace DotJEM.Json.Validation
             return new JsonValidatorResult(results.ToList());
         }
         
-        public JsonValidatorDescription Describe()
-        {
-            //IEnumerable<JsonFieldValidatorDescription> descriptions
-            //    = from validator in validators
-            //      select validator.Describe();
-
-            //return new JsonValidatorDescription(this, descriptions.ToList());
-            return null;
-        }
     }
 }

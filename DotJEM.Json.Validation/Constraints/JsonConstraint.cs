@@ -7,16 +7,16 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints
 {
-    public abstract class JsonConstraint : IDescribable
+    public abstract class JsonConstraint 
     {
-        private readonly JsonConstraintDescriptionAttribute description;
+        //private readonly JsonConstraintDescriptionAttribute description;
 
         protected JsonConstraint()
         {
-            description = GetType()
-                .GetCustomAttributes(typeof (JsonConstraintDescriptionAttribute), false)
-                .OfType<JsonConstraintDescriptionAttribute>()
-                .SingleOrDefault();
+            //description = GetType()
+            //    .GetCustomAttributes(typeof (JsonConstraintDescriptionAttribute), false)
+            //    .OfType<JsonConstraintDescriptionAttribute>()
+            //    .SingleOrDefault();
 
             //if (description == null)
             //{
@@ -28,17 +28,7 @@ namespace DotJEM.Json.Validation.Constraints
 
         internal virtual AbstractResult DoMatch(IJsonValidationContext context, JToken token)
         {
-            return new Result(this, token, Matches(context, token));
-        }
-
-        public virtual IDescription Describe()
-        {
-            return new JsonConstraintDescription(this, description.Format);
-        }
-
-        public virtual JsonConstraintDescription Describe(IJsonValidationContext context, JToken token)
-        {
-            return new JsonConstraintDescription(this, description.Format);
+            return new ConstraintResult(this, token, Matches(context, token));
         }
 
         public virtual JsonConstraint Optimize()
