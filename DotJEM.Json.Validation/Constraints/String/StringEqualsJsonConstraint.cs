@@ -1,6 +1,7 @@
 using System;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
+using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.String
 {
@@ -21,4 +22,5 @@ namespace DotJEM.Json.Validation.Constraints.String
             return value.Equals(this.value, comparison);
         }
     }
+
 }

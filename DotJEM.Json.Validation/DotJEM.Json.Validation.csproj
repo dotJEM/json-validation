@@ -64,6 +64,12 @@
     <Compile Include="Constraints\String\StringEqualsJsonConstraint.cs" />
     <Compile Include="Constraints\String\ValidatorConstraintFactoryStringExtensions.cs" />
     <Compile Include="Constraints\TypedJsonConstraint.cs" />
+    <Compile Include="Constraints\Types\ConstraintFactoryTypesExtensions.cs" />
+    <Compile Include="Constraints\Types\OfTypeArrayJsonConstraint.cs" />
+    <Compile Include="Constraints\Types\OfTypeIntegerJsonConstraint.cs" />
+    <Compile Include="Constraints\Types\OfTypeNumberJsonConstraint.cs" />
+    <Compile Include="Constraints\Types\OfTypeObjectJsonConstraint.cs" />
+    <Compile Include="Constraints\Types\OfTypeStringJsonConstraint.cs" />
     <Compile Include="Context\JsonValidationContext.cs" />
     <Compile Include="Descriptive\Description.cs" />
     <Compile Include="Descriptive\DescriptionWriter.cs" />
@@ -90,6 +96,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Constraints\Arrays\" />
     <Folder Include="Constraints\Number\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

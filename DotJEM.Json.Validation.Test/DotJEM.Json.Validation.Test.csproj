@@ -51,6 +51,11 @@
   <ItemGroup>
     <Compile Include="Constraints\Descriptive\JsonConstraintDescriptionTest.cs" />
     <Compile Include="Constraints\String\ExactLengthJsonConstraintTest.cs" />
+    <Compile Include="Constraints\Types\OfTypeArrayJsonConstraintTests.cs" />
+    <Compile Include="Constraints\Types\OfTypeIntegerJsonConstraintTests.cs" />
+    <Compile Include="Constraints\Types\OfTypeNumberJsonConstraintTests.cs" />
+    <Compile Include="Constraints\Types\OfTypeObjectJsonConstraintTests.cs" />
+    <Compile Include="Constraints\Types\OfTypeStringJsonConstraintTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
