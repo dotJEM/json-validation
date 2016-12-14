@@ -83,6 +83,7 @@
     <Compile Include="Rules\JsonRule.cs" />
     <Compile Include="Rules\NotJsonRule.cs" />
     <Compile Include="Rules\OrJsonRule.cs" />
+    <Compile Include="Selectors\IFieldSelector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DotJEM.Json.Validation.nuspec" />

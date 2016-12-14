@@ -5,12 +5,15 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.Common
 {
-    [JsonConstraintDescription("{explain}'.")]
+    [JsonConstraintDescription("{explain}.")]
     public class FuncJsonConstraint : JsonConstraint
     {
         private readonly Func<IJsonValidationContext, JToken, bool> func;
-        //Note: Used by the description.
+        
+        // ReSharper disable NotAccessedField.Local
+        // Note: Used by the description.
         private readonly string explain;
+        // ReSharper restore NotAccessedField.Local
 
         public FuncJsonConstraint(Func<IJsonValidationContext, JToken, bool> func, string explain)
         {

@@ -6,13 +6,14 @@ namespace DotJEM.Json.Validation
 {
     public class CollectSingleSelectorVisitor : JsonRuleVisitor, IJsonRuleVisitor<CompositeJsonRule>, IJsonRuleVisitor<BasicJsonRule>, IJsonRuleVisitor<NotJsonRule>, IJsonRuleVisitor<FuncJsonRule>
     {
-        private bool root = true;
-        public string Selector { get; private set; }
+        //private bool root = true;
+
+        public string SelectorPath { get; private set; }
         public string Alias { get; private set; }
 
         public IJsonRuleVisitor Visit(CompositeJsonRule rule)
         {
-            root = false;
+            //root = false;
             return rule.Rules.Aggregate(this, (visitor, r) => r.Accept(visitor));
         }
 
@@ -31,14 +32,14 @@ namespace DotJEM.Json.Validation
 
         public IJsonRuleVisitor Visit(BasicJsonRule rule)
         {
-            if (Selector == null)
+            if (SelectorPath == null)
             {
-                Selector = rule.Selector;
+                SelectorPath = rule.Selector.Path;
                 Alias = rule.Alias;
                 return this;
             }
 
-            if (Selector != rule.Selector)
+            if (SelectorPath != rule.Selector.Path)
                 throw new InvalidOperationException("Json Rule Tree had multiple different selectors.");
 
             if (Alias == null)
@@ -51,7 +52,7 @@ namespace DotJEM.Json.Validation
             if (Alias != rule.Alias)
             {
                 //Note: If multiple aliases was found, we defer back to the selector.
-                Alias = Selector;
+                Alias = SelectorPath;
             }
 
             return this;

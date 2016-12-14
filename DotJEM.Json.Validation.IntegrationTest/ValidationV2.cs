@@ -35,7 +35,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
 
             JsonValidatorResult result = validator.Validate(new JsonValidationContext(), JObject.FromObject(new
             {
-                test= "01234567890123456789", other="0", A = "asd"
+                test= "01234567890123456789", other="0", a = "asd", sub = new  { name = "Foo", type = "##Bar" }
             }));
 
             string rdesc = result.ToString();
@@ -58,10 +58,13 @@ namespace DotJEM.Json.Validation.IntegrationTest
     {
         public TestValidator()
         {
-            When(Any).Then("x", Must.Have.MinLength(3));
+            When(Any).Then("test", Must.Have.LengthBetween(16,32));
+            When("other", x => (string)x == "0", "When other is 0").Then(Field("a", Must.Match("\\w{3}")));
+            Use<ChildValidator>().For("sub");
+            //When(Any).Then("x", Must.Have.MinLength(3));
 
-            When(Any).Then("something", Must.Match(token => (bool?)token == true, "somthing must be boolean and true!"));
-            When("name", x => true, "is true").Then(It, Must.Match(x => true, "be true"));
+            //When(Any).Then("something", Must.Match(token => (bool?)token == true, "somthing must be boolean and true!"));
+            //When("name", x => true, "is true").Then(It, Must.Match(x => true, "be true"));
             //When(Field("name", x => true, "is true")).Then(It.MustHave);
 
             //When(Any).Use<ChildValidator>().For(It);
@@ -102,21 +105,34 @@ namespace DotJEM.Json.Validation.IntegrationTest
             // - At least one element must...
             //etc.
 
-            When("name", Is.Defined()).Then("test", Must.Have.MaxLength(200));
-            When("surname", Is.Defined()).Then("test", Must.Have.MaxLength(25));
+            //When("name", Is.Defined()).Then("test", Must.Have.MaxLength(200));
+            //When("surname", Is.Defined()).Then("test", Must.Have.MaxLength(25));
 
-            When(Field("test", Has.MinLength(5)))
-                .Then(Field("other", Should.Be.Equal("0"))
-                    | Field("other", Should.Be.Equal("1")));
+            //When(Any).Then("$created", (Must.Be.DateTime() & Must.Be.DateAfter(new DateTime(2000, 1, 1))) | Must.Match("akshdakshd"));
 
-            When(Field("test", Has.MinLength(5)))
-                .Then(Field("other", Should.Be.Equal("0") | Should.Be.Equal("1")));
+            //When("x", x => (DateTime)x == DateTime.Now, "").Then(Must.Be.DateLessThan(Field("y")));
+
+            //When(Any).Then("$updated", Must.Match(x => x.));
+
+            // When Any, Then A must be greter than field B
+            // When Any, Then A compared to B, must be greater than B
+
+            //NOTE: Syntax Sugestion for using one field to validate another in a non-static way.
+            //When(Any).Then(Field("$updated", ComparedTo("B", b => Must.Be.GreaterThan(b)) ));
+
+            //When(Field("test", Has.MinLength(5)))
+            //    .Then(Field("other", Should.Be.Equal("0"))
+            //        | Field("other", Should.Be.Equal("1")));
+
+            //When(Field("test", Has.MinLength(5)))
+            //    .Then(Field("other", Should.Be.Equal("0") | Should.Be.Equal("1")));
 
 
-            When(Field("A", Is.Defined()) | Field("B", Is.Defined()))
-                .Then(
-                      Field("A", Must.Be.Equal("") | Must.Be.Equal(""))
-                    & Field("B", Must.Match(".*")));
+            //When(Field("A", Is.Defined()) | Field("B", Is.Defined()))
+            //    .Then(
+            //          Field("A", Must.Be.Equal("") | Must.Be.Equal(""))
+            //        & Field("B", Must.Match(".*")));
+
 
 
         }
@@ -126,7 +142,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
     {
         public ChildValidator()
         {
-            When("", Is.Defined()).Then("A", Should.Be.Defined());
+            When("name", Is.Equal("Foo", StringComparison.OrdinalIgnoreCase)).Then("type", Should.Match("^\\w+$"));
         }
     }
 

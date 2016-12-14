@@ -7,48 +7,54 @@ using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Factories;
 using DotJEM.Json.Validation.Results;
+using DotJEM.Json.Validation.Selectors;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
     public sealed class BasicJsonRule : JsonRule
     {
-        private static readonly Regex arraySelector = new Regex(@".*\[\*|.+].*", RegexOptions.Compiled);
-
-        public string Selector { get; }
+        public FieldSelector Selector { get; }
         public string Alias { get; }
 
         private readonly JsonConstraint constraint;
-        private readonly bool hasArray;
 
-        public BasicJsonRule(string selector, string alias, CapturedConstraint constraint)
+        public BasicJsonRule(FieldSelector selector, string alias, CapturedConstraint constraint)
         {
             this.Selector = selector;
             this.Alias = alias;
             this.constraint = constraint.Constraint.Optimize();
-            this.hasArray = arraySelector.IsMatch(selector);
         }
 
         public override AbstractResult Test(IJsonValidationContext context, JObject entity)
         {
             return new AndResult(
-                (from token in SelectTokens(entity)
+                (from token in Selector.SelectTokens(entity)
                  select (AbstractResult)new RuleResult(this, constraint.DoMatch(context, token))).ToList());
         }
+    }
 
-        private IEnumerable<JToken> SelectTokens(JObject entity)
+    public sealed class EmbededValidatorRule : JsonRule
+    {
+        public FieldSelector Selector { get; }
+        public string Alias { get; }
+
+        private readonly JsonValidator validator;
+
+        public EmbededValidatorRule(FieldSelector selector, string alias, JsonValidator validator)
         {
-            if (hasArray)
-            {
-                return entity.SelectTokens(Selector);
-            }
-            return new[] { entity.SelectToken(Selector) };
+            Selector = selector;
+            Alias = alias;
+            this.validator = validator;
         }
 
-        //public override Description Describe()
-        //{
-        //    return new BasicJsonRuleDescription(Alias, Selector, constraint);
-        //}
+        public override AbstractResult Test(IJsonValidationContext context, JObject entity)
+        {
+            return new AndResult(
+                (from token in Selector.SelectTokens(entity)
+                 select (AbstractResult)new EmbededValidatorResult(this, validator.Validate(context, (JObject)token))).ToList());
+
+        }
     }
 
     public sealed class AnyJsonRule : JsonRule

@@ -32,7 +32,7 @@ namespace DotJEM.Json.Validation.Factories
             this.context = context;
         }
 
-        public ConstraintFactory(ConstraintFactory pre, string context) : this(pre.context + " " + context)
+        public ConstraintFactory(ConstraintFactory pre, string context) : this(pre != null ? pre.context + " " + context : context)
         {
         }
 

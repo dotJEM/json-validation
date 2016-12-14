@@ -4,7 +4,7 @@ using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Constraints.Generic
 {
-    [JsonConstraintDescription("length must be from '{minLength}' to '{maxLength}'.")]
+    [JsonConstraintDescription("TODO")]
     public class InConstraint<T> : TypedJsonConstraint<T>
     {
         private readonly HashSet<T> values;

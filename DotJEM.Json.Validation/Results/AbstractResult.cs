@@ -149,15 +149,21 @@ namespace DotJEM.Json.Validation.Results
 
     public abstract class Result<T> : Result
     {
+        public T Context { get; }
+
         protected Result(T context, bool value) : base(value)
         {
+            this.Context = context;
         }
     }
 
     public class ConstraintResult : Result<JsonConstraint>
     {
+        public JToken Token { get; }
+
         public ConstraintResult(JsonConstraint context, JToken token, bool value) : base(context, value)
         {
+            this.Token = token;
         }
     }
 
@@ -173,6 +179,17 @@ namespace DotJEM.Json.Validation.Results
     {
         public RuleResult(JsonRule context, AbstractResult result) : base(context, result.Value)
         {
+        }
+    }
+
+    public class EmbededValidatorResult : Result<EmbededValidatorRule>
+    {
+        public JsonValidatorResult Result { get; }
+
+        public EmbededValidatorResult(EmbededValidatorRule context, JsonValidatorResult result) 
+            : base(context, result.IsValid)
+        {
+            this.Result = result;
         }
     }
 

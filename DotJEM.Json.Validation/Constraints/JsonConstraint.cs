@@ -11,18 +11,18 @@ namespace DotJEM.Json.Validation.Constraints
     {
         //private readonly JsonConstraintDescriptionAttribute description;
 
-        protected JsonConstraint()
-        {
-            //description = GetType()
-            //    .GetCustomAttributes(typeof (JsonConstraintDescriptionAttribute), false)
-            //    .OfType<JsonConstraintDescriptionAttribute>()
-            //    .SingleOrDefault();
+        //protected JsonConstraint()
+        //{
+        //    //description = GetType()
+        //    //    .GetCustomAttributes(typeof (JsonConstraintDescriptionAttribute), false)
+        //    //    .OfType<JsonConstraintDescriptionAttribute>()
+        //    //    .SingleOrDefault();
 
-            //if (description == null)
-            //{
-            //    throw new InvalidOperationException("JsonConstraints must have a JsonConstraintDescription attribute.");
-            //}
-        }
+        //    //if (description == null)
+        //    //{
+        //    //    throw new InvalidOperationException("JsonConstraints must have a JsonConstraintDescription attribute.");
+        //    //}
+        //}
 
         public abstract bool Matches(IJsonValidationContext context, JToken token);
 

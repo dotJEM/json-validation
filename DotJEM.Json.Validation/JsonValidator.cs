@@ -10,6 +10,7 @@ using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Factories;
 using DotJEM.Json.Validation.Results;
 using DotJEM.Json.Validation.Rules;
+using DotJEM.Json.Validation.Selectors;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation
@@ -18,6 +19,8 @@ namespace DotJEM.Json.Validation
     {
         JsonValidatorResult Validate(IJsonValidationContext contenxt, JObject entity);
         //JsonValidatorDescription Describe();
+
+
     }
 
 
@@ -46,58 +49,73 @@ namespace DotJEM.Json.Validation
             return When(new FuncJsonRule(constraintFunc, explain));
         }
 
-        protected IJsonValidatorRuleFactory When(string selector, Func<JToken, bool> constraintFunc, string explain)
+        protected IJsonValidatorRuleFactory When(FieldSelector selector, Func<JToken, bool> constraintFunc, string explain)
         {
             return When(Field(selector, Is.Matching(constraintFunc, explain)));
         }
 
-        protected IJsonValidatorRuleFactory When(string selector, string alias, Func<JToken, bool> constraintFunc, string explain)
+        protected IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<JToken, bool> constraintFunc, string explain)
         {
             return When(Field(selector, alias, Is.Matching(constraintFunc, explain)));
         }
 
-        protected IJsonValidatorRuleFactory When(string selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        protected IJsonValidatorRuleFactory When(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return When(Field(selector, Is.Matching(constraintFunc, explain)));
         }
 
-        protected IJsonValidatorRuleFactory When(string selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        protected IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return When(Field(selector, alias, Is.Matching(constraintFunc, explain)));
         }
 
-        protected IJsonValidatorRuleFactory When(string selector, CapturedConstraint captured)
+        protected IJsonValidatorRuleFactory When(FieldSelector selector, CapturedConstraint captured)
         {
             return When(Field(selector, captured));
         }
 
-        protected IJsonValidatorRuleFactory When(string selector, string alias, CapturedConstraint captured)
+        protected IJsonValidatorRuleFactory When(FieldSelector selector, string alias, CapturedConstraint captured)
         {
             return When(Field(selector, alias, captured));
         }
 
-        protected JsonRule Field(string selector, CapturedConstraint captured)
+        protected JsonRule Field(FieldSelector selector, CapturedConstraint captured)
         {
-            return Field(selector, selector, captured);
+            return Field(selector, selector.Path, captured);
         }
 
-        protected JsonRule Field(string selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        protected JsonRule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
-            return Field(selector, selector, Is.Matching(constraintFunc, explain));
+            return Field(selector, selector.Path, Is.Matching(constraintFunc, explain));
         }
 
-        protected JsonRule Field(string selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        protected JsonRule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return Field(selector, alias, Is.Matching(constraintFunc, explain));
         }
 
-        protected JsonRule Field(string selector, string alias, CapturedConstraint captured)
+        protected JsonRule Field(FieldSelector selector, string alias, CapturedConstraint captured)
         {
             if (selector == null) throw new ArgumentNullException(nameof(selector));
             if (captured == null) throw new ArgumentNullException(nameof(captured));
             if (alias == null) throw new ArgumentNullException(nameof(alias));
 
             return new BasicJsonRule(selector, alias, captured);
+        }
+
+        protected IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()
+        {
+            return When(Any).Use<TValidator>();
+        }
+
+        protected IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator
+        {
+            return When(Any).Use(instance);
+        }
+
+        protected IForFieldSelector Use(Type validatorType)
+        {
+            return When(Any).Use(validatorType);
         }
 
         internal void AddValidator(JsonFieldValidator jsonFieldValidator)
