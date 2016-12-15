@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.Types
 {
-    [JsonConstraintDescription("of type number")]
+    [JsonConstraintDescription("of type number (strict: {strict})")]
     public class OfTypeNumberJsonConstraint : JsonConstraint
     {
         private readonly bool strict;
@@ -17,17 +17,17 @@ namespace DotJEM.Json.Validation.Constraints.Types
 
         public override bool Matches(IJsonValidationContext context, JToken token)
         {
-            if (strict) return token.Type == JTokenType.Float || token.Type == JTokenType.Integer;
+            //Note: If the token type matches we are happy regardless.
+            if (token.Type == JTokenType.Float || token.Type == JTokenType.Integer) return true;
 
-            try
-            {
-                double number = (double) token;
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;                
-            }
+            //Note: If the token type was not a match, and strict is enabled, return false.
+            if (strict) return false;
+
+            //Note: Only strings are allowed as an alternative.
+            if (token.Type != JTokenType.String) return false;
+
+            double number;
+            return double.TryParse((string)token, out number);
         }
     }
 }
