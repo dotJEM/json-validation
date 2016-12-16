@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.Common
 {
-    [JsonConstraintDescription("defined.")]
+    [JsonConstraintDescription("defined")]
     public class IsDefinedJsonConstraint : JsonConstraint
     {
         public override bool Matches(IJsonValidationContext context, JToken token)

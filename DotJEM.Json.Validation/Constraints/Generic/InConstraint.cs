@@ -4,10 +4,12 @@ using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Constraints.Generic
 {
-    [JsonConstraintDescription("TODO")]
+    [JsonConstraintDescription("any of ({Values})")]
     public class InConstraint<T> : TypedJsonConstraint<T>
     {
         private readonly HashSet<T> values;
+
+        private string Values => string.Join(", ", values);
 
         public InConstraint(IEnumerable<T> values)
         {
@@ -19,4 +21,5 @@ namespace DotJEM.Json.Validation.Constraints.Generic
             return values.Contains(value);
         }
     }
+
 }
