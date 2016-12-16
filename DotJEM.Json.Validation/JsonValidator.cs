@@ -18,15 +18,12 @@ namespace DotJEM.Json.Validation
     public interface IJsonValidator
     {
         JsonValidatorResult Validate(IJsonValidationContext contenxt, JObject entity);
-        //JsonValidatorDescription Describe();
-
-
     }
-
 
     public class JsonValidator : IJsonValidator
     {
         private readonly List<JsonFieldValidator> validators = new List<JsonFieldValidator>();
+
         protected IGuardConstraintFactory Is { get; } = new ConstraintFactory(null, "Is");
         protected IGuardConstraintFactory Has { get; } = new ConstraintFactory(null, "Has");
         protected IValidatorConstraintFactory Must { get; } = new ValidatorConstraintFactory(null, "Must");
@@ -44,6 +41,9 @@ namespace DotJEM.Json.Validation
             return new JsonValidatorRuleFactory(this, rule);
         }
 
+        //TODO: There is little reason that these should not be callable from the outside of the validator, so we can make them public at some point. 
+        //      (We might wan't separate interfaces for building the validator and using it)
+        //       - When this happens, many of these WHEN and FIELD methods can actually be extensions (Can't remember if that forces "this.", if so we don't wan't that).
         protected IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc, string explain)
         {
             return When(new FuncJsonRule(constraintFunc, explain));
@@ -118,7 +118,7 @@ namespace DotJEM.Json.Validation
             return When(Any).Use(validatorType);
         }
 
-        internal void AddValidator(JsonFieldValidator jsonFieldValidator)
+        public void AddValidator(JsonFieldValidator jsonFieldValidator)
         {
             validators.Add(jsonFieldValidator);
         }
@@ -133,6 +133,6 @@ namespace DotJEM.Json.Validation
 
             return new JsonValidatorResult(results.ToList());
         }
-        
     }
+
 }
