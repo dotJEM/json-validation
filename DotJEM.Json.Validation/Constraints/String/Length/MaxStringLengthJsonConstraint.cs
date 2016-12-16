@@ -13,7 +13,7 @@ namespace DotJEM.Json.Validation.Constraints.String.Length
             this.maxLength = maxLength;
         }
 
-        protected override bool Matches(IJsonValidationContext context, string value)
+        protected override bool Matches(string value, IJsonValidationContext context)
         {
             return value.Length <= maxLength;
         }

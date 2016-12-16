@@ -17,10 +17,10 @@ namespace DotJEM.Json.Validation.Rules
         {
         }
 
-        public override AbstractResult Test(IJsonValidationContext context, JObject entity)
+        public override AbstractResult Test(JObject entity, IJsonValidationContext context)
         {
             //TODO: Lazy
-            return Rules.Aggregate((AbstractResult)null, (result, rule) => result & rule.Test(context, entity));
+            return Rules.Aggregate((AbstractResult)null, (result, rule) => result & rule.Test(entity, context));
         }
 
         public override JsonRule Optimize()

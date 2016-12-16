@@ -33,10 +33,10 @@ namespace DotJEM.Json.Validation.IntegrationTest
         {
             TestValidator validator = new TestValidator();
 
-            JsonValidatorResult result = validator.Validate(new JsonValidationContext(), JObject.FromObject(new
+            JsonValidatorResult result = validator.Validate(JObject.FromObject(new
             {
                 test= "01234567890123456789", other="0", a = "asd", sub = new  { name = "Foo", type = "##Bar" }
-            }));
+            }), new JsonValidationContext());
 
             string rdesc = result.ToString();
             Console.WriteLine("RESULT:");

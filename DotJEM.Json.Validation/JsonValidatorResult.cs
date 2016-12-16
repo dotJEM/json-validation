@@ -6,14 +6,13 @@ using DotJEM.Json.Validation.Results;
 
 namespace DotJEM.Json.Validation
 {
-    public class JsonValidatorResult 
+    public sealed class JsonValidatorResult 
     {
         private readonly List<AbstractResult> results;
 
-        public bool IsValid
-        {
-            get { return results.All(r => r.Value); }
-        }
+        public bool IsValid => results.All(r => r.Value);
+        public bool HasErrors => !IsValid;
+
 
         public JsonValidatorResult(List<AbstractResult> results)
         {

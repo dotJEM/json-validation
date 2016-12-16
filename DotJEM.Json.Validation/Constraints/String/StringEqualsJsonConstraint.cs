@@ -17,7 +17,7 @@ namespace DotJEM.Json.Validation.Constraints.String
             this.comparison = comparison;
         }
 
-        protected override bool Matches(IJsonValidationContext context, string value)
+        protected override bool Matches(string value, IJsonValidationContext context)
         {
             return value.Equals(this.value, comparison);
         }

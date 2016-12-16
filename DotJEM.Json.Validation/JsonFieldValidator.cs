@@ -17,12 +17,12 @@ namespace DotJEM.Json.Validation
             this.rule = rule.Optimize();
         }
 
-        public AbstractResult Validate(IJsonValidationContext context, JObject entity)
+        public AbstractResult Validate(JObject entity, IJsonValidationContext context)
         {
-            AbstractResult gr = guard.Test(context, entity);
+            AbstractResult gr = guard.Test(entity, context);
             return !gr.Value 
                 ? null 
-                : rule.Test(context, entity);
+                : rule.Test(entity, context);
         }
     }
 }

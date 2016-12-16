@@ -26,7 +26,7 @@ namespace DotJEM.Json.Validation.Constraints
 
         public abstract bool Matches(IJsonValidationContext context, JToken token);
 
-        internal virtual AbstractResult DoMatch(IJsonValidationContext context, JToken token)
+        internal virtual AbstractResult DoMatch(JToken token, IJsonValidationContext context)
         {
             return new ConstraintResult(this, token, Matches(context, token));
         }

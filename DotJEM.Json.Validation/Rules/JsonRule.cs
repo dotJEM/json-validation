@@ -9,7 +9,7 @@ namespace DotJEM.Json.Validation.Rules
     {
         public string RuleContext { get; internal set; }
 
-        public abstract AbstractResult Test(IJsonValidationContext contenxt, JObject entity);
+        public abstract AbstractResult Test(JObject entity, IJsonValidationContext contenxt);
         
         public static AndJsonRule operator &(JsonRule x, JsonRule y)
         {

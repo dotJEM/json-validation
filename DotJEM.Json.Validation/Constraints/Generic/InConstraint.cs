@@ -14,7 +14,7 @@ namespace DotJEM.Json.Validation.Constraints.Generic
             this.values = new HashSet<T>(values, EqualityComparer<T>.Default);
         }
 
-        protected override bool Matches(IJsonValidationContext context, T value)
+        protected override bool Matches(T value, IJsonValidationContext context)
         {
             return values.Contains(value);
         }

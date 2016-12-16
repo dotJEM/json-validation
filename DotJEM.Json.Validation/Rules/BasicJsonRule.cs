@@ -26,11 +26,11 @@ namespace DotJEM.Json.Validation.Rules
             this.constraint = constraint.Constraint.Optimize();
         }
 
-        public override AbstractResult Test(IJsonValidationContext context, JObject entity)
+        public override AbstractResult Test(JObject entity, IJsonValidationContext context)
         {
             return new AndResult(
                 (from token in Selector.SelectTokens(entity)
-                 select (AbstractResult)new RuleResult(this, constraint.DoMatch(context, token))).ToList());
+                 select (AbstractResult)new RuleResult(this, constraint.DoMatch(token, context))).ToList());
         }
     }
 
@@ -48,18 +48,18 @@ namespace DotJEM.Json.Validation.Rules
             this.validator = validator;
         }
 
-        public override AbstractResult Test(IJsonValidationContext context, JObject entity)
+        public override AbstractResult Test(JObject entity, IJsonValidationContext context)
         {
             return new AndResult(
                 (from token in Selector.SelectTokens(entity)
-                 select (AbstractResult)new EmbededValidatorResult(this, validator.Validate(context, (JObject)token))).ToList());
+                 select (AbstractResult)new EmbededValidatorResult(this, validator.Validate((JObject)token, context))).ToList());
 
         }
     }
 
     public sealed class AnyJsonRule : JsonRule
     {
-        public override AbstractResult Test(IJsonValidationContext contenxt, JObject entity)
+        public override AbstractResult Test(JObject entity, IJsonValidationContext contenxt)
         {
             return new RuleResult(this, new AnyResult());
         }
@@ -81,7 +81,7 @@ namespace DotJEM.Json.Validation.Rules
             this.explain = explain;
         }
 
-        public override AbstractResult Test(IJsonValidationContext contenxt, JObject entity)
+        public override AbstractResult Test(JObject entity, IJsonValidationContext contenxt)
         {
             return new RuleResult(this, new Result(func(entity)));
         }

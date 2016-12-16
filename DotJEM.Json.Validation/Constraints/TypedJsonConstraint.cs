@@ -8,16 +8,16 @@ namespace DotJEM.Json.Validation.Constraints
         public override bool Matches(IJsonValidationContext context, JToken token)
         {
             return token == null
-                ? Matches(context, default(TTokenType), true)
-                : Matches(context, token.ToObject<TTokenType>());
+                ? Matches(default(TTokenType), true, context)
+                : Matches(token.ToObject<TTokenType>(), context);
         }
 
-        protected virtual bool Matches(IJsonValidationContext context, TTokenType value)
+        protected virtual bool Matches(TTokenType value, IJsonValidationContext context)
         {
-            return Matches(context, value, false);
+            return Matches(value, false, context);
         }
 
-        protected virtual bool Matches(IJsonValidationContext context, TTokenType value, bool wasNull)
+        protected virtual bool Matches(TTokenType value, bool wasNull, IJsonValidationContext context)
         {
             return true;
         }
