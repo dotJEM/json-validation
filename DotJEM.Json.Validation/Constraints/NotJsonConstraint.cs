@@ -6,7 +6,6 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints
 {
-    [JsonConstraintDescription("not {Constraint}")]
     public sealed class NotJsonConstraint : JsonConstraint
     {
         public JsonConstraint Constraint { get; private set; }
@@ -30,11 +29,6 @@ namespace DotJEM.Json.Validation.Constraints
         public override bool Matches(IJsonValidationContext context, JToken token)
         {
             throw new InvalidOperationException();
-        }
-
-        public override string ToString()
-        {
-            return "!" + Constraint;
         }
     }
 }

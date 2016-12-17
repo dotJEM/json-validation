@@ -24,10 +24,5 @@ namespace DotJEM.Json.Validation.Rules
             NotJsonRule not = Rule as NotJsonRule;
             return not != null ? not.Rule : base.Optimize();
         }
-
-        //public override Description Describe()
-        //{
-        //    return new JsonNotRuleDescription(Rule.Describe());
-        //}
     }
 }

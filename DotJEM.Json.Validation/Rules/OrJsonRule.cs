@@ -27,10 +27,5 @@ namespace DotJEM.Json.Validation.Rules
         {
             return OptimizeAs<OrJsonRule>();
         }
-
-        //public override Description Describe()
-        //{
-        //    return new CompositeJsonRuleDescription(Rules.Select(rule => rule.Describe()), " or ");
-        //}
     }
 }

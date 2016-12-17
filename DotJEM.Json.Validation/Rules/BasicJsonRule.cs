@@ -53,7 +53,6 @@ namespace DotJEM.Json.Validation.Rules
             return new AndResult(
                 (from token in Selector.SelectTokens(entity)
                  select (AbstractResult)new EmbededValidatorResult(this, validator.Validate((JObject)token, context))).ToList());
-
         }
     }
 
@@ -63,11 +62,6 @@ namespace DotJEM.Json.Validation.Rules
         {
             return new RuleResult(this, new AnyResult());
         }
-
-        //public override Description Describe()
-        //{
-        //    return new AnyJsonRuleDescription();
-        //}
     }
 
     public sealed class FuncJsonRule : JsonRule
@@ -85,10 +79,5 @@ namespace DotJEM.Json.Validation.Rules
         {
             return new RuleResult(this, new Result(func(entity)));
         }
-
-        //public override Description Describe()
-        //{
-        //    throw new System.NotImplementedException();
-        //}
     }
 }
