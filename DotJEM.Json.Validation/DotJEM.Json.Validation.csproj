@@ -76,6 +76,7 @@
     <Compile Include="Descriptive\JsonConstraintDescription.cs" />
     <Compile Include="Descriptive\JsonConstraintDescriptionAttribute.cs" />
     <Compile Include="Descriptive\JsonValidatorDescription.cs" />
+    <Compile Include="Descriptive\JsonValidatorVisitor.cs" />
     <Compile Include="Factories\IConstraintFactory.cs" />
     <Compile Include="JsonFieldValidator.cs" />
     <Compile Include="JsonValidator.cs" />

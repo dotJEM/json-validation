@@ -6,7 +6,6 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints
 {
-    [JsonConstraintDescription("{Described}")]
     public sealed class OrJsonConstraint : CompositeJsonConstraint
     {
         public OrJsonConstraint()
@@ -27,15 +26,6 @@ namespace DotJEM.Json.Validation.Constraints
         {
             return Constraints.Aggregate((AbstractResult)null, (a, b) => a | b.DoMatch(token, context));
         }
-
-        public override string ToString()
-        {
-            return "( " + string.Join(" OR ", Constraints.Select(c => c.Describe())) + " )";
-        }
-
-        // ReSharper disable UnusedMember.Local
-        // Note: Used by description attribute
-        private string Described => ToString();
-        // ReSharper restore UnusedMember.Local
+        
     }
 }
