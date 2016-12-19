@@ -66,8 +66,8 @@ namespace DotJEM.Json.Validation.Rules
 
     public sealed class FuncJsonRule : JsonRule
     {
-        private readonly Func<JObject, bool> func;
         private readonly string explain;
+        private readonly Func<JObject, bool> func;
 
         public FuncJsonRule(Func<JObject, bool> func, string explain)
         {

@@ -17,7 +17,7 @@ namespace DotJEM.Json.Validation
 {
     public interface IJsonValidator
     {
-        JsonValidatorResult Validate(JObject entity, IJsonValidationContext contenxt);
+        ValidatorResult Validate(JObject entity, IJsonValidationContext contenxt);
     }
 
     public class JsonValidator : IJsonValidator
@@ -123,7 +123,7 @@ namespace DotJEM.Json.Validation
             validators.Add(jsonFieldValidator);
         }
 
-        public virtual JsonValidatorResult Validate(JObject entity, IJsonValidationContext context)
+        public virtual ValidatorResult Validate(JObject entity, IJsonValidationContext context)
         {
             IEnumerable<AbstractResult> results
                 = from validator in validators
@@ -131,7 +131,7 @@ namespace DotJEM.Json.Validation
                   where result != null
                   select result.Optimize();
 
-            return new JsonValidatorResult(this, results.ToList());
+            return new ValidatorResult(this, results.ToList());
         }
     }
 

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DotJEM.Json.Validation.Constraints;
+using DotJEM.Json.Validation.Results;
 using DotJEM.Json.Validation.Rules;
 
-namespace DotJEM.Json.Validation.Descriptive
+namespace DotJEM.Json.Validation.Visitors
 {
     public interface IJsonValidatorVisitor
     {
@@ -26,8 +23,6 @@ namespace DotJEM.Json.Validation.Descriptive
         void Visit(JsonFieldValidator validator);
     }
 
-    public class JsonValidatorVisitor
-    {
+  
 
-    }
 }

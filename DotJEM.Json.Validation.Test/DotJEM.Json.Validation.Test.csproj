@@ -57,6 +57,7 @@
     <Compile Include="Constraints\Types\OfTypeObjectJsonConstraintTest.cs" />
     <Compile Include="Constraints\Types\OfTypeStringJsonConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Visitors\FailurePathResultVisitorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
