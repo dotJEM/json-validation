@@ -5,6 +5,7 @@ using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.String;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Factories;
+using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 

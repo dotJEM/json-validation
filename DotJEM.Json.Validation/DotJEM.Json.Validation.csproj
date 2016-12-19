@@ -80,7 +80,6 @@
     <Compile Include="Factories\IConstraintFactory.cs" />
     <Compile Include="JsonFieldValidator.cs" />
     <Compile Include="JsonValidator.cs" />
-    <Compile Include="JsonValidatorResult.cs" />
     <Compile Include="JsonValidatorRuleFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\AbstractResult.cs" />
