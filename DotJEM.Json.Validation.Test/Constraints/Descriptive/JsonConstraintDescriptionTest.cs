@@ -36,7 +36,7 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.Descriptive
 
             public string TextProperty => "Hello Property";
 
-            public override bool Matches(IJsonValidationContext context, JToken token)
+            public override bool Matches(JToken token, IJsonValidationContext context)
             {
                 return false;
             }

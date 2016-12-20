@@ -19,6 +19,24 @@ namespace DotJEM.Json.Validation.Results
             Context = context;
             this.results = results;
         }
+    }
+
+    public sealed class FieldResult : Result
+    {
+        public override bool Value => !GuardResult.Value || ValidationResult.Value;
+
+        public JsonFieldValidator Field { get; }
+        public Result GuardResult { get; }
+        public Result ValidationResult { get; }
+
+        public FieldResult(JsonFieldValidator field, Result guardResult, Result validationResult)
+        {
+            this.Field = field;
+            GuardResult = guardResult;
+            ValidationResult = validationResult;
+        }
+
+
 
     }
 }

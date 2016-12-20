@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using DotJEM.Json.Validation.Constraints;
+using DotJEM.Json.Validation.Context;
+using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Factories
 {
@@ -42,30 +44,33 @@ namespace DotJEM.Json.Validation.Factories
         }
     }
 
-    public sealed class CapturedConstraint
+    public sealed class CapturedConstraint //: JsonConstraint
     {
-        private readonly string context;
         public JsonConstraint Constraint { get; }
 
-        public CapturedConstraint(JsonConstraint constraint, string context)
+
+        public CapturedConstraint(JsonConstraint constraint, string context = "")
         {
-            this.context = context;
             Constraint = constraint;
+            Constraint.ContextInfo = context;
         }
 
         public static CapturedConstraint operator &(CapturedConstraint x, CapturedConstraint y)
         {
-            return new CapturedConstraint(x.Constraint & y.Constraint, String.Empty);
+            //TODO: Problem here!
+            return new CapturedConstraint(x.Constraint & y.Constraint);
         }
 
         public static CapturedConstraint operator |(CapturedConstraint x, CapturedConstraint y)
         {
-            return new CapturedConstraint(x.Constraint | y.Constraint, String.Empty);
+            //TODO: Problem here!
+            return new CapturedConstraint(x.Constraint | y.Constraint);
         }
 
         public static CapturedConstraint operator !(CapturedConstraint x)
         {
-            return new CapturedConstraint(!x.Constraint, String.Empty);
+            //TODO: Problem here!
+            return new CapturedConstraint(!x.Constraint);
         }
     }
 

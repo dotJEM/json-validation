@@ -5,7 +5,7 @@ namespace DotJEM.Json.Validation.Constraints
 {
     public abstract class TypedJsonConstraint<TTokenType> : JsonConstraint
     {
-        public override bool Matches(IJsonValidationContext context, JToken token)
+        public override bool Matches(JToken token, IJsonValidationContext context)
         {
             return token == null
                 ? Matches(default(TTokenType), true, context)

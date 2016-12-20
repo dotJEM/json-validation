@@ -6,6 +6,7 @@ namespace DotJEM.Json.Validation.Visitors
     public interface IJsonResultVisitor :
         IJsonResultVisitor<Result>,
         IJsonResultVisitor<FuncResult>,
+        IJsonResultVisitor<FieldResult>,
         IJsonResultVisitor<CompositeResult>,
         IJsonResultVisitor<AndResult>,
         IJsonResultVisitor<OrResult>,
@@ -28,6 +29,15 @@ namespace DotJEM.Json.Validation.Visitors
         public virtual void Visit(Result result)
         {
             throw new NotImplementedException($"No approriate visitor methods was found for type: {result.GetType()}.");
+        }
+
+        public virtual void Visit(FieldResult result)
+        {
+            if (!result.GuardResult.Value)
+                return;
+
+            result.GuardResult.Accept(this);
+            result.ValidationResult.Accept(this);
         }
 
         public virtual void Visit(FuncResult result)

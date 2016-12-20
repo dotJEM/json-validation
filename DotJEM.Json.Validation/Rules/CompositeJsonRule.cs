@@ -5,27 +5,32 @@ namespace DotJEM.Json.Validation.Rules
 {
     public abstract class CompositeJsonRule : JsonRule
     {
-        public List<JsonRule> Rules { get; }
+        private readonly List<JsonRule> rules;
+
+        public IEnumerable<JsonRule> Rules => rules;
 
         protected CompositeJsonRule(params JsonRule[] rules)
         {
-            Rules = rules.ToList();
+            this.rules = rules.ToList();
         }
 
-        protected TRule OptimizeAs<TRule>() where TRule : CompositeJsonRule, new()
+        protected JsonRule OptimizeAs<TRule>() where TRule : CompositeJsonRule, new()
         {
-            return Rules
+            if (rules.Count == 1)
+                return rules[0];
+
+            return rules
                 .Select(c => c.Optimize())
                 .Aggregate(new TRule(), (c, next) =>
                 {
                     TRule and = next as TRule;
                     if (and != null)
                     {
-                        c.Rules.AddRange(and.Rules);
+                        c.rules.AddRange(and.Rules);
                     }
                     else
                     {
-                        c.Rules.Add(next);
+                        c.rules.Add(next);
                     }
                     return c;
                 });

@@ -15,7 +15,7 @@ namespace DotJEM.Json.Validation.Constraints
             Constraints = constraints.ToList();
         }
 
-        public override bool Matches(IJsonValidationContext context, JToken token)
+        public override bool Matches(JToken token, IJsonValidationContext context)
         {
             throw new InvalidOperationException();
         }

@@ -31,13 +31,16 @@ namespace DotJEM.Json.Validation
 
         protected ISelfReferencingRule It { get; } = new SelfReferencingRule();
 
+        public IBeConstraintFactory Be { get; } = new ConstraintFactory(null, "Be");
+        public IHaveConstraintFactory Have { get; } = new ConstraintFactory(null, "Have");
+
         protected JsonRule Any => new AnyJsonRule();
         
         protected IJsonValidatorRuleFactory When(JsonRule rule)
         {
             if (rule == null) throw new ArgumentNullException(nameof(rule));
             //Note: Captured Rule.
-            rule.RuleContext = "When";
+            rule.ContextInfo = "When";
             return new JsonValidatorRuleFactory(this, rule);
         }
 

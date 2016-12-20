@@ -5,11 +5,11 @@ using DotJEM.Json.Validation.Descriptive;
 namespace DotJEM.Json.Validation.Constraints.String
 {
     [JsonConstraintDescription("match the expression: '{expression}'.")]
-    public class MatchStringJsonConstraint : TypedJsonConstraint<string>
+    public class MatchStringConstraint : TypedJsonConstraint<string>
     {
         private readonly Regex expression;
 
-        public MatchStringJsonConstraint(Regex expression)
+        public MatchStringConstraint(Regex expression)
         {
             this.expression = expression;
         }

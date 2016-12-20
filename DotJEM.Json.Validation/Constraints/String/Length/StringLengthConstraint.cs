@@ -4,12 +4,12 @@ using DotJEM.Json.Validation.Descriptive;
 namespace DotJEM.Json.Validation.Constraints.String.Length
 {
     [JsonConstraintDescription("length from '{minLength}' to '{maxLength}'.")]
-    public class StringLengthJsonConstraint : TypedJsonConstraint<string>
+    public class StringLengthConstraint : TypedJsonConstraint<string>
     {
         private readonly int minLength;
         private readonly int maxLength;
 
-        public StringLengthJsonConstraint(int minLength, int maxLength)
+        public StringLengthConstraint(int minLength, int maxLength)
         {
             this.minLength = minLength;
             this.maxLength = maxLength;

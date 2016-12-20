@@ -7,7 +7,7 @@ namespace DotJEM.Json.Validation.Rules
 {
     public abstract class JsonRule
     {
-        public string RuleContext { get; internal set; }
+        public string ContextInfo { get; internal set; }
 
         public abstract Result Test(JObject entity, IJsonValidationContext contenxt);
         

@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 namespace DotJEM.Json.Validation.Constraints.Common
 {
     [JsonConstraintDescription("{explain}.")]
-    public class FuncJsonConstraint : JsonConstraint
+    public class FunctionalConstraint : JsonConstraint
     {
         private readonly Func<IJsonValidationContext, JToken, bool> func;
         
@@ -15,12 +15,12 @@ namespace DotJEM.Json.Validation.Constraints.Common
         private readonly string explain;
         // ReSharper restore NotAccessedField.Local
 
-        public FuncJsonConstraint(Func<IJsonValidationContext, JToken, bool> func, string explain)
+        public FunctionalConstraint(Func<IJsonValidationContext, JToken, bool> func, string explain)
         {
             this.func = func;
             this.explain = explain;
         }
 
-        public override bool Matches(IJsonValidationContext context, JToken token) => func(context, token);
+        public override bool Matches(JToken token, IJsonValidationContext context) => func(context, token);
     }
 }

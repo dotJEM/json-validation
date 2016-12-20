@@ -9,26 +9,13 @@ namespace DotJEM.Json.Validation.Constraints
 {
     public abstract class JsonConstraint 
     {
-        //private readonly JsonConstraintDescriptionAttribute description;
+        public string ContextInfo { get; internal set; }
 
-        //protected JsonConstraint()
-        //{
-        //    //description = GetType()
-        //    //    .GetCustomAttributes(typeof (JsonConstraintDescriptionAttribute), false)
-        //    //    .OfType<JsonConstraintDescriptionAttribute>()
-        //    //    .SingleOrDefault();
-
-        //    //if (description == null)
-        //    //{
-        //    //    throw new InvalidOperationException("JsonConstraints must have a JsonConstraintDescription attribute.");
-        //    //}
-        //}
-
-        public abstract bool Matches(IJsonValidationContext context, JToken token);
+        public abstract bool Matches(JToken token, IJsonValidationContext context);
 
         internal virtual Result DoMatch(JToken token, IJsonValidationContext context)
         {
-            return new ConstraintResult(this, token, Matches(context, token));
+            return new ConstraintResult(this, token, Matches(token, context));
         }
 
         public virtual JsonConstraint Optimize()

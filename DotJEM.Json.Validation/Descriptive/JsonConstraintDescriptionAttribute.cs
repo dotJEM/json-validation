@@ -24,17 +24,17 @@ namespace DotJEM.Json.Validation.Descriptive
     ///         <description>Example Result</description>  
     ///     </listheader>  
     ///     <item>  
-    ///         <term><see cref="StringLengthJsonConstraint"/> on <see cref="IHaveConstraintFactory"/></term>  
+    ///         <term><see cref="StringLengthConstraint"/> on <see cref="IHaveConstraintFactory"/></term>  
     ///         <description>length from '{minLength}' to '{maxLength}'.</description>  
     ///         <description>must have length from '5' to '10'.</description>  
     ///     </item>   
     ///     <item>  
-    ///         <term><see cref="MatchStringJsonConstraint"/>on <see cref="IValidatorConstraintFactory"/></term>  
+    ///         <term><see cref="MatchStringConstraint"/>on <see cref="IValidatorConstraintFactory"/></term>  
     ///         <description>match the expression: '{expression}'.</description>  
     ///         <description>must match the expression: '\d{4}\-\w+'.</description>  
     ///     </item>   
     ///     <item>  
-    ///         <term><see cref="StringEqualsJsonConstraint"/>on <see cref="IBeConstraintFactory"/></term>  
+    ///         <term><see cref="StringEqualsConstraint"/>on <see cref="IBeConstraintFactory"/></term>  
     ///         <description>equal to '{value}' ({comparison}).</description>  
     ///         <description>must be equal to '{value}' ({comparison}).</description>  
     ///     </item>  

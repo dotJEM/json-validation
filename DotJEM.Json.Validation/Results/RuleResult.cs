@@ -15,4 +15,19 @@ namespace DotJEM.Json.Validation.Results
             Result = result;
         }
     }
+
+    /// <summary>
+    /// Filler for simple usage of results.
+    /// </summary>
+    public class SimpleResult : Result
+    {
+        public override bool Value { get; }
+        public string Explain { get; }
+
+        public SimpleResult(bool value, string explain = null)
+        {
+            Value = value;
+            Explain = explain ?? value.ToString();
+        }
+    }
 }

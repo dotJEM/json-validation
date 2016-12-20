@@ -15,7 +15,7 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
         [TestCase(20, "length equal to '20'.")]
         public void Describe_FormatsDescription(int length, string expected)
         {
-            Assert.That(new ExactStringLengthJsonConstraint(length).Describe().ToString(), Is.EqualTo(expected));
+            Assert.That(new ExactStringLengthConstraint(length).Describe().ToString(), Is.EqualTo(expected));
         }
 
         [TestCase(42, "This string is to short.", false)]
@@ -25,7 +25,7 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
         [TestCase(42, "This string is certainly allot more than 42 characters long.", false)]
         public void Describe_FormatsDescription(int length, string str, bool expected)
         {
-            Assert.That(new ExactStringLengthJsonConstraint(length).Matches(null, JToken.FromObject(str)), Is.EqualTo(expected));
+            Assert.That(new ExactStringLengthConstraint(length).Matches(JToken.FromObject(str), null), Is.EqualTo(expected));
         }
     }
 
@@ -36,7 +36,7 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
         [TestCase(20, 30, "length from '20' to '30'.")]
         public void Describe_FormatsDescription(int min, int max, string expected)
         {
-            Assert.That(new StringLengthJsonConstraint(min, max).Describe().ToString(), Is.EqualTo(expected));
+            Assert.That(new StringLengthConstraint(min, max).Describe().ToString(), Is.EqualTo(expected));
         }
     }
 
@@ -47,7 +47,7 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
         [TestCase(30, "length less than or equal to '30'.")]
         public void Describe_FormatsDescription(int max, string expected)
         {
-            Assert.That(new MaxStringLengthJsonConstraint(max).Describe().ToString(), Is.EqualTo(expected));
+            Assert.That(new MaxStringLengthConstraint(max).Describe().ToString(), Is.EqualTo(expected));
         }
     }
 
@@ -58,7 +58,7 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
         [TestCase(30, "length more than or equal to '30'.")]
         public void Describe_FormatsDescription(int min, string expected)
         {
-            Assert.That(new MinStringLengthJsonConstraint(min).Describe().ToString(), Is.EqualTo(expected));
+            Assert.That(new MinStringLengthConstraint(min).Describe().ToString(), Is.EqualTo(expected));
         }
     }
 
@@ -68,7 +68,7 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
         [TestCase("[a-z0-9].*", "match the expression: '[a-z0-9].*'.")]
         public void Describe_FormatsDescription(string regex, string expected)
         {
-            Assert.That(new MatchStringJsonConstraint(new Regex(regex, RegexOptions.Compiled)).Describe().ToString(), Is.EqualTo(expected));
+            Assert.That(new MatchStringConstraint(new Regex(regex, RegexOptions.Compiled)).Describe().ToString(), Is.EqualTo(expected));
         }
     }
 
@@ -80,7 +80,7 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
         [TestCase("helloWorld", StringComparison.CurrentCultureIgnoreCase, "equal to 'helloWorld' (CurrentCultureIgnoreCase).")]
         public void Describe_FormatsDescription(string str, StringComparison comparison, string expected)
         {
-            Assert.That(new StringEqualsJsonConstraint(str, comparison).Describe().ToString(), Is.EqualTo(expected));
+            Assert.That(new StringEqualsConstraint(str, comparison).Describe().ToString(), Is.EqualTo(expected));
         }
     }
 

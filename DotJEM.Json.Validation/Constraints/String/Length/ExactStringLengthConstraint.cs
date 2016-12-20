@@ -4,11 +4,11 @@ using DotJEM.Json.Validation.Descriptive;
 namespace DotJEM.Json.Validation.Constraints.String.Length
 {
     [JsonConstraintDescription("length equal to '{length}'.")]
-    public class ExactStringLengthJsonConstraint : TypedJsonConstraint<string>
+    public class ExactStringLengthConstraint : TypedJsonConstraint<string>
     {
         private readonly int length;
 
-        public ExactStringLengthJsonConstraint(int length)
+        public ExactStringLengthConstraint(int length)
         {
             this.length = length;
         }

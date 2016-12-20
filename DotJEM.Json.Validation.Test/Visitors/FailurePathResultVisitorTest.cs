@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DotJEM.Json.Validation.Constraints.Common;
+using DotJEM.Json.Validation.Constraints.Comparables;
+using DotJEM.Json.Validation.Constraints.String;
+using DotJEM.Json.Validation.Constraints.Types;
+using DotJEM.Json.Validation.Descriptive;
+using DotJEM.Json.Validation.Factories;
 using DotJEM.Json.Validation.Results;
+using DotJEM.Json.Validation.Rules;
 using DotJEM.Json.Validation.Visitors;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using static System.Environment;
 
@@ -16,7 +24,11 @@ namespace DotJEM.Json.Validation.Test.Visitors
         [Test]
         public void Describe_NoError_ReturnsMessageWithNoError()
         {
-            Result result = new AnyResult() & new AnyResult() | new AnyResult() & !new FuncResult(false, "No");
+            //Result result = new AnyResult() & new AnyResult() | new AnyResult() & !new FuncResult(false, "No");
+
+            var validator = new FakeValidator();
+
+            Result result = validator.Validate(JObject.Parse("{ name: 'Peter Pan', age: -1 }"), null);
 
             //var visitor = result.Accept(new DescribeFailurePathVisitor());
             var visitor = new DescribeFailurePathVisitor();
@@ -26,16 +38,32 @@ namespace DotJEM.Json.Validation.Test.Visitors
         }
     }
 
+    public class FakeValidator : JsonValidator
+    {
+        public FakeValidator()
+        {
+            When("name", Is.Defined()).Then(It, Must.Have.LengthBetween(10, 50) & Must.Match("^[A-Za-z\\s]+$"));
+            When("age", Is.Defined()).Then(It, Must.Be.Integer() & Be.GreaterThan(0));
+
+            When("missing", Is.Defined()).Then(It, Must.Be.Boolean());
+        }
+    }
+
     public class DescribeFailurePathVisitor : JsonResultVisitor
     {
         private int indent = 0;
+        private bool inguard = false;
         private readonly StringBuilder builder = new StringBuilder();
         public string Message => builder.ToString();
-
-
+        
         private void Write(string message)
         {
             builder.Append(message);
+        }
+
+        public override void Visit(ConstraintResult result)
+        {
+            WriteLine($"{result.Constraint.ContextInfo} {result.Constraint.Describe()} : {(result.Value ? "OK" : "FAIL")}");
         }
 
         private void WriteLine(string message)
@@ -48,16 +76,28 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
         public string Describe(Result result)
         {
+            result = result.Optimize();
+
             builder.Clear();
             result.Accept(this);
             return Message;
+        }
+
+        public override void Visit(FieldResult result)
+        {
+            if (!result.GuardResult.Value || result.ValidationResult.Value)
+                return;
+
+            inguard = true;
+            result.GuardResult.Accept(this);
+            inguard = false;
+            result.ValidationResult.Accept(this);
         }
 
         public override void Visit(Result result)
         {
             WriteLine(result.ToString());
         }
-
 
         public override void Visit(AnyResult result)
         {
@@ -66,7 +106,11 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
         public override void Visit(RuleResult result)
         {
-            WriteLine(" " + result.Rule.RuleContext + " ");
+            BasicJsonRule rule = result.Rule as BasicJsonRule;
+            if (rule != null)
+            {
+                WriteLine($"{result.Rule.ContextInfo} {rule.Alias}");
+            }
             base.Visit(result);
         }
 
@@ -80,13 +124,27 @@ namespace DotJEM.Json.Validation.Test.Visitors
             WriteLine("(");
             indent += 2;
             bool first = true;
-            foreach (Result child in result.Results)
+            if (inguard)
             {
-                if (!first)
-                    WriteLine(" AND ");
+                foreach (Result child in result.Results)
+                {
+                    if (!first)
+                        WriteLine(" AND ");
 
-                first = false;
-                child.Accept(this);
+                    first = false;
+                    child.Accept(this);
+                }
+            }
+            else
+            {
+                foreach (Result child in result.Results.Where(r => !r.Value))
+                {
+                    if (!first)
+                        WriteLine(" AND ");
+
+                    first = false;
+                    child.Accept(this);
+                }
             }
             indent -= 2;
             WriteLine(")");

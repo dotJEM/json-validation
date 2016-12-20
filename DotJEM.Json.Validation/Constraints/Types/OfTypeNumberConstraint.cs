@@ -6,16 +6,16 @@ using Newtonsoft.Json.Linq;
 namespace DotJEM.Json.Validation.Constraints.Types
 {
     [JsonConstraintDescription("of type number (strict: {strict})")]
-    public class OfTypeNumberJsonConstraint : JsonConstraint
+    public class OfTypeNumberConstraint : JsonConstraint
     {
         private readonly bool strict;
 
-        public OfTypeNumberJsonConstraint(bool strict)
+        public OfTypeNumberConstraint(bool strict)
         {
             this.strict = strict;
         }
 
-        public override bool Matches(IJsonValidationContext context, JToken token)
+        public override bool Matches(JToken token, IJsonValidationContext context)
         {
             //Note: If the token type matches we are happy regardless.
             if (token.Type == JTokenType.Float || token.Type == JTokenType.Integer) return true;

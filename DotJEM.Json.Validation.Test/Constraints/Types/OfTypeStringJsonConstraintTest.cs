@@ -13,31 +13,31 @@ namespace DotJEM.Json.Validation.Test.Constraints.Types
         [Test]
         public void Matches_JValueWithString_ReturnsTrue()
         {
-            JsonConstraint constraint = new OfTypeStringJsonConstraint();
+            JsonConstraint constraint = new OfTypeStringConstraint();
 
-            Assert.That(constraint.Matches(null, new JValue("Im a string")), Is.True);
+            Assert.That(constraint.Matches(new JValue("Im a string"), null), Is.True);
         }
 
         [Test]
         public void Matches_JValueWithNumber_ReturnsFalse()
         {
-            JsonConstraint constraint = new OfTypeStringJsonConstraint();
+            JsonConstraint constraint = new OfTypeStringConstraint();
 
-            Assert.That(constraint.Matches(null, new JValue(42)), Is.False);
+            Assert.That(constraint.Matches(new JValue(42), null), Is.False);
         }
 
         [Test]
         public void Matches_JObject_ReturnsFalse()
         {
-            JsonConstraint constraint = new OfTypeStringJsonConstraint();
+            JsonConstraint constraint = new OfTypeStringConstraint();
 
-            Assert.That(constraint.Matches(null, new JObject()), Is.False);
+            Assert.That(constraint.Matches(new JObject(), null), Is.False);
         }
 
         [Test]
         public void Describe_ReturnsDescribtion()
         {
-            JsonConstraint constraint = new OfTypeStringJsonConstraint();
+            JsonConstraint constraint = new OfTypeStringConstraint();
 
             Assert.That(constraint.Describe().ToString(), Is.EqualTo("of type string"));
         }

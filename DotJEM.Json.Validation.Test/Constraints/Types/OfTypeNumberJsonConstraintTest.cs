@@ -18,21 +18,21 @@ namespace DotJEM.Json.Validation.Test.Constraints.Types
         [TestCase("10.5", false, true)]
         public void Matches_Value_Returns(object value, bool strict, bool expected)
         {
-            OfTypeNumberJsonConstraint constraint = new OfTypeNumberJsonConstraint(strict);
-            Assert.That(constraint.Matches(null, new JValue(value)), Is.EqualTo(expected));
+            OfTypeNumberConstraint constraint = new OfTypeNumberConstraint(strict);
+            Assert.That(constraint.Matches(new JValue(value), null), Is.EqualTo(expected));
         }
 
         [Test]
         public void Matches_JObject_ReturnsFalse()
         {
-            OfTypeNumberJsonConstraint constraint = new OfTypeNumberJsonConstraint(false);
-            Assert.That(constraint.Matches(null, new JObject()), Is.False);
+            OfTypeNumberConstraint constraint = new OfTypeNumberConstraint(false);
+            Assert.That(constraint.Matches(new JObject(), null), Is.False);
         }
 
         [Test]
         public void Describe_ReturnsDescribtion()
         {
-            OfTypeNumberJsonConstraint constraint = new OfTypeNumberJsonConstraint(false);
+            OfTypeNumberConstraint constraint = new OfTypeNumberConstraint(false);
             Assert.That(constraint.Describe().ToString(), Is.EqualTo("of type number (strict: False)"));
         }
     }

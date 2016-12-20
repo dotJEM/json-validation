@@ -143,7 +143,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
     {
         public ChildValidator()
         {
-            When("name", Is.Equal("Foo", StringComparison.OrdinalIgnoreCase)).Then("type", Should.Match("^\\w+$"));
+            When("name", Is.EqualTo("Foo", StringComparison.OrdinalIgnoreCase)).Then("type", Should.Match("^\\w+$"));
         }
     }
 
@@ -162,7 +162,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
             return Name;
         }
 
-        public override bool Matches(IJsonValidationContext context, JToken token)
+        public override bool Matches(JToken token, IJsonValidationContext context)
         {
             return true;
         }

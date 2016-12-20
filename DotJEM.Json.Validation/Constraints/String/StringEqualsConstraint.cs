@@ -6,12 +6,12 @@ using Newtonsoft.Json.Linq;
 namespace DotJEM.Json.Validation.Constraints.String
 {
     [JsonConstraintDescription("equal to '{value}' ({comparison}).")]
-    public class StringEqualsJsonConstraint : TypedJsonConstraint<string>
+    public class StringEqualsConstraint : TypedJsonConstraint<string>
     {
         private readonly string value;
         private readonly StringComparison comparison;
         
-        public StringEqualsJsonConstraint(string value, StringComparison comparison = StringComparison.Ordinal)
+        public StringEqualsConstraint(string value, StringComparison comparison = StringComparison.Ordinal)
         {
             this.value = value;
             this.comparison = comparison;
@@ -22,5 +22,6 @@ namespace DotJEM.Json.Validation.Constraints.String
             return value.Equals(this.value, comparison);
         }
     }
+
 
 }
