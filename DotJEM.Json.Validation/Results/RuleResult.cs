@@ -2,14 +2,14 @@
 
 namespace DotJEM.Json.Validation.Results
 {
-    public class RuleResult : AbstractResult 
+    public class RuleResult : Result 
     {
         public override bool Value => Result.Value;
 
         public JsonRule Rule { get; }
-        public AbstractResult Result { get; }
+        public Result Result { get; }
 
-        public RuleResult(JsonRule rule, AbstractResult result)
+        public RuleResult(JsonRule rule, Result result)
         {
             Rule = rule;
             Result = result;

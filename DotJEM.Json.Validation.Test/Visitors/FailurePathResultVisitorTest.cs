@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,69 +16,103 @@ namespace DotJEM.Json.Validation.Test.Visitors
         [Test]
         public void Describe_NoError_ReturnsMessageWithNoError()
         {
-            AbstractResult result = new Result(true) & new Result(true) | new Result(true) & !new Result(false);
+            Result result = new AnyResult() & new AnyResult() | new AnyResult() & !new FuncResult(false, "No");
 
             //var visitor = result.Accept(new DescribeFailurePathVisitor());
             var visitor = new DescribeFailurePathVisitor();
             string description = visitor.Describe(result);
+            Console.WriteLine(description);
             //Assert.That(description, Is.EqualTo("No Errors."));
         }
     }
 
     public class DescribeFailurePathVisitor : JsonResultVisitor
     {
-        public string Message { get; private set; }
+        private int indent = 0;
+        private readonly StringBuilder builder = new StringBuilder();
+        public string Message => builder.ToString();
 
-        public string Describe(AbstractResult result)
+
+        private void Write(string message)
         {
-            Message = "";
+            builder.Append(message);
+        }
+
+        private void WriteLine(string message)
+        {
+            if (indent > 0)
+                builder.AppendLine(new string(' ', indent) + message);
+            else
+                builder.AppendLine(message);
+        }
+
+        public string Describe(Result result)
+        {
+            builder.Clear();
             result.Accept(this);
             return Message;
         }
 
-        public override void Visit(AbstractResult result)
+        public override void Visit(Result result)
         {
-            Message += result.ToString();
+            WriteLine(result.ToString());
+        }
+
+
+        public override void Visit(AnyResult result)
+        {
+            WriteLine("ANY");
+        }
+
+        public override void Visit(RuleResult result)
+        {
+            WriteLine(" " + result.Rule.RuleContext + " ");
+            base.Visit(result);
+        }
+
+        public override void Visit(FuncResult result)
+        {
+            Write(result.Explain);
         }
 
         public override void Visit(AndResult result)
         {
-            Message += "(" + NewLine;
-
+            WriteLine("(");
+            indent += 2;
             bool first = true;
-            foreach (AbstractResult child in result.Results)
+            foreach (Result child in result.Results)
             {
                 if (!first)
-                    Message += " AND ";
+                    WriteLine(" AND ");
 
                 first = false;
                 child.Accept(this);
             }
-
-            Message += ")" + NewLine;
+            indent -= 2;
+            WriteLine(")");
         }
 
 
         public override void Visit(OrResult result)
         {
-            Message += "(" + NewLine;
-
+            WriteLine("(");
+            indent += 2;
             bool first = true;
-            foreach (AbstractResult child in result.Results)
+            foreach (Result child in result.Results)
             {
                 if (!first)
-                    Message += " OR ";
+                    Write(" OR ");
 
                 first = false;
                 child.Accept(this);
             }
-
-            Message += ")" + NewLine;
+            indent -= 2;
+            WriteLine(")");
         }
 
         public override void Visit(NotResult result)
         {
-            Message += " ! ";
+            WriteLine("NOT");
             base.Visit(result);
         }
 

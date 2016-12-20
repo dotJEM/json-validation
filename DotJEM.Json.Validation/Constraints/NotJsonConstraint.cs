@@ -21,7 +21,7 @@ namespace DotJEM.Json.Validation.Constraints
             return not != null ? not.Constraint : base.Optimize();
         }
 
-        internal override AbstractResult DoMatch(JToken token, IJsonValidationContext context)
+        internal override Result DoMatch(JToken token, IJsonValidationContext context)
         {
             return !Constraint.DoMatch(token, context);
         }

@@ -84,7 +84,7 @@
     <Compile Include="Results\ValidatorResult.cs" />
     <Compile Include="Results\NotResult.cs" />
     <Compile Include="Results\OrResult.cs" />
-    <Compile Include="Results\Result.cs" />
+    <Compile Include="Results\FuncResult.cs" />
     <Compile Include="Results\RuleResult.cs" />
     <Compile Include="Visitors\IJsonResultVisitor.cs" />
     <Compile Include="Visitors\JsonValidatorVisitor.cs" />
@@ -93,7 +93,7 @@
     <Compile Include="JsonValidator.cs" />
     <Compile Include="JsonValidatorRuleFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Results\AbstractResult.cs" />
+    <Compile Include="Results\Result.cs" />
     <Compile Include="Rules\AndJsonRule.cs" />
     <Compile Include="Rules\BasicJsonRule.cs" />
     <Compile Include="Rules\CompositeJsonRule.cs" />

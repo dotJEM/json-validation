@@ -4,8 +4,8 @@ using DotJEM.Json.Validation.Results;
 namespace DotJEM.Json.Validation.Visitors
 {
     public interface IJsonResultVisitor :
-        IJsonResultVisitor<AbstractResult>,
         IJsonResultVisitor<Result>,
+        IJsonResultVisitor<FuncResult>,
         IJsonResultVisitor<CompositeResult>,
         IJsonResultVisitor<AndResult>,
         IJsonResultVisitor<OrResult>,
@@ -18,38 +18,38 @@ namespace DotJEM.Json.Validation.Visitors
     {
     }
 
-    public interface IJsonResultVisitor<in TResult> where TResult : AbstractResult
+    public interface IJsonResultVisitor<in TResult> where TResult : Result
     {
         void Visit(TResult result);
     }
 
     public abstract class JsonResultVisitor : IJsonResultVisitor
     {
-        public virtual void Visit(AbstractResult result)
+        public virtual void Visit(Result result)
         {
             throw new NotImplementedException($"No approriate visitor methods was found for type: {result.GetType()}.");
         }
 
-        public virtual void Visit(Result result)
+        public virtual void Visit(FuncResult result)
         {
-            Visit((AbstractResult)result);
+            Visit((Result)result);
         }
 
         public virtual void Visit(CompositeResult result)
         {
-            foreach (AbstractResult child in result.Results)
+            foreach (Result child in result.Results)
                 child.Accept(this);
         }
 
         public virtual void Visit(AndResult result)
         {
-            foreach (AbstractResult child in result.Results)
+            foreach (Result child in result.Results)
                 child.Accept(this);
         }
 
         public virtual void Visit(OrResult result)
         {
-            foreach (AbstractResult child in result.Results)
+            foreach (Result child in result.Results)
                 child.Accept(this);
         }
 
@@ -60,12 +60,12 @@ namespace DotJEM.Json.Validation.Visitors
 
         public virtual void Visit(AnyResult result)
         {
-            Visit((AbstractResult)result);
+            Visit((Result)result);
         }
 
         public virtual void Visit(ConstraintResult result)
         {
-            Visit((AbstractResult)result);
+            Visit((Result)result);
         }
 
         public virtual void Visit(RuleResult result)
@@ -75,7 +75,7 @@ namespace DotJEM.Json.Validation.Visitors
 
         public virtual void Visit(ValidatorResult result)
         {
-            foreach (AbstractResult child in result.Results)
+            foreach (Result child in result.Results)
                 child.Accept(this);
         }
 
@@ -87,7 +87,7 @@ namespace DotJEM.Json.Validation.Visitors
 
     public static class JsonResultVisitorExtensions
     {
-        public static TVisitor Accept<TVisitor>(this AbstractResult result, TVisitor visitor) where TVisitor : IJsonResultVisitor
+        public static TVisitor Accept<TVisitor>(this Result result, TVisitor visitor) where TVisitor : IJsonResultVisitor
         {
             //Note: Dynamic dispatch forcing runtime resolution of the correct overload.
             visitor.Visit((dynamic)result);

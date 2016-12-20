@@ -1,17 +1,17 @@
 ﻿namespace DotJEM.Json.Validation.Results
 {
-    public class NotResult : AbstractResult
+    public class NotResult : Result
     {
-        public AbstractResult Result { get; }
+        public Result Result { get; }
 
         public override bool Value => !Result.Value;
 
-        public NotResult(AbstractResult result)
+        public NotResult(Result result)
         {
             Result = result;
         }
 
-        public override AbstractResult Optimize()
+        public override Result Optimize()
         {
             NotResult not = Result as NotResult;
             return not != null ? not.Result : base.Optimize();

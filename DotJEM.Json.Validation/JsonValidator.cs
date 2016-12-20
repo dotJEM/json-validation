@@ -125,7 +125,7 @@ namespace DotJEM.Json.Validation
 
         public virtual ValidatorResult Validate(JObject entity, IJsonValidationContext context)
         {
-            IEnumerable<AbstractResult> results
+            IEnumerable<Result> results
                 = from validator in validators
                   let result = validator.Validate(entity, context)
                   where result != null

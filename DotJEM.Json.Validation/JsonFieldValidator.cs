@@ -17,9 +17,9 @@ namespace DotJEM.Json.Validation
             this.rule = rule.Optimize();
         }
 
-        public AbstractResult Validate(JObject entity, IJsonValidationContext context)
+        public Result Validate(JObject entity, IJsonValidationContext context)
         {
-            AbstractResult gr = guard.Test(entity, context);
+            Result gr = guard.Test(entity, context);
             return !gr.Value 
                 ? null 
                 : rule.Test(entity, context);

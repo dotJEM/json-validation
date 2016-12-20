@@ -26,11 +26,11 @@ namespace DotJEM.Json.Validation.Rules
             this.constraint = constraint.Constraint.Optimize();
         }
 
-        public override AbstractResult Test(JObject entity, IJsonValidationContext context)
+        public override Result Test(JObject entity, IJsonValidationContext context)
         {
             return new AndResult(
                 (from token in Selector.SelectTokens(entity)
-                 select (AbstractResult)new RuleResult(this, constraint.DoMatch(token, context))).ToList());
+                 select (Result)new RuleResult(this, constraint.DoMatch(token, context))).ToList());
         }
     }
 
@@ -48,17 +48,17 @@ namespace DotJEM.Json.Validation.Rules
             this.validator = validator;
         }
 
-        public override AbstractResult Test(JObject entity, IJsonValidationContext context)
+        public override Result Test(JObject entity, IJsonValidationContext context)
         {
             return new AndResult(
                 (from token in Selector.SelectTokens(entity)
-                 select (AbstractResult)new EmbededValidatorResult(this, validator.Validate((JObject)token, context))).ToList());
+                 select (Result)new EmbededValidatorResult(this, validator.Validate((JObject)token, context))).ToList());
         }
     }
 
     public sealed class AnyJsonRule : JsonRule
     {
-        public override AbstractResult Test(JObject entity, IJsonValidationContext contenxt)
+        public override Result Test(JObject entity, IJsonValidationContext contenxt)
         {
             return new RuleResult(this, new AnyResult());
         }
@@ -75,9 +75,9 @@ namespace DotJEM.Json.Validation.Rules
             this.explain = explain;
         }
 
-        public override AbstractResult Test(JObject entity, IJsonValidationContext contenxt)
+        public override Result Test(JObject entity, IJsonValidationContext contenxt)
         {
-            return new RuleResult(this, new Result(func(entity)));
+            return new RuleResult(this, new FuncResult(func(entity), explain));
         }
     }
 }

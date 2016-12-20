@@ -14,7 +14,7 @@ namespace DotJEM.Json.Validation.Rules
             Rule = rule;
         }
 
-        public override AbstractResult Test(JObject entity, IJsonValidationContext contenxt)
+        public override Result Test(JObject entity, IJsonValidationContext contenxt)
         {
             return !Rule.Test(entity, contenxt);
         }

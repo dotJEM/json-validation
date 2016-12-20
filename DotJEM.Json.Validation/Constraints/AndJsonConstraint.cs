@@ -22,9 +22,9 @@ namespace DotJEM.Json.Validation.Constraints
             return OptimizeAs<AndJsonConstraint>();
         }
 
-        internal override AbstractResult DoMatch(JToken token, IJsonValidationContext context)
+        internal override Result DoMatch(JToken token, IJsonValidationContext context)
         {
-            return Constraints.Aggregate((AbstractResult) null, (a, b) => a & b.DoMatch(token, context));
+            return Constraints.Aggregate((Result) null, (a, b) => a & b.DoMatch(token, context));
         }
     }
 }

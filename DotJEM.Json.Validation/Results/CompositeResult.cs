@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace DotJEM.Json.Validation.Results
 {
-    public abstract class CompositeResult : AbstractResult
+    public abstract class CompositeResult : Result
     {
-        private readonly List<AbstractResult> results;
+        private readonly List<Result> results;
 
-        public IEnumerable<AbstractResult> Results => results;
+        public IEnumerable<Result> Results => results;
 
-        protected CompositeResult(IEnumerable<AbstractResult> results)
+        protected CompositeResult(IEnumerable<Result> results)
         {
             this.results = results.ToList();
         }

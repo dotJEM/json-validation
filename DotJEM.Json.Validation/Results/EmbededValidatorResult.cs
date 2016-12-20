@@ -2,7 +2,7 @@
 
 namespace DotJEM.Json.Validation.Results
 {
-    public class EmbededValidatorResult : AbstractResult //Result<EmbededValidatorRule>
+    public class EmbededValidatorResult : Result //Result<EmbededValidatorRule>
     {
         public override bool Value => Result.Value;
 

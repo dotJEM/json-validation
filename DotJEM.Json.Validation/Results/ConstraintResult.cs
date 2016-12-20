@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Results
 {
-    public class ConstraintResult : AbstractResult
+    public class ConstraintResult : Result
     {
         public override bool Value { get; }
 

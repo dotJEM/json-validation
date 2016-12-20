@@ -7,18 +7,18 @@ namespace DotJEM.Json.Validation.Results
     {
         public override bool Value => Results.Any(r => r.Value);
 
-        public OrResult() : base(new List<AbstractResult>())
+        public OrResult() : base(new List<Result>())
         {
         }
 
-        public OrResult(params AbstractResult[] results) : base(results)
+        public OrResult(params Result[] results) : base(results)
         {
         }
 
-        public OrResult(List<AbstractResult> results) : base(results)
+        public OrResult(List<Result> results) : base(results)
         {
         }
 
-        public override AbstractResult Optimize() => base.OptimizeAs<OrResult>();
+        public override Result Optimize() => base.OptimizeAs<OrResult>();
     }
 }

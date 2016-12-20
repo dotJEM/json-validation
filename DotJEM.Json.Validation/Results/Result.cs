@@ -1,12 +1,47 @@
-﻿namespace DotJEM.Json.Validation.Results
-{
-    public class Result : AbstractResult
-    {
-        public override bool Value { get; }
+﻿using System;
+using System.Text;
+using System.Threading.Tasks;
 
-        public Result(bool value)
+namespace DotJEM.Json.Validation.Results
+{
+    public abstract class Result
+    {
+        public abstract bool Value { get; }
+
+        public virtual Result Optimize()
         {
-            Value = value;
+            return this;
+        }
+
+        public static Result operator &(Result x, Result y)
+        {
+            //TODO: (jmd 2015-11-03) IF either is already a Or construct, we can reuse that and save the optimize. 
+
+            if (x == null)
+                return y;
+
+            if (y == null)
+                return x;
+
+            return new AndResult(x, y);
+        }
+
+        public static Result operator |(Result x, Result y)
+        {
+            //TODO: (jmd 2015-11-03) IF either is already a Or construct, we can reuse that and save the optimize. 
+
+            if (x == null)
+                return y;
+
+            if (y == null)
+                return x;
+
+            return new OrResult(x, y);
+        }
+
+        public static Result operator !(Result x)
+        {
+            return new NotResult(x);
         }
     }
 }

@@ -2,8 +2,6 @@
 {
     public class AnyResult : Result
     {
-        public AnyResult() : base(true)
-        {
-        }
+        public override bool Value => true;
     }
 }
