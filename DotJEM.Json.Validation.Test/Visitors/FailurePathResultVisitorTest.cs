@@ -63,7 +63,10 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
         public override void Visit(ConstraintResult result)
         {
-            WriteLine($"{result.Constraint.ContextInfo} {result.Constraint.Describe()} : {(result.Value ? "OK" : "FAIL")}");
+            if(inguard)
+                WriteLine($"{result.Constraint.ContextInfo} {result.Constraint.Describe()}");
+            else
+                WriteLine($"{result.Constraint.ContextInfo} {result.Constraint.Describe()} - actual value was: {result.Token}");
         }
 
         private void WriteLine(string message)
@@ -92,6 +95,7 @@ namespace DotJEM.Json.Validation.Test.Visitors
             result.GuardResult.Accept(this);
             inguard = false;
             result.ValidationResult.Accept(this);
+            WriteLine("");
         }
 
         public override void Visit(Result result)
@@ -121,6 +125,16 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
         public override void Visit(AndResult result)
         {
+            List<Result> results = (inguard ? result.Results : result.Results.Where(r => !r.Value)).ToList();
+            if (results.Count == 0)
+                return;
+
+            if (results.Count == 1)
+            {
+                results.First().Accept(this);
+                return;
+            }
+            
             WriteLine("(");
             indent += 2;
             bool first = true;
