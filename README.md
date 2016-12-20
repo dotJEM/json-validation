@@ -14,9 +14,9 @@ The goal would be to:
  - Framework should be extensible so custom validations would be easy to write.
  - ...
  
-# Example Syntax would be:
+# Example Syntax would become:
 
-```
+```csharp
     public class TestValidator : JsonValidator
     {
         public TestValidator()
@@ -49,6 +49,8 @@ The goal would be to:
             //When(Any).Then(All("", Should.Have.Length(42)));
             //When(Any).Then(Some("", Should.Have.Length(42)));
             //When(Any).Then(None("", Should.Have.Length(42)));
+            
+            When(Any).Then("x", Must.Be.Number() & Must.Be.Equal(42.42))
         }
     }
 ```
