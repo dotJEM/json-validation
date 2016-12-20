@@ -16,7 +16,7 @@ The goal would be to:
  
 # Example Syntax would become:
 
-```
+```csharp
     public class TestValidator : JsonValidator
     {
         public TestValidator()
