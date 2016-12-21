@@ -4,7 +4,7 @@ namespace DotJEM.Json.Validation.Results
 {
     public class EmbededValidatorResult : Result //Result<EmbededValidatorRule>
     {
-        public override bool Value => Result.Value;
+        public override bool IsValid => Result.IsValid;
 
         public ValidatorResult Result { get; }
 

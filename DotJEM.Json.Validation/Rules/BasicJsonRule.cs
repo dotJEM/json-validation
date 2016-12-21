@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using DotJEM.Json.Validation.Constraints;
@@ -12,6 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
+    [DebuggerDisplay("{Selector}  {constraint}")]
     public sealed class BasicJsonRule : JsonRule
     {
         public FieldSelector Selector { get; }

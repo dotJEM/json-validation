@@ -6,7 +6,9 @@ namespace DotJEM.Json.Validation.Results
 {
     public abstract class Result
     {
-        public abstract bool Value { get; }
+        //TODO: Value = IsValid and add HasErrors.
+        public abstract bool IsValid { get; }
+        public bool HasErrors => !IsValid;
 
         //TODO: Consider removing this. We should base our self on optimized constrants, that should result in an optimized result graph.
         public virtual Result Optimize()

@@ -9,7 +9,9 @@ namespace DotJEM.Json.Validation.Constraints.Generic
     {
         private readonly HashSet<T> values;
 
+        // ReSharper disable UnusedMember.Local -> Used by description property.
         private string Values => string.Join(", ", values);
+        // ReSharper restore UnusedMember.Local
 
         public InConstraint(IEnumerable<T> values)
         {

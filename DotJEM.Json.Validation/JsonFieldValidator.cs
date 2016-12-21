@@ -20,8 +20,8 @@ namespace DotJEM.Json.Validation
         public Result Validate(JObject entity, IJsonValidationContext context)
         {
             Result gr = guard.Test(entity, context);
-            return !gr.Value 
-                ? new FieldResult(this, gr, null)
+            return !gr.IsValid 
+                ? new FieldResult(this, gr, new AnyResult())
                 : new FieldResult(this, gr, rule.Test(entity, context));
         }
     }

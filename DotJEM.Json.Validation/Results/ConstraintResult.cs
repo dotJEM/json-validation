@@ -5,7 +5,7 @@ namespace DotJEM.Json.Validation.Results
 {
     public class ConstraintResult : Result
     {
-        public override bool Value { get; }
+        public override bool IsValid { get; }
 
         public JToken Token { get; }
 
@@ -15,7 +15,7 @@ namespace DotJEM.Json.Validation.Results
         {
             Constraint = constraint;
             Token = token;
-            Value = value;
+            IsValid = value;
         }
     }
 }

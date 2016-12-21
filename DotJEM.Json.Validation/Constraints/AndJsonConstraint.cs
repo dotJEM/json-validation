@@ -18,13 +18,12 @@ namespace DotJEM.Json.Validation.Constraints
         }
         
         public override JsonConstraint Optimize()
-        {
-            return OptimizeAs<AndJsonConstraint>();
-        }
+            => OptimizeAs<AndJsonConstraint>();
 
-        internal override Result DoMatch(JToken token, IJsonValidationContext context)
-        {
-            return Constraints.Aggregate((Result) null, (a, b) => a & b.DoMatch(token, context));
-        }
+        public override Result DoMatch(JToken token, IJsonValidationContext context)
+            => Constraints.Aggregate((Result) null, (a, b) => a & b.DoMatch(token, context));
+
+        public override string ToString() 
+            => string.Join(" AND ", Constraints);
     }
 }

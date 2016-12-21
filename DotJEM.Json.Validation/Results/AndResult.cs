@@ -5,7 +5,7 @@ namespace DotJEM.Json.Validation.Results
 {
     public class AndResult : CompositeResult
     {
-        public override bool Value => Results.All(r => r.Value);
+        public override bool IsValid => Results.All(r => r.IsValid);
 
         public AndResult() : base(new List<Result>())
         {

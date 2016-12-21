@@ -4,7 +4,7 @@ namespace DotJEM.Json.Validation.Results
 {
     public class RuleResult : Result 
     {
-        public override bool Value => Result.Value;
+        public override bool IsValid => Result.IsValid;
 
         public JsonRule Rule { get; }
         public Result Result { get; }
@@ -21,12 +21,12 @@ namespace DotJEM.Json.Validation.Results
     /// </summary>
     public class SimpleResult : Result
     {
-        public override bool Value { get; }
+        public override bool IsValid { get; }
         public string Explain { get; }
 
         public SimpleResult(bool value, string explain = null)
         {
-            Value = value;
+            IsValid = value;
             Explain = explain ?? value.ToString();
         }
     }

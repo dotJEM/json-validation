@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -38,6 +39,10 @@ namespace DotJEM.Json.Validation.Selectors
         {
             return new[] { entity.SelectToken(Path) };
         }
+        public override string ToString()
+        {
+            return $"Multiple:{Path}";
+        }
     }
 
     public class SingleFieldSelector : FieldSelector
@@ -49,6 +54,11 @@ namespace DotJEM.Json.Validation.Selectors
         public override IEnumerable<JToken> SelectTokens(JObject entity)
         {
             return entity.SelectTokens(Path);
+        }
+
+        public override string ToString()
+        {
+            return $"Single:{Path}";
         }
     }
 }

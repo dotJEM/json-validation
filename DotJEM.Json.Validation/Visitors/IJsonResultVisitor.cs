@@ -33,7 +33,7 @@ namespace DotJEM.Json.Validation.Visitors
 
         public virtual void Visit(FieldResult result)
         {
-            if (!result.GuardResult.Value)
+            if (!result.GuardResult.IsValid)
                 return;
 
             result.GuardResult.Accept(this);

@@ -5,12 +5,11 @@ namespace DotJEM.Json.Validation.Results
 {
     public sealed class ValidatorResult : Result
     {
-        public IJsonValidator Context { get; }
         private readonly List<Result> results;
-        public override bool Value => IsValid;
 
-        public bool IsValid => Results.All(r => r.Value);
-        public bool HasErrors => !IsValid;
+        public IJsonValidator Context { get; }
+
+        public override bool IsValid => Results.All(r => r.IsValid);
 
         public IEnumerable<Result> Results => results;
 
@@ -23,15 +22,15 @@ namespace DotJEM.Json.Validation.Results
 
     public sealed class FieldResult : Result
     {
-        public override bool Value => !GuardResult.Value || ValidationResult.Value;
+        public override bool IsValid => !GuardResult.IsValid || ValidationResult.IsValid;
 
-        public JsonFieldValidator Field { get; }
+        public JsonFieldValidator Validator { get; }
         public Result GuardResult { get; }
         public Result ValidationResult { get; }
 
-        public FieldResult(JsonFieldValidator field, Result guardResult, Result validationResult)
+        public FieldResult(JsonFieldValidator validator, Result guardResult, Result validationResult)
         {
-            this.Field = field;
+            Validator = validator;
             GuardResult = guardResult;
             ValidationResult = validationResult;
         }

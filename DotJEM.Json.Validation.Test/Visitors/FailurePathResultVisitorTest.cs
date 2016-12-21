@@ -28,7 +28,7 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
             var validator = new FakeValidator();
 
-            Result result = validator.Validate(JObject.Parse("{ name: 'Peter Pan', age: -1 }"), null);
+            Result result = validator.Validate(JObject.Parse("{ name: 'Peter Pan', age: -1, gender: 'mouse' }"), null);
 
             //var visitor = result.Accept(new DescribeFailurePathVisitor());
             var visitor = new DescribeFailurePathVisitor();
@@ -42,8 +42,12 @@ namespace DotJEM.Json.Validation.Test.Visitors
     {
         public FakeValidator()
         {
-            When("name", Is.Defined()).Then(It, Must.Have.LengthBetween(10, 50) & Must.Match("^[A-Za-z\\s]+$"));
+            When("name", Is.Defined()).Then(It, Must.Have.LengthBetween(10, 50) & Must.Match("^[A-Za-z\\s]+$") | Have.ExactLength(5));
             When("age", Is.Defined()).Then(It, Must.Be.Integer() & Be.GreaterThan(0));
+
+            //TOOD: This is not working.
+            When(Field("gender", Is.Defined()) | Field("sex", Is.Defined())).Then(Field("gender", Must.Be.In("male", "female")) | Field("sex", Must.Be.In("male", "female")));
+            //When("gender", Is.Defined()).Then(Field("gender", Must.Be.In("male", "female")) | Field("sex", Must.Be.In("male", "female")));
 
             When("missing", Is.Defined()).Then(It, Must.Be.Boolean());
         }
@@ -88,7 +92,7 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
         public override void Visit(FieldResult result)
         {
-            if (!result.GuardResult.Value || result.ValidationResult.Value)
+            if (!result.GuardResult.IsValid || result.ValidationResult.IsValid)
                 return;
 
             inguard = true;
@@ -125,7 +129,8 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
         public override void Visit(AndResult result)
         {
-            List<Result> results = (inguard ? result.Results : result.Results.Where(r => !r.Value)).ToList();
+            List<Result> results = (inguard ? result.Results : result.Results.Where(r => !r.IsValid)).ToList();
+            //results = result.Results.ToList();
             if (results.Count == 0)
                 return;
 
@@ -138,27 +143,13 @@ namespace DotJEM.Json.Validation.Test.Visitors
             WriteLine("(");
             indent += 2;
             bool first = true;
-            if (inguard)
+            foreach (Result child in result.Results)
             {
-                foreach (Result child in result.Results)
-                {
-                    if (!first)
-                        WriteLine(" AND ");
+                if (!first)
+                    WriteLine(" AND ");
 
-                    first = false;
-                    child.Accept(this);
-                }
-            }
-            else
-            {
-                foreach (Result child in result.Results.Where(r => !r.Value))
-                {
-                    if (!first)
-                        WriteLine(" AND ");
-
-                    first = false;
-                    child.Accept(this);
-                }
+                first = false;
+                child.Accept(this);
             }
             indent -= 2;
             WriteLine(")");

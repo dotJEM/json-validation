@@ -4,7 +4,7 @@
     {
         public Result Result { get; }
 
-        public override bool Value => !Result.Value;
+        public override bool IsValid => !Result.IsValid;
 
         public NotResult(Result result)
         {

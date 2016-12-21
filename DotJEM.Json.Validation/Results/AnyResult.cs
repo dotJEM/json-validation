@@ -2,6 +2,6 @@
 {
     public class AnyResult : Result
     {
-        public override bool Value => true;
+        public override bool IsValid => true;
     }
 }
