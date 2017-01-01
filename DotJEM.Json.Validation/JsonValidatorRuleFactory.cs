@@ -49,7 +49,7 @@ namespace DotJEM.Json.Validation
         public void Then(JsonRule rule)
         {
             //Note: Captured Rule.
-            rule.ContextInfo = "Then";
+            //rule.ContextInfo = "Then";
             validator.AddValidator(new JsonFieldValidator(this.rule, rule));
         }
 

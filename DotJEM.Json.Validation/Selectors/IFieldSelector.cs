@@ -37,8 +37,9 @@ namespace DotJEM.Json.Validation.Selectors
 
         public override IEnumerable<JToken> SelectTokens(JObject entity)
         {
-            return new[] { entity.SelectToken(Path) };
+            return entity.SelectTokens(Path);
         }
+
         public override string ToString()
         {
             return $"Multiple:{Path}";
@@ -53,7 +54,7 @@ namespace DotJEM.Json.Validation.Selectors
 
         public override IEnumerable<JToken> SelectTokens(JObject entity)
         {
-            return entity.SelectTokens(Path);
+            return new[] { entity.SelectToken(Path) };
         }
 
         public override string ToString()

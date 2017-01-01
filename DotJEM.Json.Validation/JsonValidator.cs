@@ -24,15 +24,15 @@ namespace DotJEM.Json.Validation
     {
         private readonly List<JsonFieldValidator> validators = new List<JsonFieldValidator>();
 
-        protected IGuardConstraintFactory Is { get; } = new ConstraintFactory(null, "Is");
-        protected IGuardConstraintFactory Has { get; } = new ConstraintFactory(null, "Has");
-        protected IValidatorConstraintFactory Must { get; } = new ValidatorConstraintFactory(null, "Must");
-        protected IValidatorConstraintFactory Should { get; } = new ValidatorConstraintFactory(null, "Should");
+        protected IGuardConstraintFactory Is { get; } = new ConstraintFactory(null, "is");
+        protected IGuardConstraintFactory Has { get; } = new ConstraintFactory(null, "has");
+        protected IValidatorConstraintFactory Must { get; } = new ValidatorConstraintFactory(null, "must");
+        protected IValidatorConstraintFactory Should { get; } = new ValidatorConstraintFactory(null, "should");
 
         protected ISelfReferencingRule It { get; } = new SelfReferencingRule();
 
-        public IBeConstraintFactory Be { get; } = new ConstraintFactory(null, "Be");
-        public IHaveConstraintFactory Have { get; } = new ConstraintFactory(null, "Have");
+        public IBeConstraintFactory Be { get; } = new ConstraintFactory(null, "be");
+        public IHaveConstraintFactory Have { get; } = new ConstraintFactory(null, "have");
 
         protected JsonRule Any => new AnyJsonRule();
         
@@ -40,7 +40,7 @@ namespace DotJEM.Json.Validation
         {
             if (rule == null) throw new ArgumentNullException(nameof(rule));
             //Note: Captured Rule.
-            rule.ContextInfo = "When";
+            //rule.ContextInfo = "When";
             return new JsonValidatorRuleFactory(this, rule);
         }
 

@@ -89,8 +89,8 @@ namespace DotJEM.Json.Validation.Factories
         public ValidatorConstraintFactory(ConstraintFactory pre, string context) 
             : base(pre, context)
         {
-            Be = new ConstraintFactory(this, "Be");
-            Have = new ConstraintFactory(this, "Have");
+            Be = new ConstraintFactory(this, "be");
+            Have = new ConstraintFactory(this, "have");
         }
     }
 

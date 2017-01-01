@@ -9,6 +9,7 @@ namespace DotJEM.Json.Validation.Visitors
         IJsonResultVisitor<FieldResult>,
         IJsonResultVisitor<CompositeResult>,
         IJsonResultVisitor<AndResult>,
+        IJsonResultVisitor<SkippedResult>,
         IJsonResultVisitor<OrResult>,
         IJsonResultVisitor<NotResult>,
         IJsonResultVisitor<AnyResult>,
@@ -69,6 +70,10 @@ namespace DotJEM.Json.Validation.Visitors
         }
 
         public virtual void Visit(AnyResult result)
+        {
+            Visit((Result)result);
+        }
+        public virtual void Visit(SkippedResult result)
         {
             Visit((Result)result);
         }

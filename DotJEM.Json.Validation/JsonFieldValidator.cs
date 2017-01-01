@@ -21,7 +21,7 @@ namespace DotJEM.Json.Validation
         {
             Result gr = guard.Test(entity, context);
             return !gr.IsValid 
-                ? new FieldResult(this, gr, new AnyResult())
+                ? new FieldResult(this, gr, new SkippedResult())
                 : new FieldResult(this, gr, rule.Test(entity, context));
         }
     }

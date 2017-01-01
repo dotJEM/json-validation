@@ -20,7 +20,9 @@ namespace DotJEM.Json.Validation.Rules
         public override Result Test(JObject entity, IJsonValidationContext context)
         {
             //TODO: Lazy
-            return Rules.Aggregate((Result)null, (result, rule) => result & rule.Test(entity, context));
+            return Rules
+                .Select(rule => rule.Test(entity, context))
+                .Aggregate((a,b) => a & b);
         }
 
         public override JsonRule Optimize()

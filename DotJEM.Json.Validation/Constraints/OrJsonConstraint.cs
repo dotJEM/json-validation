@@ -23,7 +23,8 @@ namespace DotJEM.Json.Validation.Constraints
         }
 
         public override Result DoMatch(JToken token, IJsonValidationContext context)
-            => Constraints.Aggregate((Result)null, (a, b) => a | b.DoMatch(token, context));
+            => Constraints.Select(c => c.DoMatch(token, context)).Aggregate((a,b) => a |b);
+            
 
         public override string ToString()
             => string.Join(" OR ", Constraints);

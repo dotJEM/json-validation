@@ -4,4 +4,9 @@
     {
         public override bool IsValid => true;
     }
+
+    public class SkippedResult : Result
+    {
+        public override bool IsValid => true;
+    }
 }
