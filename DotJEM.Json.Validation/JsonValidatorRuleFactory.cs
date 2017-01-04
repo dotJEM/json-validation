@@ -4,12 +4,13 @@ using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Factories;
 using DotJEM.Json.Validation.Rules;
 using DotJEM.Json.Validation.Selectors;
+using DotJEM.Json.Validation.Visitors;
 
 namespace DotJEM.Json.Validation
 {
     public interface IJsonValidatorRuleFactory
     {
-        void Then(JsonRule validator);
+        void Then(Rule validator);
         void Then(FieldSelector selector, CapturedConstraint validator);
         void Then(FieldSelector selector, string alias, CapturedConstraint validator);
         void Then(ISelfReferencingRule @ref, CapturedConstraint constraint);
@@ -21,10 +22,10 @@ namespace DotJEM.Json.Validation
 
     public class JsonValidatorRuleFactory : IJsonValidatorRuleFactory
     {
-        private readonly JsonRule rule;
+        private readonly Rule rule;
         private readonly JsonValidator validator;
 
-        public JsonValidatorRuleFactory(JsonValidator validator, JsonRule rule)
+        public JsonValidatorRuleFactory(JsonValidator validator, Rule rule)
         {
             this.validator = validator;
             this.rule = rule;
@@ -32,7 +33,7 @@ namespace DotJEM.Json.Validation
 
         public void Then(FieldSelector selector, CapturedConstraint constraint) => Then(selector, selector.Path, constraint);
 
-        public void Then(FieldSelector selector, string alias, CapturedConstraint constraint) => Then(new BasicJsonRule(selector, alias, constraint));
+        public void Then(FieldSelector selector, string alias, CapturedConstraint constraint) => Then(new BasicRule(selector, alias, constraint));
 
         public void Then(ISelfReferencingRule @ref, CapturedConstraint constraint)
         {
@@ -46,7 +47,7 @@ namespace DotJEM.Json.Validation
                 throw new InvalidOperationException("A self referencing rule (It) can only be used when a single field is used in the When clause.", ex);
             }
         }
-        public void Then(JsonRule rule)
+        public void Then(Rule rule)
         {
             //Note: Captured Rule.
             //rule.ContextInfo = "Then";
@@ -80,12 +81,12 @@ namespace DotJEM.Json.Validation
 
     public class ForFieldSelector : IForFieldSelector
     {
-        private readonly JsonRule rule;
+        private readonly Rule rule;
         private readonly JsonValidator validator;
         private readonly JsonValidatorRuleFactory factory;
 
 
-        public ForFieldSelector(JsonValidatorRuleFactory factory, JsonRule rule, JsonValidator validator)
+        public ForFieldSelector(JsonValidatorRuleFactory factory, Rule rule, JsonValidator validator)
         {
             this.factory = factory;
             this.rule = rule;

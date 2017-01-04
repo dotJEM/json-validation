@@ -14,9 +14,6 @@ namespace DotJEM.Json.Validation.Constraints.Comparables
             this.maxValue = maxValue;
         }
 
-        protected override bool Matches(T value, IJsonValidationContext context)
-        {
-            return value.CompareTo(maxValue) < 0;
-        }
+        protected override bool Matches(T value, IJsonValidationContext context) => value.CompareTo(maxValue) < 0;
     }
 }

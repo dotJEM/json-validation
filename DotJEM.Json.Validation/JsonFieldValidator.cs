@@ -8,21 +8,21 @@ namespace DotJEM.Json.Validation
 {
     public class JsonFieldValidator
     {
-        private readonly JsonRule guard;
-        private readonly JsonRule rule;
+        public Rule Guard { get; }
+        public Rule Rule { get; }
 
-        public JsonFieldValidator(JsonRule guard, JsonRule rule)
+        public JsonFieldValidator(Rule guard, Rule rule)
         {
-            this.guard = guard.Optimize();
-            this.rule = rule.Optimize();
+            Guard = guard.Optimize();
+            Rule = rule.Optimize();
         }
 
         public Result Validate(JObject entity, IJsonValidationContext context)
         {
-            Result gr = guard.Test(entity, context);
+            Result gr = Guard.Test(entity, context);
             return !gr.IsValid 
                 ? new FieldResult(this, gr, new SkippedResult())
-                : new FieldResult(this, gr, rule.Test(entity, context));
+                : new FieldResult(this, gr, Rule.Test(entity, context));
         }
     }
 }

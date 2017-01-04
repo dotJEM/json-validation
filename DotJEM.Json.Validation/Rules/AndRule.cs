@@ -6,13 +6,13 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
-    public sealed class OrJsonRule : CompositeJsonRule
+    public sealed class AndRule : CompositeRule
     {
-        public OrJsonRule()
+        public AndRule()
         {
         }
 
-        public OrJsonRule(params JsonRule[] rules)
+        public AndRule(params Rule[] rules) 
             : base(rules)
         {
         }
@@ -22,15 +22,12 @@ namespace DotJEM.Json.Validation.Rules
             //TODO: Lazy
             return Rules
                 .Select(rule => rule.Test(entity, context))
-                .Aggregate((a, b) =>
-                {
-                    return a | b;
-                });
+                .Aggregate((a,b) => a & b);
         }
 
-        public override JsonRule Optimize()
+        public override Rule Optimize()
         {
-            return OptimizeAs<OrJsonRule>();
+            return OptimizeAs<AndRule>();
         }
     }
 }

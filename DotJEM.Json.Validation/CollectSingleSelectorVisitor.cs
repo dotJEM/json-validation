@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Linq;
 using DotJEM.Json.Validation.Rules;
+using DotJEM.Json.Validation.Visitors;
 
 namespace DotJEM.Json.Validation
 {
-    public class CollectSingleSelectorVisitor : JsonRuleVisitor, IJsonRuleVisitor<CompositeJsonRule>, IJsonRuleVisitor<BasicJsonRule>, IJsonRuleVisitor<NotJsonRule>, IJsonRuleVisitor<FuncJsonRule>
+    public class CollectSingleSelectorVisitor : RuleVisitor
     {
         //private bool root = true;
 
         public string SelectorPath { get; private set; }
         public string Alias { get; private set; }
 
-        public IJsonRuleVisitor Visit(CompositeJsonRule rule)
+        public override void Visit(CompositeRule visitee)
         {
             //root = false;
-            return rule.Rules.Aggregate(this, (visitor, r) => r.Accept(visitor));
+            visitee.Rules.Aggregate(this, (visitor, r) => r.Accept(visitor));
         }
 
-        public IJsonRuleVisitor Visit(NotJsonRule rule)
+        public override void Visit(NotRule visitee)
         {
-            return rule.Rule.Accept(this);
+            visitee.Rule.Accept(this);
         }
 
-        public IJsonRuleVisitor Visit(FuncJsonRule rule)
+        public override void Visit(FuncRule rule)
         {
             //TODO : Support for using lambdas to select values.
             //if(!root)
@@ -30,32 +31,30 @@ namespace DotJEM.Json.Validation
             //return this;
         }
 
-        public IJsonRuleVisitor Visit(BasicJsonRule rule)
+        public override void Visit(BasicRule visitee)
         {
             if (SelectorPath == null)
             {
-                SelectorPath = rule.Selector.Path;
-                Alias = rule.Alias;
-                return this;
+                SelectorPath = visitee.Selector.Path;
+                Alias = visitee.Alias;
+                return;
             }
 
-            if (SelectorPath != rule.Selector.Path)
+            if (SelectorPath != visitee.Selector.Path)
                 throw new InvalidOperationException("Json Rule Tree had multiple different selectors.");
 
             if (Alias == null)
             {
                 //Note: If Alias is null, we allow the next rule to provide one.
-                Alias = rule.Alias;
-                return this;
+                Alias = visitee.Alias;
+                return;
             }
 
-            if (Alias != rule.Alias)
+            if (Alias != visitee.Alias)
             {
                 //Note: If multiple aliases was found, we defer back to the selector.
                 Alias = SelectorPath;
             }
-
-            return this;
         }
     }
 }

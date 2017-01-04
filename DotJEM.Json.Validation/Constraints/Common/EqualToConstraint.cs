@@ -17,6 +17,11 @@ namespace DotJEM.Json.Validation.Constraints.Common
         public override bool Matches(JToken token, IJsonValidationContext context)
         {
             //TODO: This is a bit heavy for simple values, it only makes sense for objects and arrays.
+
+            if (value == null)
+            {
+                return token == null || token.Type == JTokenType.Null;
+            }
             return JToken.DeepEquals(token, JToken.FromObject(value));
         }
     }

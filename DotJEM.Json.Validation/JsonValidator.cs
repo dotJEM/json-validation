@@ -24,6 +24,8 @@ namespace DotJEM.Json.Validation
     {
         private readonly List<JsonFieldValidator> validators = new List<JsonFieldValidator>();
 
+        public IEnumerable<JsonFieldValidator> Validators => validators;
+
         protected IGuardConstraintFactory Is { get; } = new ConstraintFactory(null, "is");
         protected IGuardConstraintFactory Has { get; } = new ConstraintFactory(null, "has");
         protected IValidatorConstraintFactory Must { get; } = new ValidatorConstraintFactory(null, "must");
@@ -31,12 +33,12 @@ namespace DotJEM.Json.Validation
 
         protected ISelfReferencingRule It { get; } = new SelfReferencingRule();
 
-        public IBeConstraintFactory Be { get; } = new ConstraintFactory(null, "be");
-        public IHaveConstraintFactory Have { get; } = new ConstraintFactory(null, "have");
+        protected IBeConstraintFactory Be { get; } = new ConstraintFactory(null, "be");
+        protected IHaveConstraintFactory Have { get; } = new ConstraintFactory(null, "have");
 
-        protected JsonRule Any => new AnyJsonRule();
-        
-        protected IJsonValidatorRuleFactory When(JsonRule rule)
+        protected Rule Any => new AnyRule();
+
+        protected IJsonValidatorRuleFactory When(Rule rule)
         {
             if (rule == null) throw new ArgumentNullException(nameof(rule));
             //Note: Captured Rule.
@@ -49,7 +51,7 @@ namespace DotJEM.Json.Validation
         //       - When this happens, many of these WHEN and FIELD methods can actually be extensions (Can't remember if that forces "this.", if so we don't wan't that).
         protected IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc, string explain)
         {
-            return When(new FuncJsonRule(constraintFunc, explain));
+            return When(new FuncRule(constraintFunc, explain));
         }
 
         protected IJsonValidatorRuleFactory When(FieldSelector selector, Func<JToken, bool> constraintFunc, string explain)
@@ -82,28 +84,28 @@ namespace DotJEM.Json.Validation
             return When(Field(selector, alias, captured));
         }
 
-        protected JsonRule Field(FieldSelector selector, CapturedConstraint captured)
+        protected Rule Field(FieldSelector selector, CapturedConstraint captured)
         {
             return Field(selector, selector.Path, captured);
         }
 
-        protected JsonRule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        protected Rule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return Field(selector, selector.Path, Is.Matching(constraintFunc, explain));
         }
 
-        protected JsonRule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        protected Rule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return Field(selector, alias, Is.Matching(constraintFunc, explain));
         }
 
-        protected JsonRule Field(FieldSelector selector, string alias, CapturedConstraint captured)
+        protected Rule Field(FieldSelector selector, string alias, CapturedConstraint captured)
         {
             if (selector == null) throw new ArgumentNullException(nameof(selector));
             if (captured == null) throw new ArgumentNullException(nameof(captured));
             if (alias == null) throw new ArgumentNullException(nameof(alias));
 
-            return new BasicJsonRule(selector, alias, captured);
+            return new BasicRule(selector, alias, captured);
         }
 
         protected IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()
@@ -129,7 +131,7 @@ namespace DotJEM.Json.Validation
         public virtual ValidatorResult Validate(JObject entity, IJsonValidationContext context)
         {
             IEnumerable<Result> results
-                = from validator in validators
+                = from validator in Validators
                   let result = validator.Validate(entity, context)
                   where result != null
                   select result.Optimize();

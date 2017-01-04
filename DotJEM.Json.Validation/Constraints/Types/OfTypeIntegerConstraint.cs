@@ -17,6 +17,8 @@ namespace DotJEM.Json.Validation.Constraints.Types
 
         public override bool Matches(JToken token, IJsonValidationContext context)
         {
+            if (token == null) return false;
+         
             //Note: If the token type matches we are happy regardless.
             if (token.Type == JTokenType.Integer) return true;
 

@@ -5,11 +5,11 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
-    public sealed class NotJsonRule : JsonRule
+    public sealed class NotRule : Rule
     {
-        public JsonRule Rule { get; }
+        public Rule Rule { get; }
 
-        public NotJsonRule(JsonRule rule)
+        public NotRule(Rule rule)
         {
             Rule = rule;
         }
@@ -19,9 +19,9 @@ namespace DotJEM.Json.Validation.Rules
             return !Rule.Test(entity, contenxt);
         }
 
-        public override JsonRule Optimize()
+        public override Rule Optimize()
         {
-            NotJsonRule not = Rule as NotJsonRule;
+            NotRule not = Rule as NotRule;
             return not != null ? not.Rule : base.Optimize();
         }
     }

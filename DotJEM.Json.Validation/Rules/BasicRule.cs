@@ -13,19 +13,19 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
-    [DebuggerDisplay("{Selector}  {constraint}")]
-    public sealed class BasicJsonRule : JsonRule
+    [DebuggerDisplay("{Selector}  {Constraint}")]
+    public sealed class BasicRule : Rule
     {
         public FieldSelector Selector { get; }
         public string Alias { get; }
 
-        private readonly JsonConstraint constraint;
+        public JsonConstraint Constraint { get; }
 
-        public BasicJsonRule(FieldSelector selector, string alias, CapturedConstraint constraint)
+        public BasicRule(FieldSelector selector, string alias, CapturedConstraint constraint)
         {
             this.Selector = selector;
             this.Alias = alias;
-            this.constraint = constraint.Constraint.Optimize();
+            this.Constraint = constraint.Constraint.Optimize();
         }
 
         public override Result Test(JObject entity, IJsonValidationContext context)
@@ -33,33 +33,33 @@ namespace DotJEM.Json.Validation.Rules
             var tokens = Selector.SelectTokens(entity).ToArray();
             return new AndResult(
                 (from token in tokens
-                 select (Result)new RuleResult(this, constraint.DoMatch(token, context))).ToList());
+                 select (Result)new RuleResult(this, Constraint.DoMatch(token, context))).ToList());
         }
     }
 
-    public sealed class EmbededValidatorRule : JsonRule
+    public sealed class EmbededValidatorRule : Rule
     {
         public FieldSelector Selector { get; }
         public string Alias { get; }
 
-        private readonly JsonValidator validator;
+        public JsonValidator Validator { get; }
 
         public EmbededValidatorRule(FieldSelector selector, string alias, JsonValidator validator)
         {
             Selector = selector;
             Alias = alias;
-            this.validator = validator;
+            this.Validator = validator;
         }
 
         public override Result Test(JObject entity, IJsonValidationContext context)
         {
             return new AndResult(
                 (from token in Selector.SelectTokens(entity)
-                 select (Result)new EmbededValidatorResult(this, validator.Validate((JObject)token, context))).ToList());
+                 select (Result)new EmbededValidatorResult(this, Validator.Validate((JObject)token, context))).ToList());
         }
     }
 
-    public sealed class AnyJsonRule : JsonRule
+    public sealed class AnyRule : Rule
     {
         public override Result Test(JObject entity, IJsonValidationContext contenxt)
         {
@@ -67,12 +67,12 @@ namespace DotJEM.Json.Validation.Rules
         }
     }
 
-    public sealed class FuncJsonRule : JsonRule
+    public sealed class FuncRule : Rule
     {
         private readonly string explain;
         private readonly Func<JObject, bool> func;
 
-        public FuncJsonRule(Func<JObject, bool> func, string explain)
+        public FuncRule(Func<JObject, bool> func, string explain)
         {
             this.func = func;
             this.explain = explain;

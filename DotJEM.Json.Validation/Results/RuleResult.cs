@@ -6,10 +6,10 @@ namespace DotJEM.Json.Validation.Results
     {
         public override bool IsValid => Result.IsValid;
 
-        public JsonRule Rule { get; }
+        public Rule Rule { get; }
         public Result Result { get; }
 
-        public RuleResult(JsonRule rule, Result result)
+        public RuleResult(Rule rule, Result result)
         {
             Rule = rule;
             Result = result;

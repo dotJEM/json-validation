@@ -3,18 +3,18 @@ using System.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
-    public abstract class CompositeJsonRule : JsonRule
+    public abstract class CompositeRule : Rule
     {
-        private readonly List<JsonRule> rules;
+        private readonly List<Rule> rules;
 
-        public IEnumerable<JsonRule> Rules => rules;
+        public IEnumerable<Rule> Rules => rules;
 
-        protected CompositeJsonRule(params JsonRule[] rules)
+        protected CompositeRule(params Rule[] rules)
         {
             this.rules = rules.ToList();
         }
 
-        protected JsonRule OptimizeAs<TRule>() where TRule : CompositeJsonRule, new()
+        protected Rule OptimizeAs<TRule>() where TRule : CompositeRule, new()
         {
             if (rules.Count == 1)
                 return rules[0];

@@ -49,8 +49,8 @@ namespace DotJEM.Json.Validation.Test.Visitors
             When(Field("gender", Is.Defined()) | Field("sex", Is.Defined())).Then(Field("gender", Must.Be.In("male", "female")) | Field("sex", Must.Be.In("male", "female")));
             //When("gender", Is.Defined()).Then(Field("gender", Must.Be.In("male", "female")) | Field("sex", Must.Be.In("male", "female")));
 
-            //When("name", Is.Defined()).Then(It, Must.Have.LengthBetween(10, 50) & Must.Match("^[A-Za-z\\s]+$") | Have.ExactLength(5));
-            //When("age", Is.Defined()).Then(It, Must.Be.Integer() & Be.GreaterThan(0));
+            When("name", Is.Defined()).Then(It, Must.Have.LengthBetween(10, 50) & Must.Match("^[A-Za-z\\s]+$") | Have.ExactLength(5));
+            When("age", Is.Defined()).Then(It, Must.Be.Integer() & Be.GreaterThan(0));
 
             //When("missing", Is.Defined()).Then(It, Must.Be.Boolean());
         }
@@ -72,17 +72,17 @@ namespace DotJEM.Json.Validation.Test.Visitors
                 : $"{result.Constraint.ContextInfo} {result.Constraint.Describe()} - actual value was: {result.Token ?? "NULL"}");
         }
 
-        public override void Visit(FieldResult result)
+        public override void Visit(FieldResult visitee)
         {
-            if (!result.GuardResult.IsValid)// || result.ValidationResult.IsValid)
+            if (!visitee.GuardResult.IsValid)// || result.ValidationResult.IsValid)
                 return;
 
             inguard = true;
             Write("When ");
-            result.GuardResult.Accept(this);
+            visitee.GuardResult.Accept(this);
             inguard = false;
             Write("Then ");
-            result.ValidationResult.Accept(this);
+            visitee.ValidationResult.Accept(this);
             WriteLine("");
         }
 
@@ -93,7 +93,7 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
         public override void Visit(RuleResult result)
         {
-            BasicJsonRule rule = result.Rule as BasicJsonRule;
+            BasicRule rule = result.Rule as BasicRule;
             if (rule != null)
             {
                 WriteLine($"{rule.Alias}");
@@ -101,15 +101,15 @@ namespace DotJEM.Json.Validation.Test.Visitors
             base.Visit(result);
         }
 
-        public override void Visit(FuncResult result)
+        public override void Visit(FuncResult visitee)
         {
-            Write(result.Explain);
+            Write(visitee.Explain);
         }
 
-        public override void Visit(AndResult result)
+        public override void Visit(AndResult visitee)
         {
-            List<Result> results = (inguard ? result.Results : result.Results.Where(r => !r.IsValid)).ToList();
-            results = result.Results.ToList();
+            List<Result> results = (inguard ? visitee.Results : visitee.Results.Where(r => !r.IsValid)).ToList();
+            results = visitee.Results.ToList();
             if (results.Count == 0)
                 return;
 
@@ -122,7 +122,7 @@ namespace DotJEM.Json.Validation.Test.Visitors
             WriteLine("(");
             Indent();
             bool first = true;
-            foreach (Result child in result.Results)
+            foreach (Result child in visitee.Results)
             {
                 if (!first)
                     WriteLine(" AND ");
@@ -168,12 +168,11 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
         public override void Visit(ConstraintResult result)
         {
-            WriteLine(
-                 $"{result.Constraint.ContextInfo} {result.Constraint.Describe()} - actual value was: {result.Token}");
+            WriteLine($"{result.Constraint.ContextInfo} {result.Constraint.Describe()} - actual value was: {result.Token}");
         }
     }
 
-    public abstract class AbstractDescriptor : JsonResultVisitor
+    public abstract class AbstractDescriptor : ResultVisitor
     {
         private int indent = 0;
         private readonly StringBuilder builder = new StringBuilder();

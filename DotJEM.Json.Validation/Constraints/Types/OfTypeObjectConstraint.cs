@@ -9,7 +9,8 @@ namespace DotJEM.Json.Validation.Constraints.Types
     {
         public override bool Matches(JToken token, IJsonValidationContext context)
         {
-            return token.Type == JTokenType.Object;
+            //TODO: Should null return true or falls, an object can be null after all.
+            return token != null && token.Type == JTokenType.Object;
         }
     }
 }

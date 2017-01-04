@@ -18,6 +18,8 @@ namespace DotJEM.Json.Validation.Constraints.Common.Length
         
         public override bool Matches(JToken token, IJsonValidationContext context)
         {
+            if (token == null) return false;
+
             JArray arr = token as JArray;
             if (arr != null)
                 return arr.Count >= minLength && arr.Count <= maxLength;
