@@ -38,7 +38,7 @@ namespace DotJEM.Json.Validation
 
         protected Rule Any => new AnyRule();
 
-        protected IJsonValidatorRuleFactory When(Rule rule)
+        public IJsonValidatorRuleFactory When(Rule rule)
         {
             if (rule == null) throw new ArgumentNullException(nameof(rule));
             //Note: Captured Rule.
@@ -49,57 +49,57 @@ namespace DotJEM.Json.Validation
         //TODO: There is little reason that these should not be callable from the outside of the validator, so we can make them public at some point. 
         //      (We might wan't separate interfaces for building the validator and using it)
         //       - When this happens, many of these WHEN and FIELD methods can actually be extensions (Can't remember if that forces "this.", if so we don't wan't that).
-        protected IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc, string explain)
+        public IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc, string explain)
         {
             return When(new FuncRule(constraintFunc, explain));
         }
 
-        protected IJsonValidatorRuleFactory When(FieldSelector selector, Func<JToken, bool> constraintFunc, string explain)
+        public IJsonValidatorRuleFactory When(FieldSelector selector, Func<JToken, bool> constraintFunc, string explain)
         {
             return When(Field(selector, Is.Matching(constraintFunc, explain)));
         }
 
-        protected IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<JToken, bool> constraintFunc, string explain)
+        public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<JToken, bool> constraintFunc, string explain)
         {
             return When(Field(selector, alias, Is.Matching(constraintFunc, explain)));
         }
 
-        protected IJsonValidatorRuleFactory When(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        public IJsonValidatorRuleFactory When(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return When(Field(selector, Is.Matching(constraintFunc, explain)));
         }
 
-        protected IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return When(Field(selector, alias, Is.Matching(constraintFunc, explain)));
         }
 
-        protected IJsonValidatorRuleFactory When(FieldSelector selector, CapturedConstraint captured)
+        public IJsonValidatorRuleFactory When(FieldSelector selector, CapturedConstraint captured)
         {
             return When(Field(selector, captured));
         }
 
-        protected IJsonValidatorRuleFactory When(FieldSelector selector, string alias, CapturedConstraint captured)
+        public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, CapturedConstraint captured)
         {
             return When(Field(selector, alias, captured));
         }
 
-        protected Rule Field(FieldSelector selector, CapturedConstraint captured)
+        public Rule Field(FieldSelector selector, CapturedConstraint captured)
         {
             return Field(selector, selector.Path, captured);
         }
 
-        protected Rule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        public Rule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return Field(selector, selector.Path, Is.Matching(constraintFunc, explain));
         }
 
-        protected Rule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+        public Rule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
             return Field(selector, alias, Is.Matching(constraintFunc, explain));
         }
 
-        protected Rule Field(FieldSelector selector, string alias, CapturedConstraint captured)
+        public Rule Field(FieldSelector selector, string alias, CapturedConstraint captured)
         {
             if (selector == null) throw new ArgumentNullException(nameof(selector));
             if (captured == null) throw new ArgumentNullException(nameof(captured));
@@ -108,17 +108,17 @@ namespace DotJEM.Json.Validation
             return new BasicRule(selector, alias, captured);
         }
 
-        protected IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()
+        public IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()
         {
             return When(Any).Use<TValidator>();
         }
 
-        protected IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator
+        public IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator
         {
             return When(Any).Use(instance);
         }
 
-        protected IForFieldSelector Use(Type validatorType)
+        public IForFieldSelector Use(Type validatorType)
         {
             return When(Any).Use(validatorType);
         }
