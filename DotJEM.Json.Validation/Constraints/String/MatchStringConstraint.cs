@@ -16,7 +16,7 @@ namespace DotJEM.Json.Validation.Constraints.String
 
         protected override bool Matches(string value, IJsonValidationContext context)
         {
-            return expression.IsMatch(value);
+            return value != null && expression.IsMatch(value);
         }
     }
 }

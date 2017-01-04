@@ -77,6 +77,9 @@ namespace DotJEM.Json.Validation
     {
         void For(FieldSelector selector, string alias = null);
         void For(ISelfReferencingRule selector, string alias = null);
+
+        void ForEachIn(FieldSelector selector, string alias = null);
+        void ForEachIn(ISelfReferencingRule selector, string alias = null);
     }
 
     public class ForFieldSelector : IForFieldSelector
@@ -84,7 +87,6 @@ namespace DotJEM.Json.Validation
         private readonly Rule rule;
         private readonly JsonValidator validator;
         private readonly JsonValidatorRuleFactory factory;
-
 
         public ForFieldSelector(JsonValidatorRuleFactory factory, Rule rule, JsonValidator validator)
         {
@@ -104,6 +106,24 @@ namespace DotJEM.Json.Validation
             {
                 CollectSingleSelectorVisitor visitor = rule.Accept(new CollectSingleSelectorVisitor());
                 For(visitor.SelectorPath, alias);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new InvalidOperationException("A self referencing rule (It) can only be used when a single field is used in the When clause.", ex);
+            }
+        }
+
+        public void ForEachIn(FieldSelector selector, string alias = null)
+        {
+            For(selector + "[*]", alias);
+        }
+
+        public void ForEachIn(ISelfReferencingRule selector, string alias = null)
+        {
+            try
+            {
+                CollectSingleSelectorVisitor visitor = rule.Accept(new CollectSingleSelectorVisitor());
+                For(visitor.SelectorPath + "[*]", alias);
             }
             catch (InvalidOperationException ex)
             {

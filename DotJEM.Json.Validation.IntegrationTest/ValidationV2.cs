@@ -62,6 +62,9 @@ namespace DotJEM.Json.Validation.IntegrationTest
             When(Any).Then("test", Must.Have.LengthBetween(16,32));
             When("other", x => (string)x == "0", "When other is 0").Then(Field("a", Must.Match("\\w{3}")));
             Use<ChildValidator>().For("sub");
+
+            When("soimething", Is.Defined()).Use<ChildValidator>().ForEachIn(It);
+
             //When(Any).Then("x", Must.Have.MinLength(3));
 
             //When(Any).Then("something", Must.Match(token => (bool?)token == true, "somthing must be boolean and true!"));

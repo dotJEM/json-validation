@@ -27,6 +27,11 @@ namespace DotJEM.Json.Validation.Selectors
         }
 
         public abstract IEnumerable<JToken> SelectTokens(JObject entity);
+
+        public static FieldSelector operator +(FieldSelector left, FieldSelector right)
+        {
+            return left.Path + right.Path;
+        }
     }
 
     public class MultiFieldSelector : FieldSelector
