@@ -30,7 +30,7 @@ namespace DotJEM.Json.Validation.Rules
 
         public override Result Test(JObject entity, IJsonValidationContext context)
         {
-            JToken[] tokens = Selector.SelectTokens(entity).ToArray();
+            IEnumerable<JToken> tokens = Selector.SelectTokens(entity);
             return new AndResult(
                 (from token in tokens
                  select (Result)new RuleResult(this, Constraint.DoMatch(token, context))).ToList());
@@ -53,7 +53,7 @@ namespace DotJEM.Json.Validation.Rules
 
         public override Result Test(JObject entity, IJsonValidationContext context)
         {
-            JToken[] tokens = Selector.SelectTokens(entity).ToArray();
+            IEnumerable<JToken> tokens = Selector.SelectTokens(entity);
             return new AndResult(
                 (from token in tokens
                  select (Result)new EmbededValidatorResult(this, Validator.Validate((JObject)token, context))).ToList());

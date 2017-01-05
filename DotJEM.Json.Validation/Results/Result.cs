@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DotJEM.Json.Validation.Results
 {
+    [DebuggerDisplay("HasErrors: {HasErrors}")]
     public abstract class Result
     {
         //TODO: Value = IsValid and add HasErrors.
