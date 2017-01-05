@@ -45,7 +45,8 @@ namespace DotJEM.Json.Validation.Test.Visitors
         public FakeValidator()
         {
             //TOOD: This is not working. - One error is in the BasicJsonRule - When we select an item, if there is no items, we have a empty result.
-            When(Field("gender", Is.Defined()) | Field("sex", Is.Defined())).Then(Field("gender", Must.Be.In("male", "female")) | Field("sex", Must.Be.In("male", "female")));
+            When(Field("gender", Is.Defined()) | Field("sex", Is.Defined()))
+                .Then(Field("gender", Must.Be.In("male", "female")) | Field("sex", Must.Be.In("male", "female")));
             //When("gender", Is.Defined()).Then(Field("gender", Must.Be.In("male", "female")) | Field("sex", Must.Be.In("male", "female")));
 
             When("name", Is.Defined()).Then(It, Must.Have.LengthBetween(10, 50) & Must.Match("^[A-Za-z\\s]+$") | Have.ExactLength(5));

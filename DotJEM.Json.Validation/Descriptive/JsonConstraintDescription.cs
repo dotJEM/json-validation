@@ -124,7 +124,7 @@ namespace DotJEM.Json.Validation.Descriptive
 
         public override void Visit(FieldResult visitee)
         {
-            if (!visitee.GuardResult.IsValid)// || result.ValidationResult.IsValid)
+            if (!visitee.GuardResult.IsValid || visitee.ValidationResult.IsValid)
                 return;
 
             inguard = true;

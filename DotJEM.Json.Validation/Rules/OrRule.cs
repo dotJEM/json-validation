@@ -22,10 +22,7 @@ namespace DotJEM.Json.Validation.Rules
             //TODO: Lazy
             return Rules
                 .Select(rule => rule.Test(entity, context))
-                .Aggregate((a, b) =>
-                {
-                    return a | b;
-                });
+                .Aggregate((a, b) => a | b);
         }
 
         public override Rule Optimize()
