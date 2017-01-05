@@ -29,7 +29,7 @@ namespace DotJEM.Json.Validation.Test.Visitors
             Result result = validator.Validate(JObject.Parse("{ name: 'Peter Pan', age: -1, gender: 'mouse' }"), null);
 
             //var visitor = result.Accept(new DescribeFailurePathVisitor());
-            string description = result.Describe();
+            string description = result.Describe< FakeDescribeFailurePath>();
             Console.WriteLine(description);
 
             string basic = descriptor.Describe(result);
@@ -40,9 +40,27 @@ namespace DotJEM.Json.Validation.Test.Visitors
         }
     }
 
-    public class ValueDescriptor : JsonValidator
+    public class FakeDescribeFailurePath : DescribeFailurePath
     {
-        
+        public override void Visit(FieldResult visitee)
+        {
+            if (!visitee.GuardResult.IsValid || visitee.ValidationResult.IsValid)
+                return;
+
+            inguard = true;
+            WriteLine($"When : (IsValid = {visitee.GuardResult.IsValid})");
+            using (Indent())
+            {
+                visitee.GuardResult.Accept(this);
+            }
+            inguard = false;
+            WriteLine($"Then : (IsValid = {visitee.ValidationResult.IsValid})");
+            using (Indent())
+            {
+                visitee.ValidationResult.Accept(this);
+            }
+            WriteLine("");
+        }
     }
 
     public class FakeValidator : JsonValidator

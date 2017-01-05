@@ -64,6 +64,7 @@
     <Compile Include="Constraints\Comparables\ComparableConstraintFactoryExtensions.cs" />
     <Compile Include="Constraints\OrJsonConstraint.cs" />
     <Compile Include="Constraints\Common\FunctionalConstraint.cs" />
+    <Compile Include="Constraints\String\StringInConstraint.cs" />
     <Compile Include="Constraints\String\Length\ExactStringLengthConstraint.cs" />
     <Compile Include="Constraints\String\Length\MaxStringLengthConstraint.cs" />
     <Compile Include="Constraints\String\Length\MinStringLengthConstraint.cs" />

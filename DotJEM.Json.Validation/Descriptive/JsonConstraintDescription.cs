@@ -108,7 +108,7 @@ namespace DotJEM.Json.Validation.Descriptive
 
     public class DescribeFailurePath : AbstractDescriptor
     {
-        private bool inguard = false;
+        protected bool inguard = false;
 
         public override void Visit(Result result)
         {

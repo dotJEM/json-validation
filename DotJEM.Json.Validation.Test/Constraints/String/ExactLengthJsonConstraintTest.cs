@@ -80,7 +80,22 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
         [TestCase("helloWorld", StringComparison.CurrentCultureIgnoreCase, "equal to 'helloWorld' (CurrentCultureIgnoreCase).")]
         public void Describe_FormatsDescription(string str, StringComparison comparison, string expected)
         {
-            Assert.That(new StringEqualsConstraint(str, comparison).Describe().ToString(), Is.EqualTo(expected));
+            Assert.That(new StringEqualsConstraint(str, LookupComparer(comparison)).Describe().ToString(), Is.EqualTo(expected));
+        }
+
+        private static StringComparer LookupComparer(StringComparison comparison)
+        {
+            switch (comparison)
+            {
+                case StringComparison.CurrentCulture: return StringComparer.CurrentCulture;
+                case StringComparison.CurrentCultureIgnoreCase: return StringComparer.CurrentCultureIgnoreCase;
+                case StringComparison.InvariantCulture: return StringComparer.InvariantCulture;
+                case StringComparison.InvariantCultureIgnoreCase: return StringComparer.InvariantCultureIgnoreCase;
+                case StringComparison.Ordinal: return StringComparer.Ordinal;
+                case StringComparison.OrdinalIgnoreCase: return StringComparer.OrdinalIgnoreCase;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(comparison), comparison, null);
+            }
         }
     }
 

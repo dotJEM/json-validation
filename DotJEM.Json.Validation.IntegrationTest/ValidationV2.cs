@@ -64,6 +64,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
             Use<ChildValidator>().For("sub");
 
             When("soimething", Is.Defined()).Use<ChildValidator>().ForEachIn(It);
+
             //Must.Have.AtLeast(1).Items();
 
             //When(Any).Then("x", Must.Have.MinLength(3));

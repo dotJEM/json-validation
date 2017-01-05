@@ -5,23 +5,37 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.String
 {
-    [JsonConstraintDescription("equal to '{value}' ({comparison}).")]
+    [JsonConstraintDescription("equal to '{value}' using {comparison} comparison")]
     public class StringEqualsConstraint : TypedJsonConstraint<string>
     {
         private readonly string value;
-        private readonly StringComparison comparison;
+        private readonly string comparison;
+        private readonly StringComparer comparer;
         
-        public StringEqualsConstraint(string value, StringComparison comparison = StringComparison.Ordinal)
+        public StringEqualsConstraint(string value, StringComparer comparer)
         {
             this.value = value;
-            this.comparison = comparison;
+            this.comparer = comparer;
+            comparison = comparer.ToComparisonDescription();
         }
 
         protected override bool Matches(string value, IJsonValidationContext context)
         {
-            return value.Equals(this.value, comparison);
+            return comparer.Equals(value, this.value);
         }
     }
 
-
+    public static class StringComparerExtensions
+    {
+        public static string ToComparisonDescription(this StringComparer self)
+        {
+            if (self == StringComparer.Ordinal) return "Ordinal";
+            if (self == StringComparer.OrdinalIgnoreCase) return "OrdinalIgnoreCase";
+            if (self == StringComparer.InvariantCulture) return "InvariantCulture";
+            if (self == StringComparer.InvariantCultureIgnoreCase) return "InvariantCultureIgnoreCase";
+            if (self == StringComparer.CurrentCulture) return "CurrentCulture";
+            if (self == StringComparer.CurrentCultureIgnoreCase) return "CurrentCultureIgnoreCase";
+            return self.ToString();
+        }
+    }
 }
