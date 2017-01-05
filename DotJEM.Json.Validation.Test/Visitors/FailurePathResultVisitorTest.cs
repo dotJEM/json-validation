@@ -29,8 +29,7 @@ namespace DotJEM.Json.Validation.Test.Visitors
             Result result = validator.Validate(JObject.Parse("{ name: 'Peter Pan', age: -1, gender: 'mouse' }"), null);
 
             //var visitor = result.Accept(new DescribeFailurePathVisitor());
-            var visitor = new DescribeFailurePathVisitor();
-            string description = visitor.Describe(result);
+            string description = result.Describe();
             Console.WriteLine(description);
 
             string basic = descriptor.Describe(result);
@@ -56,108 +55,6 @@ namespace DotJEM.Json.Validation.Test.Visitors
         }
     }
 
-    public class DescribeFailurePathVisitor : AbstractDescriptor
-    {
-        private bool inguard = false;
-
-        public override void Visit(Result result)
-        {
-            WriteLine(result.ToString());
-        }
-
-        public override void Visit(ConstraintResult result)
-        {
-            WriteLine(inguard
-                ? $"{result.Constraint.ContextInfo} {result.Constraint.Describe()}"
-                : $"{result.Constraint.ContextInfo} {result.Constraint.Describe()} - actual value was: {result.Token ?? "NULL"}");
-        }
-
-        public override void Visit(FieldResult visitee)
-        {
-            if (!visitee.GuardResult.IsValid)// || result.ValidationResult.IsValid)
-                return;
-
-            inguard = true;
-            Write("When ");
-            visitee.GuardResult.Accept(this);
-            inguard = false;
-            Write("Then ");
-            visitee.ValidationResult.Accept(this);
-            WriteLine("");
-        }
-
-        public override void Visit(AnyResult result)
-        {
-            WriteLine("ANY");
-        }
-
-        public override void Visit(RuleResult result)
-        {
-            BasicRule rule = result.Rule as BasicRule;
-            if (rule != null)
-            {
-                WriteLine($"{rule.Alias}");
-            }
-            base.Visit(result);
-        }
-
-        public override void Visit(FuncResult visitee)
-        {
-            Write(visitee.Explain);
-        }
-
-        public override void Visit(AndResult visitee)
-        {
-            List<Result> results = (inguard ? visitee.Results : visitee.Results.Where(r => !r.IsValid)).ToList();
-            results = visitee.Results.ToList();
-            if (results.Count == 0)
-                return;
-
-            if (results.Count == 1)
-            {
-                results.First().Accept(this);
-                return;
-            }
-            
-            WriteLine("(");
-            Indent();
-            bool first = true;
-            foreach (Result child in visitee.Results)
-            {
-                if (!first)
-                    WriteLine(" AND ");
-
-                first = false;
-                child.Accept(this);
-            }
-            Outdent();
-            WriteLine(")");
-        }
-
-
-        public override void Visit(OrResult result)
-        {
-            WriteLine("(");
-            Indent();
-            bool first = true;
-            foreach (Result child in result.Results)
-            {
-                if (!first)
-                    Write(" OR ");
-
-                first = false;
-                child.Accept(this);
-            }
-            Outdent();
-            WriteLine(")");
-        }
-
-        public override void Visit(NotResult result)
-        {
-            WriteLine("NOT");
-            base.Visit(result);
-        }
-    }
 
     public class BasicFakeDescriptor : AbstractDescriptor
     {
@@ -171,44 +68,5 @@ namespace DotJEM.Json.Validation.Test.Visitors
             WriteLine($"{result.Constraint.ContextInfo} {result.Constraint.Describe()} - actual value was: {result.Token}");
         }
     }
-
-    public abstract class AbstractDescriptor : ResultVisitor
-    {
-        private int indent = 0;
-        private readonly StringBuilder builder = new StringBuilder();
-
-        public string Message => builder.ToString();
-
-        public string Describe(Result result)
-        {
-            result = result.Optimize();
-
-            builder.Clear();
-            result.Accept(this);
-            return Message;
-        }
-
-        protected void Indent()
-        {
-            indent += 2;
-        }
-
-        protected void Outdent()
-        {
-            indent -= 2;
-        }
-
-        protected void Write(string message)
-        {
-            builder.Append(message);
-        }
-
-        protected void WriteLine(string message)
-        {
-            if (indent > 0)
-                builder.AppendLine(new string(' ', indent) + message);
-            else
-                builder.AppendLine(message);
-        }
-    }
+    
 }

@@ -1,13 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using DotJEM.Json.Validation.Constraints;
+using DotJEM.Json.Validation.Results;
+using DotJEM.Json.Validation.Rules;
+using DotJEM.Json.Validation.Visitors;
 
 namespace DotJEM.Json.Validation.Descriptive
 {
-    public static class JsonConstraintDesciptionExtensions
+    public static class DesciptionExtensions
     {
         public static IDescription Describe(this JsonConstraint self)
         {
@@ -15,6 +19,201 @@ namespace DotJEM.Json.Validation.Descriptive
                 .GetCustomAttribute<JsonConstraintDescriptionAttribute>(false);
 
             return new JsonConstraintDescription(self, att?.Format);
+        }
+
+        //TODO: Return a IDescription and utilize that in the Descriptor/Visitor...
+        public static string Describe(this Result self)
+        {
+            return self.Describe<DescribeFailurePath>();
+        }
+
+        //TODO: Return a IDescription and utilize that in the Descriptor/Visitor...
+        public static string Describe<TDescriptor>(this Result self) where TDescriptor : AbstractDescriptor, new()
+        {
+            return new TDescriptor().Describe(self);
+        }
+    }
+
+    public abstract class AbstractDescriptor : ResultVisitor
+    {
+        //TODO: Would like a more stateless pattern where methods in the descriptor returns a value or takes a stringbuilder or html builder etc.
+        //      This will do for now.
+        private Indentation indent;
+        private readonly StringBuilder builder;
+
+        protected AbstractDescriptor()
+        {
+            indent = new Indentation(this);
+            builder = new StringBuilder();
+        }
+
+        public string Describe(Result result)
+        {
+            builder.Clear();
+            result = result.Optimize();
+            result.Accept(this);
+            return builder.ToString();
+        }
+
+        protected IDisposable Indent()
+        {
+            return indent = indent.Down();
+        }
+
+        protected AbstractDescriptor Write(string message)
+        {
+            builder.Append(message);
+            return this;
+        }
+
+        protected AbstractDescriptor WriteLine(string message)
+        {
+            builder.AppendLine(indent + message);
+            return this;
+        }
+
+        private class Indentation : IDisposable
+        {
+            private readonly int count;
+            private readonly Indentation parent;
+            private readonly AbstractDescriptor descriptor;
+
+            public Indentation(AbstractDescriptor descriptor) : this(0, descriptor)
+            {
+            }
+
+            private Indentation(int count, AbstractDescriptor descriptor, Indentation parent = null)
+            {
+                this.count = count;
+                this.parent = parent;
+                this.descriptor = descriptor;
+            }
+
+            public void Dispose()
+            {
+                descriptor.indent = parent;
+            }
+
+            public Indentation Down()
+            {
+                return new Indentation(count+1, descriptor, this);
+            }
+
+            public override string ToString()
+            {
+                return new string(' ', count*4);
+            }
+        }
+    }
+
+    public class DescribeFailurePath : AbstractDescriptor
+    {
+        private bool inguard = false;
+
+        public override void Visit(Result result)
+        {
+            WriteLine(result.ToString());
+        }
+
+        public override void Visit(ConstraintResult result)
+        {
+            WriteLine(inguard
+                ? $"{result.Constraint.ContextInfo} {result.Constraint.Describe()}"
+                : $"{result.Constraint.ContextInfo} {result.Constraint.Describe()} - actual value was: {result.Token ?? "NULL"}");
+        }
+
+        public override void Visit(FieldResult visitee)
+        {
+            if (!visitee.GuardResult.IsValid)// || result.ValidationResult.IsValid)
+                return;
+
+            inguard = true;
+            WriteLine("When");
+            using (Indent())
+            {
+                visitee.GuardResult.Accept(this);
+            }
+            inguard = false;
+            WriteLine("Then");
+            using (Indent())
+            {
+                visitee.ValidationResult.Accept(this);
+            }
+            WriteLine("");
+        }
+
+        public override void Visit(AnyResult result)
+        {
+            WriteLine("ANY");
+        }
+
+        public override void Visit(RuleResult result)
+        {
+            BasicRule rule = result.Rule as BasicRule;
+            if (rule != null)
+            {
+                WriteLine($"{rule.Alias}");
+            }
+            base.Visit(result);
+        }
+
+        public override void Visit(FuncResult visitee)
+        {
+            Write(visitee.Explain);
+        }
+
+        public override void Visit(AndResult visitee)
+        {
+            List<Result> results = (inguard ? visitee.Results : visitee.Results.Where(r => !r.IsValid)).ToList();
+            results = visitee.Results.ToList();
+            if (results.Count == 0)
+                return;
+
+            if (results.Count == 1)
+            {
+                results.First().Accept(this);
+                return;
+            }
+
+            WriteLine("(");
+            using (Indent())
+            {
+                bool first = true;
+                foreach (Result child in visitee.Results)
+                {
+                    if (!first)
+                        WriteLine("AND");
+
+                    first = false;
+                    child.Accept(this);
+                }
+            }
+            WriteLine(")");
+        }
+
+
+        public override void Visit(OrResult result)
+        {
+            WriteLine("(");
+            using (Indent())
+            {
+                bool first = true;
+                foreach (Result child in result.Results)
+                {
+                    if (!first)
+                        WriteLine("OR");
+
+                    first = false;
+                    child.Accept(this);
+                }
+            }
+            WriteLine(")");
+        }
+
+        public override void Visit(NotResult result)
+        {
+            WriteLine("NOT");
+            base.Visit(result);
         }
     }
 

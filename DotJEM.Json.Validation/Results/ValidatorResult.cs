@@ -13,6 +13,15 @@ namespace DotJEM.Json.Validation.Results
 
         public IEnumerable<Result> Results => results;
 
+        public ValidatorResult(IJsonValidator context, params Result[] results) 
+            : this(context, results.ToList())
+        {
+        }
+        public ValidatorResult(IJsonValidator context, IEnumerable<Result> results)
+            : this(context, results.ToList())
+        {
+        }
+
         public ValidatorResult(IJsonValidator context, List<Result> results)
         {
             Context = context;
