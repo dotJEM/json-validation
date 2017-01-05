@@ -165,7 +165,7 @@ namespace DotJEM.Json.Validation.Descriptive
         public override void Visit(AndResult visitee)
         {
             List<Result> results = (inguard ? visitee.Results : visitee.Results.Where(r => !r.IsValid)).ToList();
-            results = visitee.Results.ToList();
+            //results = visitee.Results.ToList();
             if (results.Count == 0)
                 return;
 

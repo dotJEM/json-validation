@@ -40,6 +40,11 @@ namespace DotJEM.Json.Validation.Test.Visitors
         }
     }
 
+    public class ValueDescriptor : JsonValidator
+    {
+        
+    }
+
     public class FakeValidator : JsonValidator
     {
         public FakeValidator()
