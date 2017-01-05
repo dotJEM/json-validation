@@ -75,9 +75,9 @@ namespace DotJEM.Web.Host.Test.Validation2.Constraints.String
     [TestFixture]
     public class StringEqualsJsonConstraintTest
     {
-        [TestCase("helloWorld", StringComparison.InvariantCulture, "equal to 'helloWorld' (InvariantCulture).")]
-        [TestCase("helloWorld", StringComparison.Ordinal, "equal to 'helloWorld' (Ordinal).")]
-        [TestCase("helloWorld", StringComparison.CurrentCultureIgnoreCase, "equal to 'helloWorld' (CurrentCultureIgnoreCase).")]
+        [TestCase("helloWorld", StringComparison.InvariantCulture, "equal to 'helloWorld' using InvariantCulture comparison")]
+        [TestCase("helloWorld", StringComparison.Ordinal, "equal to 'helloWorld' using Ordinal comparison")]
+        [TestCase("helloWorld", StringComparison.CurrentCultureIgnoreCase, "equal to 'helloWorld' using CurrentCultureIgnoreCase comparison")]
         public void Describe_FormatsDescription(string str, StringComparison comparison, string expected)
         {
             Assert.That(new StringEqualsConstraint(str, LookupComparer(comparison)).Describe().ToString(), Is.EqualTo(expected));

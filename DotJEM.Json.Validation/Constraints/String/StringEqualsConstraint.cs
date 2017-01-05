@@ -29,12 +29,12 @@ namespace DotJEM.Json.Validation.Constraints.String
     {
         public static string ToComparisonDescription(this StringComparer self)
         {
-            if (self == StringComparer.Ordinal) return "Ordinal";
-            if (self == StringComparer.OrdinalIgnoreCase) return "OrdinalIgnoreCase";
-            if (self == StringComparer.InvariantCulture) return "InvariantCulture";
-            if (self == StringComparer.InvariantCultureIgnoreCase) return "InvariantCultureIgnoreCase";
-            if (self == StringComparer.CurrentCulture) return "CurrentCulture";
-            if (self == StringComparer.CurrentCultureIgnoreCase) return "CurrentCultureIgnoreCase";
+            if (self.Equals(StringComparer.Ordinal)) return "Ordinal";
+            if (self.Equals(StringComparer.OrdinalIgnoreCase)) return "OrdinalIgnoreCase";
+            if (self.Equals(StringComparer.InvariantCulture)) return "InvariantCulture";
+            if (self.Equals(StringComparer.InvariantCultureIgnoreCase)) return "InvariantCultureIgnoreCase";
+            if (self.Equals(StringComparer.CurrentCulture)) return "CurrentCulture";
+            if (self.Equals(StringComparer.CurrentCultureIgnoreCase)) return "CurrentCultureIgnoreCase";
             return self.ToString();
         }
     }
