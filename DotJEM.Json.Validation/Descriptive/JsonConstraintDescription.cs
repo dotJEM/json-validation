@@ -115,11 +115,16 @@ namespace DotJEM.Json.Validation.Descriptive
             WriteLine(result.ToString());
         }
 
-        public override void Visit(ConstraintResult result)
+        public override void Visit(ConstraintExceptionResult visitee)
+        {
+            WriteLine($"{visitee.Constraint.ContextInfo} {visitee.Constraint.Describe()} failed with unkown errors. - actual value was: {visitee.Token ?? "NULL"}");
+        }
+
+        public override void Visit(ConstraintResult visitee)
         {
             WriteLine(inguard
-                ? $"{result.Constraint.ContextInfo} {result.Constraint.Describe()}"
-                : $"{result.Constraint.ContextInfo} {result.Constraint.Describe()} - actual value was: {result.Token ?? "NULL"}");
+                ? $"{visitee.Constraint.ContextInfo} {visitee.Constraint.Describe()}"
+                : $"{visitee.Constraint.ContextInfo} {visitee.Constraint.Describe()} - actual value was: {visitee.Token ?? "NULL"}");
         }
 
         public override void Visit(FieldResult visitee)

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
@@ -7,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints
 {
-    public abstract class JsonConstraint 
+    public abstract class JsonConstraint
     {
         public string ContextInfo { get; internal set; }
 
@@ -17,7 +18,14 @@ namespace DotJEM.Json.Validation.Constraints
 
         public virtual Result DoMatch(JToken token, IJsonValidationContext context)
         {
-            return new ConstraintResult(this, token, Matches(token, context));
+            try
+            {
+                return new ConstraintResult(this, token, Matches(token, context));
+            }
+            catch (Exception ex)
+            {
+                return new ConstraintExceptionResult(this, token, ex);
+            }
         }
 
         public virtual JsonConstraint Optimize()

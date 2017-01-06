@@ -27,6 +27,7 @@ namespace DotJEM.Json.Validation.Visitors
         public virtual void Visit(AnyResult visitee) => Visit((Result)visitee);
         public virtual void Visit(SkippedResult visitee) => Visit((Result)visitee);
         public virtual void Visit(ConstraintResult visitee) => Visit((Result)visitee);
+        public virtual void Visit(ConstraintExceptionResult visitee) => Visit((Result)visitee);
 
         public virtual void Visit(RuleResult visitee) => visitee.Result.Accept(this);
         public virtual void Visit(NotResult visitee) => visitee.Result.Accept(this);
