@@ -17,14 +17,13 @@ namespace DotJEM.Json.Validation.Rules
     public sealed class BasicRule : Rule
     {
         public FieldSelector Selector { get; }
-        public string Alias { get; }
+        public string Alias => Selector.Alias;
 
         public JsonConstraint Constraint { get; }
 
-        public BasicRule(FieldSelector selector, string alias, CapturedConstraint constraint)
+        public BasicRule(FieldSelector selector, CapturedConstraint constraint)
         {
             this.Selector = selector;
-            this.Alias = alias;
             this.Constraint = constraint.Constraint.Optimize();
         }
 
@@ -40,14 +39,12 @@ namespace DotJEM.Json.Validation.Rules
     public sealed class EmbededValidatorRule : Rule
     {
         public FieldSelector Selector { get; }
-        public string Alias { get; }
 
         public JsonValidator Validator { get; }
 
-        public EmbededValidatorRule(FieldSelector selector, string alias, JsonValidator validator)
+        public EmbededValidatorRule(FieldSelector selector, JsonValidator validator)
         {
             Selector = selector;
-            Alias = alias;
             this.Validator = validator;
         }
 

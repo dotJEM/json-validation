@@ -31,9 +31,9 @@ namespace DotJEM.Json.Validation
             this.rule = rule;
         }
 
-        public void Then(FieldSelector selector, CapturedConstraint constraint) => Then(selector, selector.Path, constraint);
+        public void Then(FieldSelector selector, CapturedConstraint constraint) => Then(new BasicRule(selector, constraint));
 
-        public void Then(FieldSelector selector, string alias, CapturedConstraint constraint) => Then(new BasicRule(selector, alias, constraint));
+        public void Then(FieldSelector selector, string alias, CapturedConstraint constraint) => Then(new AliasedFieldSelector(alias, selector), constraint);
 
         public void Then(ISelfReferencingRule @ref, CapturedConstraint constraint)
         {
@@ -97,7 +97,8 @@ namespace DotJEM.Json.Validation
 
         public void For(FieldSelector selector, string alias = null)
         {
-            factory.Then(new EmbededValidatorRule(selector, alias ?? selector.Path, validator));
+            selector = alias != null ? new AliasedFieldSelector(alias, selector) : selector; 
+            factory.Then(new EmbededValidatorRule(selector, validator));
         }
 
         public void For(ISelfReferencingRule selector, string alias = null)

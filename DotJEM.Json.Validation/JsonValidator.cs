@@ -61,7 +61,7 @@ namespace DotJEM.Json.Validation
 
         public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<JToken, bool> constraintFunc, string explain)
         {
-            return When(Field(selector, alias, Is.Matching(constraintFunc, explain)));
+            return When(Field(new AliasedFieldSelector(alias, selector), Is.Matching(constraintFunc, explain)));
         }
 
         public IJsonValidatorRuleFactory When(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
@@ -71,7 +71,7 @@ namespace DotJEM.Json.Validation
 
         public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
-            return When(Field(selector, alias, Is.Matching(constraintFunc, explain)));
+            return When(Field(new AliasedFieldSelector(alias, selector), Is.Matching(constraintFunc, explain)));
         }
 
         public IJsonValidatorRuleFactory When(FieldSelector selector, CapturedConstraint captured)
@@ -81,17 +81,12 @@ namespace DotJEM.Json.Validation
 
         public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, CapturedConstraint captured)
         {
-            return When(Field(selector, alias, captured));
-        }
-
-        public Rule Field(FieldSelector selector, CapturedConstraint captured)
-        {
-            return Field(selector, selector.Path, captured);
+            return When(Field(new AliasedFieldSelector(alias, selector), captured));
         }
 
         public Rule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
-            return Field(selector, selector.Path, Is.Matching(constraintFunc, explain));
+            return Field(selector, selector.Alias, Is.Matching(constraintFunc, explain));
         }
 
         public Rule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
@@ -105,7 +100,15 @@ namespace DotJEM.Json.Validation
             if (captured == null) throw new ArgumentNullException(nameof(captured));
             if (alias == null) throw new ArgumentNullException(nameof(alias));
 
-            return new BasicRule(selector, alias, captured);
+            return Field(new AliasedFieldSelector(alias, selector), captured);
+        }
+
+        public Rule Field(FieldSelector selector, CapturedConstraint captured)
+        {
+            if (selector == null) throw new ArgumentNullException(nameof(selector));
+            if (captured == null) throw new ArgumentNullException(nameof(captured));
+
+            return new BasicRule(selector, captured);
         }
 
         public IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()

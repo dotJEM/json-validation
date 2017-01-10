@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DotJEM.Json.Validation.Rules;
+using DotJEM.Json.Validation.Selectors;
 using DotJEM.Json.Validation.Visitors;
 
 namespace DotJEM.Json.Validation
@@ -33,14 +34,22 @@ namespace DotJEM.Json.Validation
 
         public override void Visit(BasicRule visitee)
         {
+            PathBasedFieldSelector pathSelector = FindPathSelector(visitee.Selector);
+
+            if (pathSelector == null)
+            {
+                //TODO: Allow other selectors if they are all equal.
+                throw new InvalidOperationException("Self referencing selector requires a path based selector.");
+            }
+
             if (SelectorPath == null)
             {
-                SelectorPath = visitee.Selector.Path;
+                SelectorPath = pathSelector.Path;
                 Alias = visitee.Alias;
                 return;
             }
 
-            if (SelectorPath != visitee.Selector.Path)
+            if (SelectorPath != pathSelector.Path)
                 throw new InvalidOperationException("Json Rule Tree had multiple different selectors.");
 
             if (Alias == null)
@@ -55,6 +64,19 @@ namespace DotJEM.Json.Validation
                 //Note: If multiple aliases was found, we defer back to the selector.
                 Alias = SelectorPath;
             }
+        }
+
+        private static PathBasedFieldSelector FindPathSelector(FieldSelector selector)
+        {
+            PathBasedFieldSelector pathSelector = selector as PathBasedFieldSelector;
+            if(pathSelector != null)
+                return pathSelector;
+
+            AggregateFieldSelector aggregateSelector = selector as AggregateFieldSelector;
+            if (aggregateSelector != null)
+                return FindPathSelector(aggregateSelector.Selector);
+
+            return null;
         }
     }
 }

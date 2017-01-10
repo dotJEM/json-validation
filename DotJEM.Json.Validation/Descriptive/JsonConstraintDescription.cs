@@ -242,7 +242,9 @@ namespace DotJEM.Json.Validation.Descriptive
 
         public override string ToString()
         {
-            return replacer.Replace(format, GetValue);
+            if (string.IsNullOrWhiteSpace(source.ContextInfo))
+                return replacer.Replace(format, GetValue);
+            return source.ContextInfo + " " + replacer.Replace(format, GetValue);
         }
 
         public IDescriptionWriter WriteTo(IDescriptionWriter writer)

@@ -54,6 +54,7 @@
     <Compile Include="Constraints\Common\Length\MaxLengthConstraint.cs" />
     <Compile Include="Constraints\Common\Length\MinLengthConstraint.cs" />
     <Compile Include="Constraints\Common\Length\LengthConstraint.cs" />
+    <Compile Include="Constraints\Common\RequiredConstraint.cs" />
     <Compile Include="Constraints\Comparables\GreaterThanConstraint.cs" />
     <Compile Include="Constraints\CompositeJsonConstraint.cs" />
     <Compile Include="Constraints\Generic\InConstraint.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Results\AndResult.cs" />
     <Compile Include="Results\AnyResult.cs" />
     <Compile Include="Results\CompositeResult.cs" />
+    <Compile Include="Results\ConstraintExceptionResult.cs" />
     <Compile Include="Results\ConstraintResult.cs" />
     <Compile Include="Results\EmbededValidatorResult.cs" />
     <Compile Include="Results\ValidatorResult.cs" />
@@ -95,6 +97,10 @@
     <Compile Include="Results\OrResult.cs" />
     <Compile Include="Results\FuncResult.cs" />
     <Compile Include="Results\RuleResult.cs" />
+    <Compile Include="Selectors\AliasedFieldSelector.cs" />
+    <Compile Include="Selectors\FieldSelector.cs" />
+    <Compile Include="Selectors\MultiFieldSelector.cs" />
+    <Compile Include="Selectors\SingleFieldSelector.cs" />
     <Compile Include="Visitors\CompleteJsonValidatorVisitor.cs" />
     <Compile Include="Visitors\ConstraintVisitor.cs" />
     <Compile Include="Visitors\ICompleteJsonValidatorVisitor.cs" />
@@ -115,7 +121,7 @@
     <Compile Include="Rules\Rule.cs" />
     <Compile Include="Rules\NotRule.cs" />
     <Compile Include="Rules\OrRule.cs" />
-    <Compile Include="Selectors\IFieldSelector.cs" />
+    <Compile Include="Selectors\PathBasedFieldSelector.cs" />
     <Compile Include="Visitors\IRuleVisitor.cs" />
     <Compile Include="Visitors\JsonFieldValidatorVisitor.cs" />
     <Compile Include="Visitors\JsonValidatorVistor.cs" />

@@ -46,5 +46,8 @@ namespace DotJEM.Json.Validation.Constraints.Common
 
         public static CapturedConstraint LengthBetween(this IHaveConstraintFactory self, int minLength, int maxLength)
             => self.Capture(new LengthConstraint(minLength, maxLength));
+
+        public static CapturedConstraint Required(this IGuardConstraintFactory self)
+            => self.Capture(new RequiredConstraint());
     }
 }
