@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.Types
 {
-    [JsonConstraintDescription("of type boolean (strict: {strict})")]
+    [JsonConstraintDescription("a boolean (strict: {strict})")]
     public class OfTypeBooleanConstraint : JsonConstraint
     {
         private readonly bool strict;

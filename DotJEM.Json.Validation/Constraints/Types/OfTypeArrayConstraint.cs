@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.Types
 {
-    [JsonConstraintDescription("of type array")]
+    [JsonConstraintDescription("an array")]
     public class OfTypeArrayConstraint : JsonConstraint
     {
         public override bool Matches(JToken token, IJsonValidationContext context)

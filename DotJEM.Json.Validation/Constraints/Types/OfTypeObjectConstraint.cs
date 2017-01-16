@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.Types
 {
-    [JsonConstraintDescription("of type object")]
+    [JsonConstraintDescription("an object")]
     public class OfTypeObjectConstraint : JsonConstraint
     {
         public override bool Matches(JToken token, IJsonValidationContext context)

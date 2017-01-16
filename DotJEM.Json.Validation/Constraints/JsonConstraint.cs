@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Results;

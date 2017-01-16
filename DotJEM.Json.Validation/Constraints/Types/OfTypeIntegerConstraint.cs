@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Constraints.Types
 {
-    [JsonConstraintDescription("of type integer (strict: {strict})")]
+    [JsonConstraintDescription("an integer (strict: {strict})")]
     public class OfTypeIntegerConstraint : JsonConstraint
     {
         private readonly bool strict;

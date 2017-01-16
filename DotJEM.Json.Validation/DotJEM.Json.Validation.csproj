@@ -77,6 +77,8 @@
     <Compile Include="Constraints\Types\ConstraintFactoryTypesExtensions.cs" />
     <Compile Include="Constraints\Types\OfTypeArrayConstraint.cs" />
     <Compile Include="Constraints\Types\OfTypeBooleanConstraint.cs" />
+    <Compile Include="Constraints\Types\OfTypeDateTimeConstraint.cs" />
+    <Compile Include="Constraints\Types\OfTypeGuidConstraint.cs" />
     <Compile Include="Constraints\Types\OfTypeIntegerConstraint.cs" />
     <Compile Include="Constraints\Types\OfTypeNumberConstraint.cs" />
     <Compile Include="Constraints\Types\OfTypeObjectConstraint.cs" />
