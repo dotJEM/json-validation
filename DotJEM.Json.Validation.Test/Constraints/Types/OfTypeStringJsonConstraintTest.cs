@@ -39,7 +39,7 @@ namespace DotJEM.Json.Validation.Test.Constraints.Types
         {
             JsonConstraint constraint = new OfTypeStringConstraint();
 
-            Assert.That(constraint.Describe().ToString(), Is.EqualTo("of type string"));
+            Assert.That(constraint.Describe().ToString(), Is.EqualTo("a string"));
         }
 
     }

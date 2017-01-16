@@ -31,7 +31,7 @@ namespace DotJEM.Json.Validation.Test.Constraints.Types
         {
             JsonConstraint constraint = new OfTypeObjectConstraint();
 
-            Assert.That(constraint.Describe().ToString(), Is.EqualTo("of type object"));
+            Assert.That(constraint.Describe().ToString(), Is.EqualTo("an object"));
         }
 
     }

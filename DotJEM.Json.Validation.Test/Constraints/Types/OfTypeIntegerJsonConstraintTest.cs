@@ -35,7 +35,7 @@ namespace DotJEM.Json.Validation.Test.Constraints.Types
         {
             OfTypeIntegerConstraint constraint = new OfTypeIntegerConstraint(true);
 
-            Assert.That(constraint.Describe().ToString(), Is.EqualTo("of type integer (strict: True)"));
+            Assert.That(constraint.Describe().ToString(), Is.EqualTo("an integer (strict: True)"));
         }
     }
 }

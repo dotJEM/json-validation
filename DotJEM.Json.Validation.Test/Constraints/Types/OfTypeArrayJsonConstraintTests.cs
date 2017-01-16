@@ -29,7 +29,7 @@ namespace DotJEM.Json.Validation.Test.Constraints.Types
         {
             OfTypeArrayConstraint constraint = new OfTypeArrayConstraint();
 
-            Assert.That(constraint.Describe().ToString(), Is.EqualTo("of type array"));
+            Assert.That(constraint.Describe().ToString(), Is.EqualTo("an array"));
         }
     }
 }

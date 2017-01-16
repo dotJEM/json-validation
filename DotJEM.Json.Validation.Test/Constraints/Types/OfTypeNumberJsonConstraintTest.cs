@@ -33,7 +33,7 @@ namespace DotJEM.Json.Validation.Test.Constraints.Types
         public void Describe_ReturnsDescribtion()
         {
             OfTypeNumberConstraint constraint = new OfTypeNumberConstraint(false);
-            Assert.That(constraint.Describe().ToString(), Is.EqualTo("of type number (strict: False)"));
+            Assert.That(constraint.Describe().ToString(), Is.EqualTo("a number (strict: False)"));
         }
     }
 }
