@@ -20,4 +20,5 @@ namespace DotJEM.Json.Validation.Selectors
             return $"Multiple:{Path}";
         }
     }
+
 }

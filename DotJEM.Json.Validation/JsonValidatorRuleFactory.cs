@@ -116,8 +116,9 @@ namespace DotJEM.Json.Validation
 
         public void ForEachIn(FieldSelector selector, string alias = null)
         {
-            //TODO: A hack for now in order to force it as a MultiSelector. This results in some odities however, e.g. if the buttom array was not surpose to be used.
-            For(selector + "[*]", alias);
+            selector = new ForEachInFieldSelector(selector);
+            selector = alias != null ? new AliasedFieldSelector(alias, selector) : selector;
+            factory.Then(new EmbededValidatorRule(selector, validator));
         }
 
         public void ForEachIn(ISelfReferencingRule selector, string alias = null)
@@ -126,7 +127,7 @@ namespace DotJEM.Json.Validation
             {
                 //TODO: A hack for now in order to force it as a MultiSelector.
                 CollectSingleSelectorVisitor visitor = rule.Accept(new CollectSingleSelectorVisitor());
-                For(visitor.SelectorPath + "[*]", alias);
+                ForEachIn(visitor.SelectorPath, alias);
             }
             catch (InvalidOperationException ex)
             {

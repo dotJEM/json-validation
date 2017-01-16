@@ -55,7 +55,9 @@
     <Compile Include="Constraints\Common\Length\MinLengthConstraint.cs" />
     <Compile Include="Constraints\Common\Length\LengthConstraint.cs" />
     <Compile Include="Constraints\Common\RequiredConstraint.cs" />
+    <Compile Include="Constraints\Comparables\GreaterOrEqualToConstraint.cs" />
     <Compile Include="Constraints\Comparables\GreaterThanConstraint.cs" />
+    <Compile Include="Constraints\Comparables\LessOrEqualToConstraint.cs" />
     <Compile Include="Constraints\CompositeJsonConstraint.cs" />
     <Compile Include="Constraints\Generic\InConstraint.cs" />
     <Compile Include="Constraints\Generic\GenericConstraintFactoryExtensions.cs" />
@@ -99,8 +101,10 @@
     <Compile Include="Results\OrResult.cs" />
     <Compile Include="Results\FuncResult.cs" />
     <Compile Include="Results\RuleResult.cs" />
+    <Compile Include="Selectors\AggregateFieldSelector.cs" />
     <Compile Include="Selectors\AliasedFieldSelector.cs" />
     <Compile Include="Selectors\FieldSelector.cs" />
+    <Compile Include="Selectors\ForEachInFieldSelector.cs" />
     <Compile Include="Selectors\MultiFieldSelector.cs" />
     <Compile Include="Selectors\SingleFieldSelector.cs" />
     <Compile Include="Visitors\CompleteJsonValidatorVisitor.cs" />

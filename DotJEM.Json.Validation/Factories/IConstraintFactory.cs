@@ -48,7 +48,6 @@ namespace DotJEM.Json.Validation.Factories
     {
         public JsonConstraint Constraint { get; }
 
-
         public CapturedConstraint(JsonConstraint constraint, string context = "")
         {
             Constraint = constraint;
@@ -57,19 +56,16 @@ namespace DotJEM.Json.Validation.Factories
 
         public static CapturedConstraint operator &(CapturedConstraint x, CapturedConstraint y)
         {
-            //TODO: Problem here!
             return new CapturedConstraint(x.Constraint & y.Constraint);
         }
 
         public static CapturedConstraint operator |(CapturedConstraint x, CapturedConstraint y)
         {
-            //TODO: Problem here!
             return new CapturedConstraint(x.Constraint | y.Constraint);
         }
 
         public static CapturedConstraint operator !(CapturedConstraint x)
         {
-            //TODO: Problem here!
             return new CapturedConstraint(!x.Constraint);
         }
     }
@@ -93,14 +89,5 @@ namespace DotJEM.Json.Validation.Factories
             Have = new ConstraintFactory(this, "have");
         }
     }
-
-
-    //public static class CommonConstraintFactoryExtensions
-    //{
-    //    public static JsonConstraint Defined(this IGuardConstraintFactory self)
-    //    {
-    //        return new IsDefinedJsonConstraint();
-    //    }
-    //}
 
 }

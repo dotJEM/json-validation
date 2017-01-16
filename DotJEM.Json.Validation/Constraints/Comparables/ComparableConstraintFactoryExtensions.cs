@@ -10,7 +10,13 @@ namespace DotJEM.Json.Validation.Constraints.Comparables
         public static CapturedConstraint LessThan<TComparable>(this IBeConstraintFactory self, TComparable value) where TComparable : IComparable
             => self.Capture(new LessThanConstraint<TComparable>(value));
 
+        public static CapturedConstraint LessOrEqualTo<TComparable>(this IBeConstraintFactory self, TComparable value) where TComparable : IComparable
+            => self.Capture(new LessOrEqualToConstraint<TComparable>(value));
+
         public static CapturedConstraint GreaterThan<TComparable>(this IBeConstraintFactory self, TComparable value) where TComparable : IComparable
             => self.Capture(new GreaterThanConstraint<TComparable>(value));
+
+        public static CapturedConstraint GreaterOrEqualTo<TComparable>(this IBeConstraintFactory self, TComparable value) where TComparable : IComparable
+            => self.Capture(new GreaterOrEqualToConstraint<TComparable>(value));
     }
 }
