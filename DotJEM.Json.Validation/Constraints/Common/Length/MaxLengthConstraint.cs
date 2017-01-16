@@ -16,8 +16,6 @@ namespace DotJEM.Json.Validation.Constraints.Common.Length
 
         public override bool Matches(JToken token, IJsonValidationContext context)
         {
-            if (token == null) return false;
-        
             //TODO: Consider if null as ignored should be a specific base constraint.
             if (token == null || token.Type == JTokenType.Null || token.Type == JTokenType.Undefined)
                 return true;

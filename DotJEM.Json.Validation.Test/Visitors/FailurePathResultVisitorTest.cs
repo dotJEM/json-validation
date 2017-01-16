@@ -74,6 +74,7 @@ namespace DotJEM.Json.Validation.Test.Visitors
 
             When("name", Is.Defined()).Then(It, Must.Have.LengthBetween(10, 50) & Must.Match("^[A-Za-z\\s]+$") | Have.ExactLength(5));
             When("age", Is.Defined()).Then(It, Must.Be.Integer() & Be.GreaterThan(0));
+            When(Any).Then("fox", Is.Required());
 
             //When("missing", Is.Defined()).Then(It, Must.Be.Boolean());
         }

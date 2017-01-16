@@ -59,7 +59,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
     {
         public TestValidator()
         {
-            When(Any).Then("test", Must.Have.LengthBetween(16,32));
+            When(Any).Then("test", Is.Required() & Must.Have.LengthBetween(16,32));
             When("other", x => (string)x == "0", "When other is 0").Then(Field("a", Must.Match("\\w{3}")));
             Use<ChildValidator>().For("sub");
 
