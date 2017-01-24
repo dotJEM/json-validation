@@ -12,6 +12,9 @@ namespace DotJEM.Json.Validation.Selectors
 
         public override IEnumerable<JToken> SelectTokens(JObject entity)
         {
+            if (entity == null)
+                return new JToken[] {null};
+
             return new[] { entity.SelectToken(Path) };
         }
 

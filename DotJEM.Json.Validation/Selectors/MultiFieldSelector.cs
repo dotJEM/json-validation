@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Selectors
@@ -12,6 +13,9 @@ namespace DotJEM.Json.Validation.Selectors
 
         public override IEnumerable<JToken> SelectTokens(JObject entity)
         {
+            if (entity == null)
+                return Enumerable.Empty<JToken>();
+
             return entity.SelectTokens(Path);
         }
 

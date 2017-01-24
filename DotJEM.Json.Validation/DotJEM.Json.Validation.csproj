@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constraints\Arrays\" />
+    <Folder Include="Constraints\Booleans\" />
     <Folder Include="Constraints\Number\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

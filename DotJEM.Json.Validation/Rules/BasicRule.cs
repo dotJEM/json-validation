@@ -53,7 +53,7 @@ namespace DotJEM.Json.Validation.Rules
             IEnumerable<JToken> tokens = Selector.SelectTokens(entity);
             return new AndResult(
                 (from token in tokens
-                 select (Result)new EmbededValidatorResult(this, Validator.Validate((JObject)token, context))).ToList());
+                 select (Result)new EmbededValidatorResult(this, Validator.Validate(token as JObject, context))).ToList());
         }
     }
 

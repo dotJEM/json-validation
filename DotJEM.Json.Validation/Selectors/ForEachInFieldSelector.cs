@@ -17,7 +17,13 @@ namespace DotJEM.Json.Validation.Selectors
             return base.SelectTokens(entity).SelectMany(token =>
             {
                 JArray array = token as JArray;
-                return array != null ? array.AsEnumerable() : new[] {token};
+                if (array != null)
+                    return array.AsEnumerable();
+
+                if(token != null)
+                    return new[] {token};
+
+                return Enumerable.Empty<JToken>();
             });
         }
     }

@@ -65,6 +65,15 @@ namespace DotJEM.Json.Validation.IntegrationTest
 
             When("soimething", Is.Defined()).Use<ChildValidator>().ForEachIn(It);
 
+            When("doNotProvideDpg", !Is.EqualTo(true)).Then(Field( "dpg.confirmDPGListOnBoard", (context, token) => !(bool)token, 
+                "Confirmation that a list, manifest or appropriate loading plan, giving details of the dangerous or polluting goods carried, and of their location on the ship, is on board must be provided"));
+
+            //if (entity["doNotProvideDpg"] != null && !(bool)entity["doNotProvideDpg"] && !(bool)entity["dpg"]?["confirmDPGListOnBoard"])
+            //{
+            //    ValidationCollector collector = new ValidationCollector();
+            //    collector.AddError("Confirmation that a list, manifest or appropriate loading plan, giving details of the dangerous or polluting goods carried, and of their location on the ship, is on board must be provided");
+            //    baseResult.Add(new FieldValidationResults("dpg.confirmDPGListOnBoard", entity.SelectToken("dpg.confirmDPGListOnBoard"), collector));
+            //}
             //Must.Have.AtLeast(1).Items();
 
             //When(Any).Then("x", Must.Have.MinLength(3));
