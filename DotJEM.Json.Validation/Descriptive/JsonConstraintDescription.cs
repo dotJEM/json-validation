@@ -127,6 +127,13 @@ namespace DotJEM.Json.Validation.Descriptive
                 : $"{visitee.Constraint.ContextInfo} {visitee.Constraint.Describe()} - actual value was: {visitee.Token ?? "NULL"}");
         }
 
+        public override void Visit(LazyConstraintResult visitee)
+        {
+            WriteLine("compared to " + visitee.Other.Path);
+            visitee.Result.Accept(this);
+        }
+
+
         public override void Visit(FieldResult visitee)
         {
             if (!visitee.GuardResult.IsValid || visitee.ValidationResult.IsValid)

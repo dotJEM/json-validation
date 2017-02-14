@@ -22,7 +22,7 @@ namespace DotJEM.Json.Validation.Rules
         public override Rule Optimize()
         {
             NotRule not = Rule as NotRule;
-            return not != null ? not.Rule : base.Optimize();
+            return not != null ? not.Rule.Optimize() : new NotRule(Rule.Optimize());
         }
     }
 }

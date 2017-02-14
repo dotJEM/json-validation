@@ -43,8 +43,5 @@ namespace DotJEM.Json.Validation.Results
             GuardResult = guardResult;
             ValidationResult = validationResult;
         }
-
-
-
     }
 }

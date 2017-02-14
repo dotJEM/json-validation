@@ -32,7 +32,6 @@ namespace DotJEM.Json.Validation
         }
 
         public void Then(FieldSelector selector, CapturedConstraint constraint) => Then(new BasicRule(selector, constraint));
-
         public void Then(FieldSelector selector, string alias, CapturedConstraint constraint) => Then(new AliasedFieldSelector(alias, selector), constraint);
 
         public void Then(ISelfReferencingRule @ref, CapturedConstraint constraint)
@@ -47,27 +46,16 @@ namespace DotJEM.Json.Validation
                 throw new InvalidOperationException("A self referencing rule (It) can only be used when a single field is used in the When clause.", ex);
             }
         }
-        public void Then(Rule rule)
-        {
-            //Note: Captured Rule.
-            //rule.ContextInfo = "Then";
-            validator.AddValidator(new JsonFieldValidator(this.rule, rule));
-        }
 
-        public IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()
-        {
-            return new ForFieldSelector(this, rule, new TValidator()); 
-        }
+        public void Then(Rule rule) => validator.AddValidator(new JsonFieldValidator(this.rule, rule));
 
-        public IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator
-        {
-            return new ForFieldSelector(this, rule, instance);
-        }
+        public IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new() => new ForFieldSelector(this, rule, new TValidator());
+        public IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator => new ForFieldSelector(this, rule, instance);
 
         public IForFieldSelector Use(Type validatorType)
         {
             if(!validatorType.IsSubclassOf(typeof(JsonValidator)))
-                throw new ArgumentException("The given type must inherit from JsonValidator");
+                throw new ArgumentException("The given type must inherit from JsonValidator.");
 
             return Use((JsonValidator)Activator.CreateInstance(validatorType));
         }

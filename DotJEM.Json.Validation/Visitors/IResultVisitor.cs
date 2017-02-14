@@ -15,6 +15,7 @@ namespace DotJEM.Json.Validation.Visitors
         IResultVisitor<NotResult>,
         IResultVisitor<AnyResult>,
         IResultVisitor<ConstraintResult>,
+        IResultVisitor<LazyConstraintResult>,
         IResultVisitor<ConstraintExceptionResult>,
         IResultVisitor<RuleResult>,
         IResultVisitor<ValidatorResult>,

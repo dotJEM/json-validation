@@ -18,4 +18,20 @@ namespace DotJEM.Json.Validation.Results
             IsValid = value;
         }
     }
+
+    public class LazyConstraintResult : Result
+    {
+        public override bool IsValid => Result.IsValid;
+
+        public JToken Other { get; }
+        public Result Result { get; }
+        public LazyConstraint Constraint { get; }
+
+        public LazyConstraintResult(LazyConstraint constraint, JToken other, Result result)
+        {
+            Constraint = constraint;
+            Other = other;
+            Result = result;
+        }
+    }
 }

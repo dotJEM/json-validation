@@ -111,6 +111,8 @@ namespace DotJEM.Json.Validation
             return new BasicRule(selector, captured);
         }
 
+        #region Use
+
         public IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()
         {
             return When(Any).Use<TValidator>();
@@ -124,11 +126,18 @@ namespace DotJEM.Json.Validation
         public IForFieldSelector Use(Type validatorType)
         {
             return When(Any).Use(validatorType);
-        }
+        } 
+
+        #endregion
 
         public void AddValidator(JsonFieldValidator jsonFieldValidator)
         {
             validators.Add(jsonFieldValidator);
+        }
+
+        public CapturedConstraint ComparedTo(FieldSelector selector, Func<JToken, CapturedConstraint> factory)
+        {
+            return new CapturedConstraint(new LazyConstraint(selector, factory), "compared to");
         }
 
         public virtual ValidatorResult Validate(JObject entity, IJsonValidationContext context)

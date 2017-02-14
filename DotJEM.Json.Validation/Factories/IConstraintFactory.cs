@@ -44,7 +44,7 @@ namespace DotJEM.Json.Validation.Factories
         }
     }
 
-    public sealed class CapturedConstraint //: JsonConstraint
+    public sealed class CapturedConstraint 
     {
         public JsonConstraint Constraint { get; }
 

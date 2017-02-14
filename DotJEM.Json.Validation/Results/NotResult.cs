@@ -14,7 +14,7 @@
         public override Result Optimize()
         {
             NotResult not = Result as NotResult;
-            return not != null ? not.Result : base.Optimize();
+            return not != null ? not.Result.Optimize() : new NotResult(Result.Optimize());
         }
     }
 }

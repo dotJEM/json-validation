@@ -2,8 +2,10 @@
 using System.Data;
 using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
+using DotJEM.Json.Validation.Constraints.Comparables;
 using DotJEM.Json.Validation.Constraints.String;
 using DotJEM.Json.Validation.Context;
+using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Factories;
 using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
@@ -36,10 +38,10 @@ namespace DotJEM.Json.Validation.IntegrationTest
 
             ValidatorResult result = validator.Validate(JObject.FromObject(new
             {
-                test= "01234567890123456789", other="0", a = "asd", sub = new  { name = "Foo", type = "##Bar" }
+                test= "01234567890123456789", other="0", a = "asd", sub = new  { name = "Foo", type = "##Bar" }, depend = new { min = 3, max = 2 }
             }), new JsonValidationContext());
 
-            string rdesc = result.ToString();
+            string rdesc = result.Describe();
             Console.WriteLine("RESULT:");
             Console.WriteLine(rdesc);
 
@@ -59,14 +61,18 @@ namespace DotJEM.Json.Validation.IntegrationTest
     {
         public TestValidator()
         {
+
+
             When(Any).Then("test", Is.Required() & Must.Have.LengthBetween(16,32));
             When("other", x => (string)x == "0", "When other is 0").Then(Field("a", Must.Match("\\w{3}")));
             Use<ChildValidator>().For("sub");
 
-            When("soimething", Is.Defined()).Use<ChildValidator>().ForEachIn(It);
+            //When("soimething", Is.Defined()).Use<ChildValidator>().ForEachIn(It);
 
-            When("doNotProvideDpg", !Is.EqualTo(true)).Then(Field( "dpg.confirmDPGListOnBoard", (context, token) => !(bool)token, 
-                "Confirmation that a list, manifest or appropriate loading plan, giving details of the dangerous or polluting goods carried, and of their location on the ship, is on board must be provided"));
+            //When("doNotProvideDpg", !Is.EqualTo(true)).Then(Field( "dpg.confirmDPGListOnBoard", (context, token) => !(bool)token, 
+            //    "Confirmation that a list, manifest or appropriate loading plan, giving details of the dangerous or polluting goods carried, and of their location on the ship, is on board must be provided"));
+
+            When(Any).Then("depend.min", ComparedTo("depend.max", max => Must.Be.LessThan((int)max)));
 
             //if (entity["doNotProvideDpg"] != null && !(bool)entity["doNotProvideDpg"] && !(bool)entity["dpg"]?["confirmDPGListOnBoard"])
             //{

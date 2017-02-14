@@ -13,7 +13,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Rules
 {
-    [DebuggerDisplay("{Selector}  {Constraint}")]
+    [DebuggerDisplay("BasicRule: {Selector}  {Constraint}")]
     public sealed class BasicRule : Rule
     {
         public FieldSelector Selector { get; }

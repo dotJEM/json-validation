@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DotJEM.Json.Validation.Results
 {
-    [DebuggerDisplay("HasErrors: {HasErrors}")]
+    [DebuggerDisplay("Result: IsValid={IsValid}")]
     public abstract class Result
     {
         //TODO: Value = IsValid and add HasErrors.
