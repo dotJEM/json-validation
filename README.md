@@ -61,24 +61,22 @@ When
     ANY
 Then
     (
+        id
         (
-            id
-            (
-                is required - actual value was: NULL
-                AND
-                must be a number (strict: True) - actual value was: NULL
-            )
+            is required - actual value was: NULL
             AND
-            username
-            (
-                (
-                    is required - actual value was: NULL
-                    AND
-                    must be a string - actual value was: NULL
-                )
-                AND
-                must have length more than or equal to '2' - actual value was: NULL
-            )
+            must be a number (strict: True) - actual value was: NULL
+            AND
+            must be greather than 0 - actual value was: NULL
+        )
+        AND
+        username
+        (
+            is required - actual value was: NULL
+            AND
+            must be a string - actual value was: NULL
+            AND
+            must have length more than or equal to '2' - actual value was: NULL
         )
         AND
         email
@@ -110,15 +108,12 @@ When
 Then
     company.name
     (
-        (
-            is required - actual value was: NULL
-            AND
-            must be a string - actual value was: NULL
-        )
+        is required - actual value was: NULL
+        AND
+        must be a string - actual value was: NULL
         AND
         have length from '3' to '256' - actual value was: NULL
     )
-
 ```
 
 This is a bit verbose, but shows that the result of the validation can be converted to something that is fairly readable by an average user. 
