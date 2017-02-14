@@ -4,6 +4,7 @@ using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.Comparables;
 using DotJEM.Json.Validation.Constraints.String;
+using DotJEM.Json.Validation.Constraints.Types;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Factories;
@@ -38,7 +39,8 @@ namespace DotJEM.Json.Validation.IntegrationTest
 
             ValidatorResult result = validator.Validate(JObject.FromObject(new
             {
-                test= "01234567890123456789", other="0", a = "asd", sub = new  { name = "Foo", type = "##Bar" }, depend = new { min = 3, max = 2 }
+                name = (string)null, company = new { } 
+                //test= "01234567890123456789", other="0", a = "asd", sub = new  { name = "Foo", type = "##Bar" }, depend = new { min = 3, max = 2 }
             }), new JsonValidationContext());
 
             string rdesc = result.Describe();
@@ -62,17 +64,67 @@ namespace DotJEM.Json.Validation.IntegrationTest
         public TestValidator()
         {
 
+            // from: https://jsonplaceholder.typicode.com/
 
-            When(Any).Then("test", Is.Required() & Must.Have.LengthBetween(16,32));
-            When("other", x => (string)x == "0", "When other is 0").Then(Field("a", Must.Match("\\w{3}")));
-            Use<ChildValidator>().For("sub");
+            When(Any)
+                .Then(Field("id", Is.Required() & Must.Be.Number() & Must.Be.GreaterThan(0))
+                    & Field("username", Is.Required() & Must.Be.String() & Must.Have.MinLength(2))
+                    & Field("email", Is.Required() & Must.Match(@"^[^@]+@[^@]+\.[^@]+$")));
+
+            When("name", Is.Defined())
+                .Then(It, Must.Be.String() & Have.MaxLength(256));
+
+            When(Field("company", Is.Defined()) | Field("address", Is.Defined()))
+                .Then("address", Is.Required());
+
+            When("address", Is.Defined() & Is.Object())
+                .Use<AddressValidator>()
+                .For(It);
+
+            When("company", Is.Defined())
+                .Then("company.name", Is.Required() & Must.Be.String() & Have.LengthBetween(3, 256));
+
+
+            /*
+             
+{
+	"id": 1,
+	"name": "Leanne Graham",
+	"username": "Bret",
+	"email": "Sincere@april.biz",
+	"address": 
+	{
+		"street": "Kulas Light",
+		"suite": "Apt. 556",
+		"city": "Gwenborough",
+		"zipcode": "92998-3874",
+		"geo": {
+			"lat": "-37.3159",
+			"lng": "81.1496"
+		}
+	},
+	"phone": "1-770-736-8031 x56442",
+	"website": "hildegard.org",
+	"company": {
+		"name": "Romaguera-Crona",
+		"catchPhrase": "Multi-layered client-server neural-net",
+		"bs": "harness real-time e-markets"
+	}
+}
+             
+             */
+
+
+            //When(Any).Then("test", Is.Required() & Must.Have.LengthBetween(16,32));
+            //When("other", x => (string)x == "0", "When other is 0").Then(Field("a", Must.Match("\\w{3}")));
+            //Use<ChildValidator>().For("sub");
 
             //When("soimething", Is.Defined()).Use<ChildValidator>().ForEachIn(It);
 
             //When("doNotProvideDpg", !Is.EqualTo(true)).Then(Field( "dpg.confirmDPGListOnBoard", (context, token) => !(bool)token, 
             //    "Confirmation that a list, manifest or appropriate loading plan, giving details of the dangerous or polluting goods carried, and of their location on the ship, is on board must be provided"));
 
-            When(Any).Then("depend.min", ComparedTo("depend.max", max => Must.Be.LessThan((int)max)));
+            //When(Any).Then("depend.min", ComparedTo("depend.max", max => Must.Be.LessThan((int)max)));
 
             //if (entity["doNotProvideDpg"] != null && !(bool)entity["doNotProvideDpg"] && !(bool)entity["dpg"]?["confirmDPGListOnBoard"])
             //{
@@ -155,9 +207,9 @@ namespace DotJEM.Json.Validation.IntegrationTest
             //        & Field("B", Must.Match(".*")));
 
 
-
         }
     }
+    public class AddressValidator : JsonValidator { }
 
     public class ChildValidator : JsonValidator
     {

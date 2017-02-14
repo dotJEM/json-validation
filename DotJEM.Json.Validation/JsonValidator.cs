@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
@@ -37,6 +38,8 @@ namespace DotJEM.Json.Validation
         protected IHaveConstraintFactory Have { get; } = new ConstraintFactory(null, "have");
 
         protected Rule Any => new AnyRule();
+
+        #region When
 
         public IJsonValidatorRuleFactory When(Rule rule)
         {
@@ -82,11 +85,15 @@ namespace DotJEM.Json.Validation
         public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, CapturedConstraint captured)
         {
             return When(Field(new AliasedFieldSelector(alias, selector), captured));
-        }
+        } 
+
+        #endregion
+
+        #region Field
 
         public Rule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
         {
-            return Field(selector, selector.Alias, Is.Matching(constraintFunc, explain));
+            return Field(selector, Is.Matching(constraintFunc, explain));
         }
 
         public Rule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
@@ -109,7 +116,9 @@ namespace DotJEM.Json.Validation
             if (captured == null) throw new ArgumentNullException(nameof(captured));
 
             return new BasicRule(selector, captured);
-        }
+        } 
+        
+        #endregion
 
         #region Use
 
@@ -130,18 +139,24 @@ namespace DotJEM.Json.Validation
 
         #endregion
 
-        public void AddValidator(JsonFieldValidator jsonFieldValidator)
-        {
-            validators.Add(jsonFieldValidator);
-        }
-
         public CapturedConstraint ComparedTo(FieldSelector selector, Func<JToken, CapturedConstraint> factory)
         {
             return new CapturedConstraint(new LazyConstraint(selector, factory), "compared to");
         }
 
+        public CapturedConstraint ComparedTo(FieldSelector selector, string alias, Func<JToken, CapturedConstraint> factory) 
+            => ComparedTo(new AliasedFieldSelector(alias, selector), factory);
+
+        public CapturedConstraint CompareTo(FieldSelector selector, Func<JToken, CapturedConstraint> factory)
+            => ComparedTo(selector, factory);
+
+        public CapturedConstraint CompareTo(FieldSelector selector, string alias, Func<JToken, CapturedConstraint> factory)
+            => ComparedTo(selector, alias, factory);
+
         public virtual ValidatorResult Validate(JObject entity, IJsonValidationContext context)
         {
+            context = new DynamicContext(context, entity);
+
             IEnumerable<Result> results
                 = from validator in Validators
                   let result = validator.Validate(entity, context)
@@ -150,6 +165,50 @@ namespace DotJEM.Json.Validation
 
             return new ValidatorResult(this, results.ToList());
         }
+
+        public void AddValidator(JsonFieldValidator jsonFieldValidator)
+        {
+            if (jsonFieldValidator == null)
+                throw new ArgumentNullException(nameof(jsonFieldValidator));
+
+            validators.Add(jsonFieldValidator);
+        }
     }
 
+    public class DynamicContext : DynamicObject, IJsonValidationContext
+    {
+        private readonly JObject root;
+        private readonly Type contextType;
+        private readonly IJsonValidationContext context;
+
+        public DynamicContext(IJsonValidationContext context, JObject root)
+        {
+            this.context = context;
+            this.root = root;
+            this.contextType = context.GetType();
+        }
+
+        public override bool TryConvert(ConvertBinder binder, out object result)
+        {
+            if (binder.Type.IsAssignableFrom(contextType))
+            {
+                result = context;
+                return true;
+            }
+
+            if (typeof(DynamicContext).IsAssignableFrom(binder.Type))
+            {
+                result = this;
+                return true;
+            }
+
+            return base.TryConvert(binder, out result);
+        }
+
+        public JToken SelectToken(FieldSelector selector)
+        {
+            //TODO: If we in some way can do "Any(values, v => Must.Be.LessThan(v))" we can allow for array selectors here to work;
+            return selector.SelectTokens(root).SingleOrDefault();
+        }
+    }
 }

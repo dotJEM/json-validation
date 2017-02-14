@@ -59,6 +59,7 @@ namespace DotJEM.Json.Validation.Constraints
         #endregion
     }
 
+    //TODO: we have some description issues here for some reason.
     [JsonConstraintDescription("{selector} '{value}'")]
     public sealed class LazyConstraint : JsonConstraint
     {
@@ -73,13 +74,10 @@ namespace DotJEM.Json.Validation.Constraints
 
         public override Result DoMatch(JToken token, IJsonValidationContext context)
         {
-            //TODO: We need to obtain root from a different source, especially because if we are dealing with
-            //      e.g. child validators, then the "persived" root from the validator is actually not the root in the document.
-            JObject root = (JObject)token.Root;
-            //TODO: What should we do if the selector returns multiple tokens?...
-            JToken other = selector.SelectTokens(root).SingleOrDefault();
+            DynamicContext con = (DynamicContext)context;
+
+            JToken other = con.SelectToken(selector);
             JsonConstraint constraint = factory(other).Constraint.Optimize();
-            //TODO: Wrap this into a LazyConstraintResult
             return new LazyConstraintResult(this, other, constraint.DoMatch(token, context));
         }
 

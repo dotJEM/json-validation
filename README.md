@@ -2,55 +2,126 @@
 
 # json-validation
 
-While JsonSchema largely allows us to validate Json objects, we had trouble finding heads and tails in how cross validation and conditional validation would work. For the examples we have seen it also seemed dificult to read and write all these rules.
+While JsonSchema largely allows to validate Json objects, the seemed to be dificult to figure out especially when it comes to cross validation and conditional validation.
+For obvious reasons validations in a schema is also more static in nature which could mean that these validation schemas would become obsolete faster than they where generated.
 
-Because of this I desided to write a small framwork for building validators in a fluent way.
+This framwork tries to make it easy to write validators in C# that in a fluent syntax which is easy to understand.
 
-The goal would be to:
- - Provide a more straigt forward fluent syntax for writing validation rules.
- - Provide an API that would allow us to describe the validation rules. Output which could be in the formas of:
-   - A JsonSchema where possible (Some constraints might not be able to be converted into a meaningfull JsonScheme validation)
-   - Simple text
- - Framework should be extensible so custom validations would be easy to write.
- - ...
+**Highlights:**
+ - Provides a straigt forward fluent syntax for writing validation rules.
+ - Provides an extensible API which allows developers to add aditional features to the framework fast and easy, such constraints could be very domain specific and even interact with configurable sources.
+ - Provides a way to generate meaningfull descriptions of the validations both for human and machine. Hereunder allow for decorating JsonSchemas with the constraints that can be expressed.
+ - Provides a way to generate meaningfull descriptions of validation errors for both human and machine.
+
  
-# Example Syntax would become:
+# Example:
+
+Given the user validator below.
 
 ```csharp
-    public class TestValidator : JsonValidator
+    public class UserValidator : JsonValidator
     {
-        public TestValidator()
+        public UserValidator()
         {
-            When("test", Has.MinLength(5)).Then("test", Must.Have.MaxLength(200));
-            When("other", Has.MinLength(0)).Then("test", Must.Have.MaxLength(25));
+            When(Any)
+                .Then(Field("id", Is.Required() & Must.Be.Number() & Must.Be.GreaterThan(0))
+                    & Field("username", Is.Required() & Must.Be.String() & Must.Have.MinLength(2))
+                    & Field("email", Is.Required() & Must.Match(@"^[^@]+@[^@]+\.[^@]+$")));
 
-            When(Field("test", Has.MinLength(5))).Then(Field("other", Should.Be.Equal("0")));
+            When("name", Is.Defined())
+                .Then(It, Must.Be.String() & Have.MaxLength(256));
 
-            When(Field("A", Is.Defined()) | Field("B", Is.Defined()))
-                .Then(
-                      Field("A", Must.Be.Equal("") | Must.Be.Equal(""))
-                    & Field("B", Must.Be.Equal("")));
+            When(Field("company", Is.Defined()) | Field("address", Is.Defined()))
+                .Then("address", Is.Required());
+
+            When("address", Is.Defined() & Is.Object())
+                .Use<AddressValidator>()
+                .For(It);
             
-            //Various functional overloads:
-            When(Any).Then("something", Must.Match(token => (bool)token == true, "somthing must be boolean and true!"));
-            When("name", x => true, "is true").Then(It, Must.Match(x => true, "be true"));
-            
-            //Using other/partial validators for e.g. each items in arrays etc:
-            //NOTE: Syntax proposal
-            //Use<TestValidator>().For(Field("x"));
-            //Use<TestValidator>().For(All("items"));
-            
-            //NOTE: Syntax proposal
-            //When("x", Is.Defined()).Use<TestValidator>().For(It);
-            //When("x", Is.Defined()).Use<TestValidator>().For(Field("x"));
-            //When("x", Is.Defined()).Use<TestValidator>().For(All("items")); / Each
-            
-            //NOTE: Syntax proposal
-            //When(Any).Then(All("", Should.Have.Length(42)));
-            //When(Any).Then(Some("", Should.Have.Length(42)));
-            //When(Any).Then(None("", Should.Have.Length(42)));
-            
-            When(Any).Then("x", Must.Be.Number() & Must.Be.Equal(42.42))
+            When("company", Is.Defined())
+                .Then("company.name", Is.Required() & Must.Be.String() & Have.LengthBetween(3, 256));
         }
     }
 ```
+
+The fluent syntax stays very close to how one would express the rules in natural english which makes the rules easy to read and understand.
+
+If the following JSON is passed though the validator:
+
+```Json
+{
+  "name": null, "company": { }
+}
+```
+
+And then later described with an example implementation of a descriptor, the output looks like this:
+
+```
+When
+    ANY
+Then
+    (
+        (
+            id
+            (
+                is required - actual value was: NULL
+                AND
+                must be a number (strict: True) - actual value was: NULL
+            )
+            AND
+            username
+            (
+                (
+                    is required - actual value was: NULL
+                    AND
+                    must be a string - actual value was: NULL
+                )
+                AND
+                must have length more than or equal to '2' - actual value was: NULL
+            )
+        )
+        AND
+        email
+        is required - actual value was: NULL
+    )
+
+When
+    name
+    is defined
+Then
+    name
+    must be a string - actual value was: 
+
+When
+    (
+        company
+        is defined
+        OR
+        address
+        is defined
+    )
+Then
+    address
+    is required - actual value was: NULL
+
+When
+    company
+    is defined
+Then
+    company.name
+    (
+        (
+            is required - actual value was: NULL
+            AND
+            must be a string - actual value was: NULL
+        )
+        AND
+        have length from '3' to '256' - actual value was: NULL
+    )
+
+```
+
+This is a bit verbose, but shows that the result of the validation can be converted to something that is fairly readable by an average user. 
+By using the fluent syntax, much of the information we put into the validator as pure code is preserved and can be used to generate an output.
+
+By implementing custom descriptors, developers can build their own output.
