@@ -185,11 +185,17 @@ namespace DotJEM.Json.Validation
         {
             this.context = context;
             this.root = root;
-            this.contextType = context.GetType();
+            this.contextType = context?.GetType();
         }
 
         public override bool TryConvert(ConvertBinder binder, out object result)
         {
+            if (context == null)
+            {
+                result = null;
+                return true;
+            }
+
             if (binder.Type.IsAssignableFrom(contextType))
             {
                 result = context;
