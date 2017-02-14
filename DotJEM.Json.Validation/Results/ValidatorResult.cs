@@ -27,6 +27,11 @@ namespace DotJEM.Json.Validation.Results
             Context = context;
             this.results = results;
         }
+
+        public override Result Optimize()
+        {
+            return new ValidatorResult(Context, Results.Select(r => r.Optimize()));
+        }
     }
 
     public sealed class FieldResult : Result
@@ -42,6 +47,11 @@ namespace DotJEM.Json.Validation.Results
             Validator = validator;
             GuardResult = guardResult;
             ValidationResult = validationResult;
+        }
+
+        public override Result Optimize()
+        {
+            return new FieldResult(Validator, GuardResult.Optimize(), ValidationResult.Optimize());
         }
     }
 }

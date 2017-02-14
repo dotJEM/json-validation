@@ -33,5 +33,10 @@ namespace DotJEM.Json.Validation.Results
             Other = other;
             Result = result;
         }
+
+        public override Result Optimize()
+        {
+            return new LazyConstraintResult(Constraint, Other, Result.Optimize());
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
                 //test= "01234567890123456789", other="0", a = "asd", sub = new  { name = "Foo", type = "##Bar" }, depend = new { min = 3, max = 2 }
             }), new JsonValidationContext());
 
-            string rdesc = result.Describe();
+            string rdesc = result.Optimize().Describe();
             Console.WriteLine("RESULT:");
             Console.WriteLine(rdesc);
 
@@ -66,20 +66,20 @@ namespace DotJEM.Json.Validation.IntegrationTest
 
             // from: https://jsonplaceholder.typicode.com/
 
-            When(Any)
-                .Then(Field("id", Is.Required() & Must.Be.Number() & Must.Be.GreaterThan(0))
-                    & Field("username", Is.Required() & Must.Be.String() & Must.Have.MinLength(2))
-                    & Field("email", Is.Required() & Must.Match(@"^[^@]+@[^@]+\.[^@]+$")));
+            //When(Any)
+            //    .Then(Field("id", Is.Required() & Must.Be.Number() & Must.Be.GreaterThan(0))
+            //        & Field("username", Is.Required() & Must.Be.String() & Must.Have.MinLength(2))
+            //        & Field("email", Is.Required() & Must.Match(@"^[^@]+@[^@]+\.[^@]+$")));
 
-            When("name", Is.Defined())
-                .Then(It, Must.Be.String() & Have.MaxLength(256));
+            //When("name", Is.Defined())
+            //    .Then(It, Must.Be.String() & Have.MaxLength(256));
 
-            When(Field("company", Is.Defined()) | Field("address", Is.Defined()))
-                .Then("address", Is.Required());
+            //When(Field("company", Is.Defined()) | Field("address", Is.Defined()))
+            //    .Then("address", Is.Required());
 
-            When("address", Is.Defined() & Is.Object())
-                .Use<AddressValidator>()
-                .For(It);
+            //When("address", Is.Defined() & Is.Object())
+            //    .Use<AddressValidator>()
+            //    .For(It);
 
             When("company", Is.Defined())
                 .Then("company.name", Is.Required() & Must.Be.String() & Have.LengthBetween(3, 256));

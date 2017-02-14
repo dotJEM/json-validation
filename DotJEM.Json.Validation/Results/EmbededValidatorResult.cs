@@ -2,18 +2,23 @@
 
 namespace DotJEM.Json.Validation.Results
 {
-    public class EmbededValidatorResult : Result //Result<EmbededValidatorRule>
+    public class EmbededValidatorResult : Result
     {
         public override bool IsValid => Result.IsValid;
 
-        public ValidatorResult Result { get; }
+        public Result Result { get; }
 
         public EmbededValidatorRule Rule { get; }
 
-        public EmbededValidatorResult(EmbededValidatorRule rule, ValidatorResult result) 
+        public EmbededValidatorResult(EmbededValidatorRule rule, Result result) 
         {
             this.Rule = rule;
             this.Result = result;
+        }
+
+        public override Result Optimize()
+        {
+            return new EmbededValidatorResult(Rule, Result.Optimize());
         }
     }
 }

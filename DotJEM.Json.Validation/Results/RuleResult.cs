@@ -14,6 +14,11 @@ namespace DotJEM.Json.Validation.Results
             Rule = rule;
             Result = result;
         }
+
+        public override Result Optimize()
+        {
+            return new RuleResult(Rule, Result.Optimize());
+        }
     }
 
     /// <summary>
