@@ -174,47 +174,4 @@ namespace DotJEM.Json.Validation
             validators.Add(jsonFieldValidator);
         }
     }
-
-    public class DynamicContext : DynamicObject, IJsonValidationContext
-    {
-        private readonly JObject root;
-        private readonly Type contextType;
-        private readonly IJsonValidationContext context;
-
-        public DynamicContext(IJsonValidationContext context, JObject root)
-        {
-            this.context = context;
-            this.root = root;
-            this.contextType = context?.GetType();
-        }
-
-        public override bool TryConvert(ConvertBinder binder, out object result)
-        {
-            if (context == null)
-            {
-                result = null;
-                return true;
-            }
-
-            if (binder.Type.IsAssignableFrom(contextType))
-            {
-                result = context;
-                return true;
-            }
-
-            if (typeof(DynamicContext).IsAssignableFrom(binder.Type))
-            {
-                result = this;
-                return true;
-            }
-
-            return base.TryConvert(binder, out result);
-        }
-
-        public JToken SelectToken(FieldSelector selector)
-        {
-            //TODO: If we in some way can do "Any(values, v => Must.Be.LessThan(v))" we can allow for array selectors here to work;
-            return selector.SelectTokens(root).SingleOrDefault();
-        }
-    }
 }
