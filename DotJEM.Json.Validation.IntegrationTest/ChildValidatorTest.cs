@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Configuration;
 using System.Text;
 using System.Threading.Tasks;
 using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
+using DotJEM.Json.Validation.Constraints.Comparables;
 using DotJEM.Json.Validation.Constraints.String;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Results;
@@ -14,6 +16,33 @@ using NUnit.Framework;
 
 namespace DotJEM.Json.Validation.IntegrationTest
 {
+    [TestFixture]
+    public class ComparedToValidatorTest
+    {
+        [Test]
+        public void Validate_ValidOwner_ShouldSucceed()
+        {
+            Assert.That(new ComparedToValidator().Validate(JObject.Parse("{ one: 1, two: 2 }"), null)
+                , Has.Property("IsValid").EqualTo(true));
+        }
+
+        [Test]
+        public void Validate_ValidOwner_ShouldSsucceed()
+        {
+            Assert.That(new ComparedToValidator().Validate(JObject.Parse("{ one: 1, two: '' }"), null)
+                , Has.Property("IsValid").EqualTo(true));
+        }
+
+        public class ComparedToValidator : JsonValidator
+        {
+            public ComparedToValidator()
+            {
+                When(Field("one", Has.Value()) & Field("two", Has.Value()))
+                    .Then("one", ComparedTo("two", t => Must.Be.LessOrEqualTo((int) t)));
+            }
+        }
+    }
+
     [TestFixture]
     public class ChildValidatorTest
     {

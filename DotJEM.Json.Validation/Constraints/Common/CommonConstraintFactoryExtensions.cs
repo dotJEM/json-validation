@@ -54,7 +54,7 @@ namespace DotJEM.Json.Validation.Constraints.Common
             => self.Capture(new NullOrEmptyConstraint());
 
         public static CapturedConstraint Value(this IHaveConstraintFactory self)
-            => self.Capture(new NullOrEmptyConstraint());
+            => self.Capture(new HasValueConstraint());
 
 
     }

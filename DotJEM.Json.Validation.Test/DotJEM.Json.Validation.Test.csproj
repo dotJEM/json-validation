@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constraints\Common\NullOrEmptyConstraintTest.cs" />
     <Compile Include="Constraints\Descriptive\JsonConstraintDescriptionTest.cs" />
     <Compile Include="Constraints\String\ExactLengthJsonConstraintTest.cs" />
     <Compile Include="Constraints\Types\OfTypeArrayJsonConstraintTests.cs" />
