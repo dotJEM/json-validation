@@ -27,8 +27,9 @@ namespace DotJEM.Json.Validation
 
         public IEnumerable<JsonFieldValidator> Validators => validators;
 
-        protected IGuardConstraintFactory Is { get; } = new ConstraintFactory(null, "is");
-        protected IGuardConstraintFactory Has { get; } = new ConstraintFactory(null, "has");
+        protected IIsConstrainFactory Is { get; } = new ConstraintFactory(null, "is");
+        protected IHasConstraintFactory Has { get; } = new ConstraintFactory(null, "has");
+
         protected IValidatorConstraintFactory Must { get; } = new ValidatorConstraintFactory(null, "must");
         protected IValidatorConstraintFactory Should { get; } = new ValidatorConstraintFactory(null, "should");
 

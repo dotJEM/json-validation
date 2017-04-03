@@ -23,7 +23,11 @@ namespace DotJEM.Json.Validation.Factories
     /// <summary>
     /// Guidance interface for supporting a fluent syntax.
     /// </summary>
-    public interface IGuardConstraintFactory : IBeConstraintFactory, IHaveConstraintFactory { }
+    public interface IGuardConstraintFactory : IBeConstraintFactory, IHaveConstraintFactory, IIsConstrainFactory, IHasConstraintFactory { }
+
+    public interface IIsConstrainFactory : IBeConstraintFactory { }
+
+    public interface IHasConstraintFactory : IHaveConstraintFactory { }
 
     public class ConstraintFactory : IGuardConstraintFactory
     {

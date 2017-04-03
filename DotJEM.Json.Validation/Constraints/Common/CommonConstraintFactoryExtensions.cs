@@ -23,10 +23,10 @@ namespace DotJEM.Json.Validation.Constraints.Common
         public static CapturedConstraint In<T>(this IBeConstraintFactory self, params T[] elements)
             => self.In(elements.AsEnumerable());
 
-        public static CapturedConstraint Matching(this IGuardConstraintFactory self, Func<JToken, bool> constraintFunc, string explain)
+        public static CapturedConstraint Matching(this IIsConstrainFactory self, Func<JToken, bool> constraintFunc, string explain)
             => self.Capture(new FunctionalConstraint((c, t) => constraintFunc(t), explain));
 
-        public static CapturedConstraint Matching(this IGuardConstraintFactory self, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain) 
+        public static CapturedConstraint Matching(this IIsConstrainFactory self, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain) 
             => self.Capture(new FunctionalConstraint(constraintFunc, explain));
 
         public static CapturedConstraint Match(this IValidatorConstraintFactory self, Func<JToken, bool> constraintFunc, string explain) 
@@ -47,7 +47,15 @@ namespace DotJEM.Json.Validation.Constraints.Common
         public static CapturedConstraint LengthBetween(this IHaveConstraintFactory self, int minLength, int maxLength)
             => self.Capture(new LengthConstraint(minLength, maxLength));
 
-        public static CapturedConstraint Required(this IGuardConstraintFactory self)
+        public static CapturedConstraint Required(this IIsConstrainFactory self)
             => self.Capture(new RequiredConstraint());
+
+        public static CapturedConstraint NullOrEmpty(this IBeConstraintFactory self)
+            => self.Capture(new NullOrEmptyConstraint());
+
+        public static CapturedConstraint Value(this IHaveConstraintFactory self)
+            => self.Capture(new NullOrEmptyConstraint());
+
+
     }
 }

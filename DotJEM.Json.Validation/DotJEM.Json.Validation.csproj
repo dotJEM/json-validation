@@ -54,7 +54,9 @@
     <Compile Include="Constraints\Common\Length\MaxLengthConstraint.cs" />
     <Compile Include="Constraints\Common\Length\MinLengthConstraint.cs" />
     <Compile Include="Constraints\Common\Length\LengthConstraint.cs" />
+    <Compile Include="Constraints\Common\NullOrEmptyConstraint.cs" />
     <Compile Include="Constraints\Common\RequiredConstraint.cs" />
+    <Compile Include="Constraints\Common\HasValueConstraint.cs" />
     <Compile Include="Constraints\Comparables\GreaterOrEqualToConstraint.cs" />
     <Compile Include="Constraints\Comparables\GreaterThanConstraint.cs" />
     <Compile Include="Constraints\Comparables\LessOrEqualToConstraint.cs" />
