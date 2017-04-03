@@ -75,10 +75,16 @@ namespace DotJEM.Json.Validation.Constraints
         public override Result DoMatch(JToken token, IJsonValidationContext context)
         {
             DynamicContext con = (DynamicContext)context;
-
             JToken other = con.SelectToken(selector);
-            JsonConstraint constraint = factory(other).Constraint.Optimize();
-            return new LazyConstraintResult(this, other, constraint.DoMatch(token, context));
+            try
+            {
+                JsonConstraint constraint = factory(other).Constraint.Optimize();
+                return new LazyConstraintResult(this, other, constraint.DoMatch(token, context));
+            }
+            catch (Exception ex)
+            {
+                return new LazyConstraintResult(this, other, new ConstraintExceptionResult(this, token, ex));
+            }
         }
 
         public override bool Matches(JToken token, IJsonValidationContext context)
