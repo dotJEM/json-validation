@@ -27,7 +27,8 @@ namespace DotJEM.Json.Validation.Constraints.Common.Length
             if (token.Type == JTokenType.String)
                 return ((string)token).Length <= maxLength;
 
-            return false;
+            string value = (string)token;
+            return value.Length <= maxLength;
         }
     }
 }

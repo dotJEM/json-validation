@@ -26,7 +26,11 @@ namespace DotJEM.Json.Validation.Constraints.Common.Length
             if (token.Type == JTokenType.String)
                 return ((string)token).Length >= minLength;
 
-            return false;
+            if (token.Type == JTokenType.Integer || token.Type == JTokenType.Float)
+                return ((string)token).Length >= minLength;
+
+            string value = (string)token;
+            return value.Length >= minLength;
         }
     }
 }

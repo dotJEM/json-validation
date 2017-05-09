@@ -60,11 +60,12 @@ namespace DotJEM.Json.Validation.Constraints
     }
 
     //TODO: we have some description issues here for some reason.
-    [JsonConstraintDescription("{selector} '{value}'")]
+    [JsonConstraintDescription("{selector} 'LAZY'")]
     public sealed class LazyConstraint : JsonConstraint
     {
         private readonly FieldSelector selector;
         private readonly Func<JToken, CapturedConstraint> factory;
+
 
         public LazyConstraint(FieldSelector selector, Func<JToken, CapturedConstraint> factory)
         {

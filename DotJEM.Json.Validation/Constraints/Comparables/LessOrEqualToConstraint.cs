@@ -4,7 +4,7 @@ using DotJEM.Json.Validation.Descriptive;
 
 namespace DotJEM.Json.Validation.Constraints.Comparables
 {
-    [JsonConstraintDescription("less or equal to {minValue}")]
+    [JsonConstraintDescription("less or equal to {maxValue}")]
     public class LessOrEqualToConstraint<T> : TypedJsonConstraint<T> where T : IComparable
     {
         private readonly T maxValue;
