@@ -8,22 +8,23 @@ namespace DotJEM.Json.Validation.Selectors
     {
         public override string Alias => "each in " + Selector.Alias;
 
-        public ForEachInFieldSelector(FieldSelector selector) : base(selector)
+        public ForEachInFieldSelector(FieldSelector selector) 
+            : base(selector)
         {
         }
         
-        public override IEnumerable<JToken> SelectTokens(JObject entity)
+        public override IEnumerable<JTokenInfo> SelectTokens(JObject entity)
         {
             return base.SelectTokens(entity).SelectMany(token =>
             {
-                JArray array = token as JArray;
+                if(token == null)
+                    return Enumerable.Empty<JTokenInfo>();
+
+                JArray array = token.Token as JArray;
                 if (array != null)
-                    return array.AsEnumerable();
+                    return array.AsEnumerable().Select(t => new JTokenInfo(t, this));
 
-                if(token != null)
-                    return new[] {token};
-
-                return Enumerable.Empty<JToken>();
+                return new[] { token };
             });
         }
     }

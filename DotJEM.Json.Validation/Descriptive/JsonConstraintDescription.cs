@@ -133,7 +133,6 @@ namespace DotJEM.Json.Validation.Descriptive
             visitee.Result.Accept(this);
         }
 
-
         public override void Visit(FieldResult visitee)
         {
             if (!visitee.GuardResult.IsValid || visitee.ValidationResult.IsValid)

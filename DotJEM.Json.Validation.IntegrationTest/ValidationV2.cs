@@ -9,6 +9,7 @@ using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Factories;
 using DotJEM.Json.Validation.Results;
+using DotJEM.Json.Validation.Selectors;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
@@ -84,6 +85,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
             When("company", Is.Defined())
                 .Then("company.name", Is.Required() & Must.Be.String() & Have.LengthBetween(3, 256));
 
+            When(Any).Then("person.numberOfPersons",ComparedTo(All(), token => Is.Required()));
 
             /*
              

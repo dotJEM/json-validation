@@ -140,18 +140,28 @@ namespace DotJEM.Json.Validation
 
         #endregion
 
-        public CapturedConstraint ComparedTo(FieldSelector selector, Func<JToken, CapturedConstraint> factory)
+        public FieldSelector All(params FieldSelector[] selectors)
+        {
+            return new CompositeFieldSelector(selectors);
+        }
+
+        public CapturedConstraint ComparedTo(FieldSelector[] selectors, Func<CompareContext, CapturedConstraint> factory)
+        {
+            return new CapturedConstraint(new LazyConstraint(new CompositeFieldSelector(selectors), factory), "compared to");
+        }
+
+        public CapturedConstraint ComparedTo(FieldSelector selector, Func<CompareContext, CapturedConstraint> factory)
         {
             return new CapturedConstraint(new LazyConstraint(selector, factory), "compared to");
         }
 
-        public CapturedConstraint ComparedTo(FieldSelector selector, string alias, Func<JToken, CapturedConstraint> factory) 
+        public CapturedConstraint ComparedTo(FieldSelector selector, string alias, Func<CompareContext, CapturedConstraint> factory) 
             => ComparedTo(new AliasedFieldSelector(alias, selector), factory);
 
-        public CapturedConstraint CompareTo(FieldSelector selector, Func<JToken, CapturedConstraint> factory)
+        public CapturedConstraint CompareTo(FieldSelector selector, Func<CompareContext, CapturedConstraint> factory)
             => ComparedTo(selector, factory);
 
-        public CapturedConstraint CompareTo(FieldSelector selector, string alias, Func<JToken, CapturedConstraint> factory)
+        public CapturedConstraint CompareTo(FieldSelector selector, string alias, Func<CompareContext, CapturedConstraint> factory)
             => ComparedTo(selector, alias, factory);
 
         public virtual ValidatorResult Validate(JObject entity, IJsonValidationContext context)
@@ -175,4 +185,5 @@ namespace DotJEM.Json.Validation
             validators.Add(jsonFieldValidator);
         }
     }
+
 }

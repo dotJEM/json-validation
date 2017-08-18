@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotJEM.Json.Validation.Selectors
 {
+
     public class MultiFieldSelector : PathBasedFieldSelector
     {
         public MultiFieldSelector(string path) 
@@ -11,12 +12,12 @@ namespace DotJEM.Json.Validation.Selectors
         {
         }
 
-        public override IEnumerable<JToken> SelectTokens(JObject entity)
+        public override IEnumerable<JTokenInfo> SelectTokens(JObject entity)
         {
             if (entity == null)
-                return Enumerable.Empty<JToken>();
+                return Enumerable.Empty<JTokenInfo>();
 
-            return entity.SelectTokens(Path);
+            return entity.SelectTokens(Path).Select(token => new JTokenInfo(token, this));
         }
 
         public override string ToString()

@@ -59,15 +59,16 @@ namespace DotJEM.Json.Validation.Constraints
         #endregion
     }
 
+
+
     //TODO: we have some description issues here for some reason.
     [JsonConstraintDescription("{selector} 'LAZY'")]
     public sealed class LazyConstraint : JsonConstraint
     {
         private readonly FieldSelector selector;
-        private readonly Func<JToken, CapturedConstraint> factory;
+        private readonly Func<CompareContext, CapturedConstraint> factory;
 
-
-        public LazyConstraint(FieldSelector selector, Func<JToken, CapturedConstraint> factory)
+        public LazyConstraint(FieldSelector selector, Func<CompareContext, CapturedConstraint> factory)
         {
             this.selector = selector;
             this.factory = factory;
@@ -76,15 +77,17 @@ namespace DotJEM.Json.Validation.Constraints
         public override Result DoMatch(JToken token, IJsonValidationContext context)
         {
             DynamicContext con = (DynamicContext)context;
-            JToken other = con.SelectToken(selector);
+            CompareContext compare = con.SelectToken(selector);
             try
             {
-                JsonConstraint constraint = factory(other).Constraint.Optimize();
-                return new LazyConstraintResult(this, other, constraint.DoMatch(token, context));
+                JsonConstraint constraint = factory(compare).Constraint.Optimize();
+                //TODO: As of now we only support a single token due to the conversion that happens below.
+                return new LazyConstraintResult(this, compare, constraint.DoMatch(token, context));
             }
             catch (Exception ex)
             {
-                return new LazyConstraintResult(this, other, new ConstraintExceptionResult(this, token, ex));
+                //TODO: As of now we only support a single token due to the conversion that happens below.
+                return new LazyConstraintResult(this, compare, new ConstraintExceptionResult(this, token, ex));
             }
         }
 
