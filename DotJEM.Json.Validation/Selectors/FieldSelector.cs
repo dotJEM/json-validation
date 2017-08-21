@@ -47,7 +47,18 @@ namespace DotJEM.Json.Validation.Selectors
                 Add(selector);
         }
 
-        public override IEnumerable<JTokenInfo> SelectTokens(JObject entity) => Selectors.SelectMany(selector => selector.SelectTokens(entity));
+        public override IEnumerable<JTokenInfo> SelectTokens(JObject entity)
+        {
+            List<JTokenInfo> tokens = new List<JTokenInfo>();
+            foreach (FieldSelector selector in Selectors)
+            {
+                var selected = selector.SelectTokens(entity);
+                tokens.AddRange(selected);
+            }
+            return tokens;
+
+            //return Selectors.SelectMany(selector => selector.SelectTokens(entity));
+        }
 
         public CompositeFieldSelector Add(FieldSelector selector)
         {
@@ -55,6 +66,10 @@ namespace DotJEM.Json.Validation.Selectors
             if (composite != null)
             {
                 Selectors.AddRange(composite.Selectors);
+            }
+            else
+            {
+                Selectors.Add(selector);
             }
             return this;
         }

@@ -65,24 +65,28 @@ namespace DotJEM.Json.Validation.Context
         public CompareContext SelectToken(FieldSelector selector)
         {
             //TODO: If we in some way can do "Any(values, v => Must.Be.LessThan(v))" we can allow for array selectors here to work;
-            return new CompareContext(this, selector.SelectTokens(root));
+            return new CompareContext(root, selector.SelectTokens(root));
         }
     }
 
     public class CompareContext
     {
-        private readonly DynamicContext context;
-        private readonly IEnumerable<JTokenInfo> tokens;
+        private readonly JObject root;
+        public IEnumerable<JTokenInfo> Tokens { get; }
 
-        public CompareContext(DynamicContext context, IEnumerable<JTokenInfo> tokens)
+        public string Path => Tokens.Aggregate("", (path, info) => );
+
+        public CompareContext(JObject root, IEnumerable<JTokenInfo> tokens)
         {
-            this.context = context;
-            this.tokens = tokens;
+            this.root = root;
+            this.Tokens = tokens;
         }
+
+
 
         public static implicit operator JToken(CompareContext context)
         {
-            return context.tokens.SingleOrDefault();
+            return context.Tokens.SingleOrDefault();
         }
 
         //NOTE: Compatibility!

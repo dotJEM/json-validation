@@ -10,7 +10,8 @@ namespace DotJEM.Json.Validation.Selectors
 
         protected AggregateFieldSelector(FieldSelector selector)
         {
-            Selector = selector ?? throw new ArgumentNullException(nameof(selector));
+            if (selector == null) throw new ArgumentNullException(nameof(selector));
+            Selector = selector;
         }
 
         public override IEnumerable<JTokenInfo> SelectTokens(JObject entity)

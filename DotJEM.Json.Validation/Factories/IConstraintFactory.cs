@@ -8,6 +8,9 @@ namespace DotJEM.Json.Validation.Factories
 {
     public interface IConstraintFactory
     {
+        /// <summary>
+        /// Captures a constraint within a given context so that Is, Must etc. is preserved correctly.
+        /// </summary>
         CapturedConstraint Capture(JsonConstraint constraint);
     }
     /// <summary>

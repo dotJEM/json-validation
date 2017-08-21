@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.Comparables;
@@ -40,7 +41,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
 
             ValidatorResult result = validator.Validate(JObject.FromObject(new
             {
-                name = (string)null, company = new { } 
+                name = (string)null, company = new { }, one = 1, two = 2, three = 4 
                 //test= "01234567890123456789", other="0", a = "asd", sub = new  { name = "Foo", type = "##Bar" }, depend = new { min = 3, max = 2 }
             }), new JsonValidationContext());
 
@@ -85,7 +86,13 @@ namespace DotJEM.Json.Validation.IntegrationTest
             When("company", Is.Defined())
                 .Then("company.name", Is.Required() & Must.Be.String() & Have.LengthBetween(3, 256));
 
-            When(Any).Then("person.numberOfPersons",ComparedTo(All(), token => Is.Required()));
+            When(Any)
+                .Then("three", ComparedTo(new FieldSelector[]{ "one", "two" }, context =>
+                {
+                    JTokenInfo[] tokens = context.Tokens.ToArray();
+                    int[] values = tokens.Select(t => (int) t.Token).ToArray();
+                    return Is.EqualTo(values.Sum());
+                }));
 
             /*
              

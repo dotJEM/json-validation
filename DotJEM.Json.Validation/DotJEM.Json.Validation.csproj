@@ -64,6 +64,7 @@
     <Compile Include="Constraints\Generic\InConstraint.cs" />
     <Compile Include="Constraints\Generic\GenericConstraintFactoryExtensions.cs" />
     <Compile Include="Constraints\JsonConstraint.cs" />
+    <Compile Include="Constraints\LazyConstraint.cs" />
     <Compile Include="Constraints\NotJsonConstraint.cs" />
     <Compile Include="Constraints\Comparables\LessThanConstraint.cs" />
     <Compile Include="Constraints\Comparables\ComparableConstraintFactoryExtensions.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Results\ConstraintExceptionResult.cs" />
     <Compile Include="Results\ConstraintResult.cs" />
     <Compile Include="Results\EmbededValidatorResult.cs" />
+    <Compile Include="Results\LazyConstraintResult.cs" />
     <Compile Include="Results\ValidatorResult.cs" />
     <Compile Include="Results\NotResult.cs" />
     <Compile Include="Results\OrResult.cs" />
