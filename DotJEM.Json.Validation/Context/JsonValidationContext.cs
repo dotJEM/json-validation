@@ -71,17 +71,17 @@ namespace DotJEM.Json.Validation.Context
 
     public class CompareContext
     {
-        private readonly JObject root;
-        public IEnumerable<JTokenInfo> Tokens { get; }
+        public JObject Root { get; }
 
-        public string Path => Tokens.Aggregate("", (path, info) => );
+        public IReadOnlyList<JTokenInfo> Tokens { get; }
+
+        public string Path => Tokens.Select(t => t.Token.Path).Aggregate((agg, next) => agg + ";" + next);
 
         public CompareContext(JObject root, IEnumerable<JTokenInfo> tokens)
         {
-            this.root = root;
-            this.Tokens = tokens;
+            this.Root = root;
+            this.Tokens = tokens.ToList().AsReadOnly();
         }
-
 
 
         public static implicit operator JToken(CompareContext context)
@@ -128,5 +128,39 @@ namespace DotJEM.Json.Validation.Context
         public static explicit operator TimeSpan? (CompareContext value) => (TimeSpan?)(JToken)value;
         public static explicit operator Uri(CompareContext value) => (Uri)(JToken)value;
 
+    }
+    public static class CCExt
+    {
+        public static JValue Sum(this CompareContext context)
+        {
+            double dec = 0;
+            long lon = 0;
+            foreach (JTokenInfo token in context.Tokens)
+            {
+                if (token.Token.Type == JTokenType.Integer)
+                    lon += (long)token.Token;
+
+                if (token.Token.Type == JTokenType.Float)
+                    dec += (double)token.Token;
+            }
+            return dec > 0 ? new JValue(dec + lon) : new JValue(lon);
+        }
+
+        public static double Average(this CompareContext context)
+        {
+            double dec = 0;
+            long lon = 0;
+            foreach (JTokenInfo token in context.Tokens)
+            {
+                if (token.Token.Type == JTokenType.Integer)
+                    lon += (long)token.Token;
+
+                if (token.Token.Type == JTokenType.Float)
+                    dec += (double)token.Token;
+            }
+            return (dec + lon) / context.Count();
+        }
+
+        public static int Count(this CompareContext context) => context.Tokens.Count;
     }
 }

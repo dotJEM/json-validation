@@ -61,6 +61,7 @@ namespace DotJEM.Json.Validation.IntegrationTest
         public FakeJsonConstraint N => new FakeJsonConstraint("" + counter++);
     }
 
+
     public class TestValidator : JsonValidator
     {
         public TestValidator()
@@ -87,12 +88,9 @@ namespace DotJEM.Json.Validation.IntegrationTest
                 .Then("company.name", Is.Required() & Must.Be.String() & Have.LengthBetween(3, 256));
 
             When(Any)
-                .Then("three", ComparedTo(new FieldSelector[]{ "one", "two" }, context =>
-                {
-                    JTokenInfo[] tokens = context.Tokens.ToArray();
-                    int[] values = tokens.Select(t => (int) t.Token).ToArray();
-                    return Is.EqualTo(values.Sum());
-                }));
+                .Then("three", ComparedTo(All("one", "two"), context => Is.EqualTo(context.Sum())));
+            When(Any)
+                .Then(All("id", "username", "email"), Is.Required());
 
             /*
              

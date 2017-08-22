@@ -138,16 +138,24 @@ namespace DotJEM.Json.Validation.Descriptive
             if (!visitee.GuardResult.IsValid || visitee.ValidationResult.IsValid)
                 return;
 
-            inguard = true;
-            WriteLine("When");
-            using (Indent())
+            if (!visitee.GuardResult.IsAny())
             {
-                visitee.GuardResult.Accept(this);
+                inguard = true;
+                WriteLine("When");
+                using (Indent())
+                {
+                    visitee.GuardResult.Accept(this);
+                }
+                inguard = false;
+                WriteLine("Then");
+                using (Indent())
+                {
+                    visitee.ValidationResult.Accept(this);
+                }
             }
-            inguard = false;
-            WriteLine("Then");
-            using (Indent())
+            else
             {
+                WriteLine("Always");
                 visitee.ValidationResult.Accept(this);
             }
             WriteLine("");
@@ -225,6 +233,40 @@ namespace DotJEM.Json.Validation.Descriptive
         {
             WriteLine("NOT");
             base.Visit(result);
+        }
+    }
+
+
+    public static class ResultExt
+    {
+        public static bool IsAny(this Result self)
+        {
+            RuleResult rule = self as RuleResult;
+            if (rule != null)
+            {
+                return rule.Result.IsAny();
+            }
+
+            ValidatorResult validator = self as ValidatorResult;
+            if (validator != null)
+            {
+                foreach (Result result in validator.Results)
+                {
+                    if (!result.IsAny())
+                        return false;
+                }
+            }
+
+            CompositeResult composite = self as CompositeResult;
+            if (composite != null)
+            {
+                foreach (Result result in composite.Results)
+                {
+                    if (!result.IsAny())
+                        return false;
+                }
+            }
+            return self is AnyResult;
         }
     }
 

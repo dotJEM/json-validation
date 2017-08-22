@@ -51,10 +51,7 @@ namespace DotJEM.Json.Validation.Selectors
         {
             List<JTokenInfo> tokens = new List<JTokenInfo>();
             foreach (FieldSelector selector in Selectors)
-            {
-                var selected = selector.SelectTokens(entity);
-                tokens.AddRange(selected);
-            }
+                tokens.AddRange(selector.SelectTokens(entity));
             return tokens;
 
             //return Selectors.SelectMany(selector => selector.SelectTokens(entity));
@@ -64,13 +61,9 @@ namespace DotJEM.Json.Validation.Selectors
         {
             CompositeFieldSelector composite = selector as CompositeFieldSelector;
             if (composite != null)
-            {
                 Selectors.AddRange(composite.Selectors);
-            }
             else
-            {
                 Selectors.Add(selector);
-            }
             return this;
         }
     }

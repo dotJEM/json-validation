@@ -136,14 +136,12 @@ namespace DotJEM.Json.Validation
         public IForFieldSelector Use(Type validatorType)
         {
             return When(Any).Use(validatorType);
-        } 
+        }
 
         #endregion
 
-        public FieldSelector All(params FieldSelector[] selectors)
-        {
-            return new CompositeFieldSelector(selectors);
-        }
+        public FieldSelector All(params FieldSelector[] selectors) => Multiple(selectors);
+        public FieldSelector Multiple(params FieldSelector[] selectors) => new CompositeFieldSelector(selectors);
 
         public CapturedConstraint ComparedTo(FieldSelector[] selectors, Func<CompareContext, CapturedConstraint> factory)
         {
