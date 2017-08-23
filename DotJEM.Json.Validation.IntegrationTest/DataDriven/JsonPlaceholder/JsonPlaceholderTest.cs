@@ -17,7 +17,6 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
     {
 
         [TestCaseSource(nameof(Users))]
-        [Parallelizable(ParallelScope.Self)]
         public void Validate_Users(JObject entity)
         {
             ValidatorResult result = new UserValidator().Validate(entity, null);
@@ -25,7 +24,6 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
         }
 
         [TestCaseSource(nameof(Posts))]
-        [Parallelizable(ParallelScope.Self)]
         public void Validate_Posts(JObject entity)
         {
             ValidatorResult result = new PostValidator().Validate(entity, null);
@@ -33,7 +31,6 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
         }
 
         [TestCaseSource(nameof(Photos))]
-        [Parallelizable(ParallelScope.Self)]
         public void Validate_Photos(JObject entity)
         {
             ValidatorResult result = new PhotoValidator().Validate(entity, null);
@@ -41,7 +38,6 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
         }
 
         [TestCaseSource(nameof(Albums))]
-        [Parallelizable(ParallelScope.Self)]
         public void Validate_Albums(JObject entity)
         {
             ValidatorResult result = new AlbumValidator().Validate(entity, null);
@@ -49,7 +45,6 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
         }
 
         [TestCaseSource(nameof(Comments))]
-        [Parallelizable(ParallelScope.Self)]
         public void Validate_Comment(JObject entity)
         {
             ValidatorResult result = new CommentValidator().Validate(entity, null);
@@ -57,7 +52,6 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
         }
 
         [TestCaseSource(nameof(Todos))]
-        [Parallelizable(ParallelScope.Self)]
         public void Validate_Todos(JObject entity)
         {
             ValidatorResult result = new TodoValidator().Validate(entity, null);
