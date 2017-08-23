@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,9 @@ namespace DotJEM.Json.Validation.IntegrationTest.Util
             string[] parts = name.Split('.');
             string directory = parts.Take(parts.Length - 1).Aggregate((agg, next) => agg + '\\' + next);
 
-            string path = Directory.GetCurrentDirectory() + "\\" + directory + "\\" + caller + ".json";
+            string codebase = Assembly.GetExecutingAssembly().CodeBase;
+            string directoryname = Path.GetDirectoryName(codebase.Replace("file:///", ""));
+            string path = directoryname + "\\" + directory + "\\" + caller + ".json";
             if (File.Exists(path))
             {
                 return LoadJson(path);
