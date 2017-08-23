@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
 {
     [TestFixture]
-    [Parallelizable(ParallelScope.Self)]
+    //[Parallelizable(ParallelScope.Self)]
     public class JsonPlaceholderTest
     {
 
