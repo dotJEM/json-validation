@@ -142,6 +142,7 @@
   <ItemGroup>
     <None Include="DotJEM.Json.Validation.nuspec" />
     <None Include="packages.config" />
+    <None Include="Results\Results.cd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constraints\Arrays\" />
