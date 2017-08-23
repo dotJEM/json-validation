@@ -22,7 +22,7 @@ namespace DotJEM.Json.Validation.IntegrationTest.Util
         /// 
         /// The TestDataLoader will fetch the file based on the namespace of the TestClass and the name of the property. If a file is not found for the property, then it tries using the testclass name.
         /// </summary>
-        public static IEnumerable<JObject> LoadFor<T>([CallerMemberName]string caller = null)
+        public static IEnumerable<JObject> LoadFor<T>(int limit = 500, [CallerMemberName]string caller = null)
         {
             //0         1         2         3         4         5         6         7
             //012345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -37,7 +37,7 @@ namespace DotJEM.Json.Validation.IntegrationTest.Util
             string path = directoryname + "\\" + directory + "\\" + caller + ".json";
             if (File.Exists(path))
             {
-                return LoadJson(path);
+                return LoadJson(path, limit);
             }
             string testName = parts.Last();
             string fileName = testName.Substring(0, testName.Length - 4);
@@ -47,15 +47,15 @@ namespace DotJEM.Json.Validation.IntegrationTest.Util
             path = Directory.GetCurrentDirectory() + "\\" + directory + "\\" + fileName + "s.json";
             if (File.Exists(path))
             {
-                return LoadJson(path);
+                return LoadJson(path, limit);
             }
             throw new FileNotFoundException($"Could not find datafile {path}.", path);
         }
 
-        private static IEnumerable<JObject> LoadJson(string path)
+        private static IEnumerable<JObject> LoadJson(string path, int limit)
         {
             JObject json = JObject.Parse(File.ReadAllText(path));
-            return json["data"].AsEnumerable().OfType<JObject>();
+            return json["data"].AsEnumerable().OfType<JObject>().Take(limit);
         }
     }
 
