@@ -140,9 +140,11 @@
     <Compile Include="Visitors\VisitorExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Constraints\Constraints.cd" />
     <None Include="DotJEM.Json.Validation.nuspec" />
     <None Include="packages.config" />
     <None Include="Results\Results.cd" />
+    <None Include="Rules\Rules.cd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constraints\Arrays\" />

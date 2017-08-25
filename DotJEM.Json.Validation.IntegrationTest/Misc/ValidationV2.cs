@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Data;
-using System.Linq;
 using DotJEM.Json.Validation.Constraints;
 using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.Comparables;
@@ -8,13 +6,11 @@ using DotJEM.Json.Validation.Constraints.String;
 using DotJEM.Json.Validation.Constraints.Types;
 using DotJEM.Json.Validation.Context;
 using DotJEM.Json.Validation.Descriptive;
-using DotJEM.Json.Validation.Factories;
 using DotJEM.Json.Validation.Results;
-using DotJEM.Json.Validation.Selectors;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace DotJEM.Json.Validation.IntegrationTest
+namespace DotJEM.Json.Validation.IntegrationTest.Misc
 {
     [TestFixture]
     public class ValidationV2ConstraintBuilder
@@ -78,7 +74,8 @@ namespace DotJEM.Json.Validation.IntegrationTest
                 .Then(It, Must.Be.String() & Have.MaxLength(256));
 
             When(Field("company", Is.Defined()) | Field("address", Is.Defined()))
-                .Then("address", Is.Required());
+                .Then("address", Is.Required())
+                .Describe("");
 
             When("address", Is.Defined() & Is.Object())
                 .Use<AddressValidator>()
@@ -91,6 +88,10 @@ namespace DotJEM.Json.Validation.IntegrationTest
                 .Then("three", ComparedTo(All("one", "two"), context => Is.EqualTo(context.Sum())));
             When(Any)
                 .Then(All("id", "username", "email"), Is.Required());
+
+            When(Any)
+                .Use<AddressValidator>()
+                .ForEachIn("arr");
 
             /*
              

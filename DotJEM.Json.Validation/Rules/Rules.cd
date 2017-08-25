@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DotJEM.Json.Validation.Rules.Rule" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAABACAAAAAAAAAIAAAAAACAAAAAA=</HashCode>
+      <FileName>Rules\Rule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Rules.AndRule" Collapsed="true">
+    <Position X="8.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Rules\AndRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Rules.BasicRule" Collapsed="true">
+    <Position X="13.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAACAACAAAAAA=</HashCode>
+      <FileName>Rules\BasicRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Rules.EmbededValidatorRule" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Rules\BasicRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Rules.AnyRule" Collapsed="true">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Rules\BasicRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Rules.FuncRule" Collapsed="true">
+    <Position X="15" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAACAAAAAA=</HashCode>
+      <FileName>Rules\BasicRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Rules.CompositeRule" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAACIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rules\CompositeRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Rules.NotRule" Collapsed="true">
+    <Position X="12.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAEAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Rules\NotRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Rules.OrRule" Collapsed="true">
+    <Position X="10.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Rules\OrRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

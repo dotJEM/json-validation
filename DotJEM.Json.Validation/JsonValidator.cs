@@ -175,12 +175,14 @@ namespace DotJEM.Json.Validation
             return new ValidatorResult(this, results.ToList());
         }
 
-        public void AddValidator(JsonFieldValidator jsonFieldValidator)
+        public IFieldValidatorConfig AddValidator(JsonFieldValidator jsonFieldValidator)
         {
             if (jsonFieldValidator == null)
                 throw new ArgumentNullException(nameof(jsonFieldValidator));
 
+
             validators.Add(jsonFieldValidator);
+            return new FieldValidatorConfig(jsonFieldValidator);
         }
     }
 

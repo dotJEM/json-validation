@@ -1,18 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Configuration;
-using System.Text;
-using System.Threading.Tasks;
-using DotJEM.Json.Validation.Constraints;
-using DotJEM.Json.Validation.Constraints.Common;
+﻿using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.String;
-using DotJEM.Json.Validation.Context;
-using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace DotJEM.Json.Validation.IntegrationTest
+namespace DotJEM.Json.Validation.IntegrationTest.TargetCases
 {
     [TestFixture]
     public class ChildValidatorTest

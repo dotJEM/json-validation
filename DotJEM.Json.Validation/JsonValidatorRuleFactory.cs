@@ -10,14 +10,27 @@ namespace DotJEM.Json.Validation
 {
     public interface IJsonValidatorRuleFactory
     {
-        void Then(Rule validator);
-        void Then(FieldSelector selector, CapturedConstraint validator);
-        void Then(FieldSelector selector, string alias, CapturedConstraint validator);
-        void Then(ISelfReferencingRule @ref, CapturedConstraint constraint);
+        IFieldValidatorConfig Then(Rule validator);
+        IFieldValidatorConfig Then(FieldSelector selector, CapturedConstraint validator);
+        IFieldValidatorConfig Then(FieldSelector selector, string alias, CapturedConstraint validator);
+        IFieldValidatorConfig Then(ISelfReferencingRule @ref, CapturedConstraint constraint);
 
         IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new();
         IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator;
         IForFieldSelector Use(Type validatorType);
+    }
+
+    public interface IFieldValidatorConfig
+    {
+        
+    }
+
+    public class FieldValidatorConfig : IFieldValidatorConfig
+    {
+        public FieldValidatorConfig(JsonFieldValidator validator)
+        {
+            
+        }
     }
 
     public class JsonValidatorRuleFactory : IJsonValidatorRuleFactory
@@ -31,15 +44,15 @@ namespace DotJEM.Json.Validation
             this.rule = rule;
         }
 
-        public void Then(FieldSelector selector, CapturedConstraint constraint) => Then(new BasicRule(selector, constraint));
-        public void Then(FieldSelector selector, string alias, CapturedConstraint constraint) => Then(new AliasedFieldSelector(alias, selector), constraint);
+        public IFieldValidatorConfig Then(FieldSelector selector, CapturedConstraint constraint) => Then(new BasicRule(selector, constraint));
+        public IFieldValidatorConfig Then(FieldSelector selector, string alias, CapturedConstraint constraint) => Then(new AliasedFieldSelector(alias, selector), constraint);
 
-        public void Then(ISelfReferencingRule @ref, CapturedConstraint constraint)
+        public IFieldValidatorConfig Then(ISelfReferencingRule @ref, CapturedConstraint constraint)
         {
             try
             {
                 CollectSingleSelectorVisitor visitor = rule.Accept(new CollectSingleSelectorVisitor());
-                Then(visitor.SelectorPath, visitor.Alias, constraint);
+                return Then(visitor.SelectorPath, visitor.Alias, constraint);
             }
             catch (InvalidOperationException ex)
             {
@@ -47,7 +60,10 @@ namespace DotJEM.Json.Validation
             }
         }
 
-        public void Then(Rule rule) => validator.AddValidator(new JsonFieldValidator(this.rule, rule));
+        public IFieldValidatorConfig Then(Rule rule)
+        {
+            return validator.AddValidator(new JsonFieldValidator(this.rule, rule));
+        }
 
         public IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new() => new ForFieldSelector(this, rule, new TValidator());
         public IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator => new ForFieldSelector(this, rule, instance);

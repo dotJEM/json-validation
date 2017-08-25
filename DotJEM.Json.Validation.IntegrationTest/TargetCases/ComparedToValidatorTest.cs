@@ -1,10 +1,11 @@
 ﻿using System;
 using DotJEM.Json.Validation.Constraints.Common;
 using DotJEM.Json.Validation.Constraints.Comparables;
+using DotJEM.Json.Validation.Context;
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 
-namespace DotJEM.Json.Validation.IntegrationTest
+namespace DotJEM.Json.Validation.IntegrationTest.TargetCases
 {
     [TestFixture]
     public class ComparedToValidatorTest
@@ -28,6 +29,41 @@ namespace DotJEM.Json.Validation.IntegrationTest
         {
             Assert.That(new ComparedToDateValidator().Validate(JObject.Parse("{ left: '2016-01-01 10:16', right: 'No Date' }"), null)
                 , Has.Property("IsValid").EqualTo(false));
+        }
+
+        [Test]
+        public void Validate_LeftPlusRightEqualSum_Pass()
+        {
+            Assert.That(new ComparedToSumValidator().Validate(JObject.Parse("{ left: 40, right: 2, sum: 42 }"), null)
+                , Has.Property("IsValid").EqualTo(true));
+        }
+
+        [Test]
+        public void Validate_LeftPlusRightNotEqualSum_Fail()
+        {
+            Assert.That(new ComparedToSumValidator().Validate(JObject.Parse("{ left: 20, right: 2, sum: 42 }"), null)
+                , Has.Property("IsValid").EqualTo(false));
+        }
+
+        [Test]
+        public void Validate_LeftNoRightEqualSum_Pass()
+        {
+            Assert.That(new ComparedToSumValidator().Validate(JObject.Parse("{ right: 2, sum: 42 }"), null)
+                , Has.Property("IsValid").EqualTo(false));
+        }
+
+        public class ComparedToSumValidator : JsonValidator
+        {
+            public ComparedToSumValidator()
+            {
+                When(Any)
+                    .Then("sum", ComparedTo(All("left","right"), t=>
+                    {
+                        var sum = t.Sum();
+
+                        return Must.Be.EqualTo(sum);
+                    }));
+            }
         }
 
         public class ComparedToIntegerValidator : JsonValidator

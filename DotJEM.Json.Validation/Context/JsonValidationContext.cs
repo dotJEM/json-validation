@@ -137,10 +137,10 @@ namespace DotJEM.Json.Validation.Context
             long lon = 0;
             foreach (JTokenInfo token in context.Tokens)
             {
-                if (token.Token.Type == JTokenType.Integer)
+                if (token.Token?.Type == JTokenType.Integer)
                     lon += (long)token.Token;
 
-                if (token.Token.Type == JTokenType.Float)
+                if (token.Token?.Type == JTokenType.Float)
                     dec += (double)token.Token;
             }
             return dec > 0 ? new JValue(dec + lon) : new JValue(lon);
@@ -152,10 +152,10 @@ namespace DotJEM.Json.Validation.Context
             long lon = 0;
             foreach (JTokenInfo token in context.Tokens)
             {
-                if (token.Token.Type == JTokenType.Integer)
+                if (token.Token?.Type == JTokenType.Integer)
                     lon += (long)token.Token;
 
-                if (token.Token.Type == JTokenType.Float)
+                if (token.Token?.Type == JTokenType.Float)
                     dec += (double)token.Token;
             }
             return (dec + lon) / context.Count();

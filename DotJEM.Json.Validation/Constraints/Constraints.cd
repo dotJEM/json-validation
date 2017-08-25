@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DotJEM.Json.Validation.Constraints.AndJsonConstraint" Collapsed="true">
+    <Position X="5.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\AndJsonConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.CompositeJsonConstraint" Collapsed="true">
+    <Position X="6.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAACAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\CompositeJsonConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.JsonConstraint" Collapsed="true">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAIAAAEAAAEAAAEABACAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\JsonConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.LazyConstraint" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAACAAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\LazyConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.NotJsonConstraint" Collapsed="true">
+    <Position X="11.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAEAAAEAAAEAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Constraints\NotJsonConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.OrJsonConstraint" Collapsed="true">
+    <Position X="7.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\OrJsonConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.TypedJsonConstraint&lt;TTokenType&gt;" Collapsed="true">
+    <Position X="3.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\TypedJsonConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.EqualToConstraint" Collapsed="true">
+    <Position X="7.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\EqualToConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.FunctionalConstraint" Collapsed="true">
+    <Position X="9.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\FunctionalConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.HasValueConstraint" Collapsed="true">
+    <Position X="13.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\HasValueConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.IsDefinedConstraint" Collapsed="true">
+    <Position X="9.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\IsDefinedConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.NullOrEmptyConstraint" Collapsed="true">
+    <Position X="9.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\NullOrEmptyConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.RequiredConstraint" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\RequiredConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.Length.ExactLengthConstraint" Collapsed="true">
+    <Position X="13.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\Length\ExactLengthConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.Length.LengthConstraint" Collapsed="true">
+    <Position X="13.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\Length\LengthConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.Length.MaxLengthConstraint" Collapsed="true">
+    <Position X="9.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\Length\MaxLengthConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Common.Length.MinLengthConstraint" Collapsed="true">
+    <Position X="9.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Common\Length\MinLengthConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Comparables.GreaterOrEqualToConstraint&lt;T&gt;" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Comparables\GreaterOrEqualToConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Comparables.GreaterThanConstraint&lt;T&gt;" Collapsed="true">
+    <Position X="0.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Comparables\GreaterThanConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Comparables.LessOrEqualToConstraint&lt;T&gt;" Collapsed="true">
+    <Position X="4.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Comparables\LessOrEqualToConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Comparables.LessThanConstraint&lt;T&gt;" Collapsed="true">
+    <Position X="6" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Comparables\LessThanConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Generic.InConstraint&lt;T&gt;" Collapsed="true">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAA=</HashCode>
+      <FileName>Constraints\Generic\InConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.String.MatchStringConstraint" Collapsed="true">
+    <Position X="4.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\String\MatchStringConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.String.StringEqualsConstraint" Collapsed="true">
+    <Position X="6" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAIAAAAAAAAAACAAAAABAAAAAAA=</HashCode>
+      <FileName>Constraints\String\StringEqualsConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.String.StringInConstraint" Collapsed="true">
+    <Position X="2.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAIAAAAAAAAAACAAAAAgAAAAAAA=</HashCode>
+      <FileName>Constraints\String\StringInConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.String.Length.ExactStringLengthConstraint" Collapsed="true">
+    <Position X="2.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\String\Length\ExactStringLengthConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.String.Length.MaxStringLengthConstraint" Collapsed="true">
+    <Position X="4.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\String\Length\MaxStringLengthConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.String.Length.MinStringLengthConstraint" Collapsed="true">
+    <Position X="6" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\String\Length\MinStringLengthConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.String.Length.StringLengthConstraint" Collapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\String\Length\StringLengthConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Types.OfTypeArrayConstraint" Collapsed="true">
+    <Position X="13.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Types\OfTypeArrayConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Types.OfTypeBooleanConstraint" Collapsed="true">
+    <Position X="13.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Types\OfTypeBooleanConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Types.OfTypeDateTimeConstraint" Collapsed="true">
+    <Position X="11.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Types\OfTypeDateTimeConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Types.OfTypeGuidConstraint" Collapsed="true">
+    <Position X="11.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Types\OfTypeGuidConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Types.OfTypeIntegerConstraint" Collapsed="true">
+    <Position X="11.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Types\OfTypeIntegerConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Types.OfTypeNumberConstraint" Collapsed="true">
+    <Position X="11.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Types\OfTypeNumberConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Types.OfTypeObjectConstraint" Collapsed="true">
+    <Position X="9.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Types\OfTypeObjectConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DotJEM.Json.Validation.Constraints.Types.OfTypeStringConstraint" Collapsed="true">
+    <Position X="13.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constraints\Types\OfTypeStringConstraint.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
