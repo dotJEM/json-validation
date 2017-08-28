@@ -74,8 +74,8 @@ namespace DotJEM.Json.Validation.IntegrationTest.Misc
                 .Then(It, Must.Be.String() & Have.MaxLength(256));
 
             When(Field("company", Is.Defined()) | Field("address", Is.Defined()))
-                .Then("address", Is.Required())
-                .Describe("");
+                .Then("address", Is.Required());
+                //.Describe("");
 
             When("address", Is.Defined() & Is.Object())
                 .Use<AddressValidator>()
