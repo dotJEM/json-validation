@@ -8,7 +8,7 @@ install:
 - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 
 init:
-- ps: Update-AppveyorBuild -Version "0.2.$env:appveyor_build_number-sha.$($env:appveyor_repo_commit.substring(0,7))"
+- ps: Update-AppveyorBuild -Version "0.2.$env:appveyor_build_number+sha.$($env:appveyor_repo_commit.substring(0,7))"
 
 nuget:
   disable_publish_on_pr: true
