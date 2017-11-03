@@ -120,3 +120,38 @@ This is a bit verbose, but shows that the result of the validation can be conver
 By using the fluent syntax, much of the information we put into the validator as pure code is preserved and can be used to generate an output.
 
 By implementing custom descriptors, developers can build their own output.
+
+
+# Extending with new constraints
+
+It is easy to extend the framework with new constrains, an example of this could be an EmailConstraint which validates a string as an email
+
+To do this, first implement the actual constraint:
+```
+[JsonConstraintDescription("valid email")]
+public class ValidEmailConstraint : JsonConstraint
+{
+    private static readonly Regex pattern = new Regex("emailpattern", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    public override bool Matches(JToken token, IJsonValidationContext context)
+        => token?.Type == JTokenType.String && pattern.IsMatch((string)token);
+}
+```
+
+Then add an extension method that targets the appropirate interface, in this case "must be valid email" sounds right so we targets the "IBeConstraintFactory":
+```
+public static CapturedConstraint ValidEmail(this IBeConstraintFactory self)
+    => self.Capture(new ValidEmailConstraint());
+```
+
+It is now possible to use the new constraint as:
+
+```csharp
+    public class UserValidator : JsonValidator
+    {
+        public UserValidator()
+        {
+            When("email", Is.Defined())
+                .Then(It, Must.Be.ValidEmail());
+        }
+    }
+```
