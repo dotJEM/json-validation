@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/at67620962onli32/branch/master?svg=true)](https://ci.appveyor.com/project/jeme/json-validation/branch/master)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FdotJEM%2Fjson-validation.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FdotJEM%2Fjson-validation?ref=badge_shield)
 
 # json-validation
 
@@ -155,3 +156,7 @@ It is now possible to use the new constraint as:
         }
     }
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FdotJEM%2Fjson-validation.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FdotJEM%2Fjson-validation?ref=badge_large)
