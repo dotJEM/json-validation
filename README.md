@@ -55,6 +55,11 @@ If the following JSON is passed though the validator:
 }
 ```
 
+As so:
+```Json
+ validator.Validate(JObject.Parse("{ "name": null, "company": { } }"), null);
+```
+
 And then later described with an example implementation of a descriptor, the output looks like this:
 
 ```
@@ -128,7 +133,7 @@ By implementing custom descriptors, developers can build their own output.
 It is easy to extend the framework with new constrains, an example of this could be an EmailConstraint which validates a string as an email
 
 To do this, first implement the actual constraint:
-```
+```csharp
 [JsonConstraintDescription("valid email")]
 public class ValidEmailConstraint : JsonConstraint
 {
@@ -139,7 +144,7 @@ public class ValidEmailConstraint : JsonConstraint
 ```
 
 Then add an extension method that targets the appropirate interface, in this case "must be valid email" sounds right so we targets the "IBeConstraintFactory":
-```
+```csharp
 public static CapturedConstraint ValidEmail(this IBeConstraintFactory self)
     => self.Capture(new ValidEmailConstraint());
 ```
