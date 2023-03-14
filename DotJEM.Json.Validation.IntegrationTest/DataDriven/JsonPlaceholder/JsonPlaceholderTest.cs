@@ -69,15 +69,17 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
     public class AlbumValidator : JsonValidator
     {
         /* {
-         *   "postId": 1,
-         *   "id": 1,
-         *   "name": "id labore ex et quam laborum",
-         *   "email": "Eliseo@gardner.biz",
-         *   "body": "laudantium enim quasi est quidem magnam voluptate ipsam eos\ntempora quo necessitatibus\ndolor quam autem quasi\nreiciendis et nam sapiente accusantium"
-         * }
+      "userId": 10,
+      "id": 98,
+      "title": "omnis quia possimus nesciunt deleniti assumenda sed autem"
          */
         public AlbumValidator()
         {
+            When(Any)
+                .Then(Field("id", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
+                      & Field("userId", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
+                      & Field("title", Is.Required() & Have.MinLength(1))
+                );
         }
     }
 
@@ -93,6 +95,15 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
          */
         public CommentValidator()
         {
+            When(Any)
+                .Then(Field("id", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
+                      & Field("postId", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
+                      & Field("name", Is.Required() & Have.MinLength(1))
+                      & Field("email", Is.Required() & Must.Match(".*@\\w+\\.\\w{2,5}"))
+                );
+
+            When("body", Is.Defined())
+                .Then("body", Must.Have.MinLength(20));
         }
     }
 
@@ -107,6 +118,12 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
          */
         public TodoValidator()
         {
+            When(Any)
+                .Then(Field("id", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
+                      & Field("userId", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
+                      & Field("title", Is.Required() & Have.MinLength(10))
+                      & Field("completed", Is.Required() & Be.Boolean())
+                );
         }
     }
 
@@ -125,11 +142,11 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
             When(Any)
                 .Then(Field("id", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
                       & Field("albumId", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
-                      & Field("title", Is.Required() & Has.MinLength(1))
+                      & Field("title", Is.Required() & Have.MinLength(1))
                       & Field("url", Is.Required() & Must.Match("http://\\w+\\.\\w+/\\d+/[0-9A-Za-z]{3,6}"))
                 );
 
-            When(Any)
+            When("thumbnailUrl", Is.Defined())
                 .Then("thumbnailUrl", ComparedTo("url", ctx =>
                 {
                     string value = (string)(JValue) ctx;
@@ -152,7 +169,7 @@ namespace DotJEM.Json.Validation.IntegrationTest.DataDriven.JsonPlaceholder
             When(Any)
                 .Then(Field("id", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
                       & Field("userId", Is.Required() & Must.Be.Integer() & Must.Be.GreaterOrEqualTo(1))
-                      & Field("title", Is.Required() & Has.MinLength(10))
+                      & Field("title", Is.Required() & Have.MinLength(10))
                       & Field("body", Is.Required() & Has.MinLength(10))
                 );
         }

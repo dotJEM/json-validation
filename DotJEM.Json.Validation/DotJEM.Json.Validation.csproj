@@ -1,162 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2441E582-2ED0-4815-99A3-CD5B65A1592A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotJEM.Json.Validation</RootNamespace>
-    <AssemblyName>DotJEM.Json.Validation</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>DotJEM Json Validation</Title>
+    <Copyright>Copyright © dotJEM 2023</Copyright>
+    <PackageProjectUrl>https://github.com/dotJEM/json-validation</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dotJEM/json-validation</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Json;Validation;Fluent</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>False</IncludeSymbols>
+    <Description>Validation Framework for validating JSON using Json.NET objects.</Description>
+    <PackageIcon>avatar.png</PackageIcon>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <None Include="..\avatar.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="CollectSingleSelectorVisitor.cs" />
-    <Compile Include="Constraints\AndJsonConstraint.cs" />
-    <Compile Include="Constraints\Common\EqualToConstraint.cs" />
-    <Compile Include="Constraints\Common\IsDefinedConstraint.cs" />
-    <Compile Include="Constraints\Common\CommonConstraintFactoryExtensions.cs" />
-    <Compile Include="Constraints\Common\Length\ExactLengthConstraint.cs" />
-    <Compile Include="Constraints\Common\Length\MaxLengthConstraint.cs" />
-    <Compile Include="Constraints\Common\Length\MinLengthConstraint.cs" />
-    <Compile Include="Constraints\Common\Length\LengthConstraint.cs" />
-    <Compile Include="Constraints\Common\NullOrEmptyConstraint.cs" />
-    <Compile Include="Constraints\Common\RequiredConstraint.cs" />
-    <Compile Include="Constraints\Common\HasValueConstraint.cs" />
-    <Compile Include="Constraints\Comparables\GreaterOrEqualToConstraint.cs" />
-    <Compile Include="Constraints\Comparables\GreaterThanConstraint.cs" />
-    <Compile Include="Constraints\Comparables\LessOrEqualToConstraint.cs" />
-    <Compile Include="Constraints\CompositeJsonConstraint.cs" />
-    <Compile Include="Constraints\Generic\InConstraint.cs" />
-    <Compile Include="Constraints\Generic\GenericConstraintFactoryExtensions.cs" />
-    <Compile Include="Constraints\JsonConstraint.cs" />
-    <Compile Include="Constraints\LazyConstraint.cs" />
-    <Compile Include="Constraints\NotJsonConstraint.cs" />
-    <Compile Include="Constraints\Comparables\LessThanConstraint.cs" />
-    <Compile Include="Constraints\Comparables\ComparableConstraintFactoryExtensions.cs" />
-    <Compile Include="Constraints\OrJsonConstraint.cs" />
-    <Compile Include="Constraints\Common\FunctionalConstraint.cs" />
-    <Compile Include="Constraints\String\StringInConstraint.cs" />
-    <Compile Include="Constraints\String\Length\ExactStringLengthConstraint.cs" />
-    <Compile Include="Constraints\String\Length\MaxStringLengthConstraint.cs" />
-    <Compile Include="Constraints\String\Length\MinStringLengthConstraint.cs" />
-    <Compile Include="Constraints\String\Length\StringLengthConstraint.cs" />
-    <Compile Include="Constraints\String\MatchStringConstraint.cs" />
-    <Compile Include="Constraints\String\StringEqualsConstraint.cs" />
-    <Compile Include="Constraints\String\ConstraintFactoryStringExtensions.cs" />
-    <Compile Include="Constraints\TypedJsonConstraint.cs" />
-    <Compile Include="Constraints\Types\ConstraintFactoryTypesExtensions.cs" />
-    <Compile Include="Constraints\Types\OfTypeArrayConstraint.cs" />
-    <Compile Include="Constraints\Types\OfTypeBooleanConstraint.cs" />
-    <Compile Include="Constraints\Types\OfTypeDateTimeConstraint.cs" />
-    <Compile Include="Constraints\Types\OfTypeGuidConstraint.cs" />
-    <Compile Include="Constraints\Types\OfTypeIntegerConstraint.cs" />
-    <Compile Include="Constraints\Types\OfTypeNumberConstraint.cs" />
-    <Compile Include="Constraints\Types\OfTypeObjectConstraint.cs" />
-    <Compile Include="Constraints\Types\OfTypeStringConstraint.cs" />
-    <Compile Include="Context\JsonValidationContext.cs" />
-    <Compile Include="Descriptive\Description.cs" />
-    <Compile Include="Descriptive\DescriptionWriter.cs" />
-    <Compile Include="Descriptive\JsonConstraintDescription.cs" />
-    <Compile Include="Descriptive\JsonConstraintDescriptionAttribute.cs" />
-    <Compile Include="Results\AndResult.cs" />
-    <Compile Include="Results\AnyResult.cs" />
-    <Compile Include="Results\CompositeResult.cs" />
-    <Compile Include="Results\ConstraintExceptionResult.cs" />
-    <Compile Include="Results\ConstraintResult.cs" />
-    <Compile Include="Results\EmbededValidatorResult.cs" />
-    <Compile Include="Results\LazyConstraintResult.cs" />
-    <Compile Include="Results\ValidatorResult.cs" />
-    <Compile Include="Results\NotResult.cs" />
-    <Compile Include="Results\OrResult.cs" />
-    <Compile Include="Results\FuncResult.cs" />
-    <Compile Include="Results\RuleResult.cs" />
-    <Compile Include="Selectors\AggregateFieldSelector.cs" />
-    <Compile Include="Selectors\AliasedFieldSelector.cs" />
-    <Compile Include="Selectors\FieldSelector.cs" />
-    <Compile Include="Selectors\ForEachInFieldSelector.cs" />
-    <Compile Include="Selectors\MultiFieldSelector.cs" />
-    <Compile Include="Selectors\SingleFieldSelector.cs" />
-    <Compile Include="Visitors\CompleteJsonValidatorVisitor.cs" />
-    <Compile Include="Visitors\ConstraintVisitor.cs" />
-    <Compile Include="Visitors\ICompleteJsonValidatorVisitor.cs" />
-    <Compile Include="Visitors\IConstraintVisitor.cs" />
-    <Compile Include="Visitors\IGenericVisitor.cs" />
-    <Compile Include="Visitors\IJsonFieldValidatorVisitor.cs" />
-    <Compile Include="Visitors\IJsonValidatorVisitor.cs" />
-    <Compile Include="Visitors\IResultVisitor.cs" />
-    <Compile Include="Factories\IConstraintFactory.cs" />
-    <Compile Include="JsonFieldValidator.cs" />
-    <Compile Include="JsonValidator.cs" />
-    <Compile Include="JsonValidatorRuleFactory.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Results\Result.cs" />
-    <Compile Include="Rules\AndRule.cs" />
-    <Compile Include="Rules\BasicRule.cs" />
-    <Compile Include="Rules\CompositeRule.cs" />
-    <Compile Include="Rules\Rule.cs" />
-    <Compile Include="Rules\NotRule.cs" />
-    <Compile Include="Rules\OrRule.cs" />
-    <Compile Include="Selectors\PathBasedFieldSelector.cs" />
-    <Compile Include="Visitors\IRuleVisitor.cs" />
-    <Compile Include="Visitors\JsonFieldValidatorVisitor.cs" />
-    <Compile Include="Visitors\JsonValidatorVistor.cs" />
-    <Compile Include="Visitors\ResultVisitor.cs" />
-    <Compile Include="Visitors\RuleVisitor.cs" />
-    <Compile Include="Visitors\VisitorExtensions.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Constraints\Constraints.cd" />
-    <None Include="DotJEM.Json.Validation.nuspec" />
-    <None Include="packages.config" />
-    <None Include="Results\Results.cd" />
-    <None Include="Rules\Rules.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Constraints\Arrays\" />
-    <Folder Include="Constraints\Booleans\" />
-    <Folder Include="Constraints\Number\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

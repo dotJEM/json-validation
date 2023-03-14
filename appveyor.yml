@@ -1,25 +1,23 @@
-version: 0.2.{build}
-image: Visual Studio 2017
+version: 1.0.{build}
+image: Visual Studio 2022
 
 configuration: Release
 
-install:
-- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/install-nuget-3-3-0.ps1'))
-- appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-
 init:
-- ps: Update-AppveyorBuild -Version "0.2.$env:appveyor_build_number+sha.$($env:appveyor_repo_commit.substring(0,7))"
+- ps: Update-AppveyorBuild -Version "1.0.$env:appveyor_build_number+sha.$($env:appveyor_repo_commit.substring(0,7))"
 
 nuget:
   disable_publish_on_pr: true
 
-assembly_info:
+dotnet_csproj:
   patch: true
-  file: AssemblyInfo.*
-  assembly_version: '0.2.{build}'
-  assembly_file_version: '0.2.{build}'
-  assembly_informational_version: '{version}'
-
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '1.0.{build}.0'
+  file_version: '1.0.{build}.0'
+  informational_version: '{version}'
+  
 matrix:
   fast_finish: true # fail fast!
 
@@ -29,23 +27,19 @@ pull_requests:
   do_not_increment_build_number: true
 
 before_build:
-  nuget restore
+  dotnet restore
 
 build:
   publish_nuget: true
-  publish_nuget_symbols: true
-  
-after_build:
-  dir
 
 on_success:
 - curl -s -o copilot https://copilot.blackducksoftware.com/ci/appveyor/scripts/upload
 - bash copilot
-
+    
 deploy:
   provider: NuGet
+  artifact: /DotJEM\..*.nupkg/ 
   api_key:
-    secure: KEHWtW02rf5aCAlwchP0Siow5EA24hwtm09uvsR58bMWirJ8uXl1SidBnNCfJ3cw
-  skip_symbols: true
+    secure: xjk5tz3Tcq/JnadrTWPZ2YOjggaN9yV7ulLn0+v7bqvukNNeO/TPCzamWxZOmax6
   on:
-    branch: master 
+    branch: master
