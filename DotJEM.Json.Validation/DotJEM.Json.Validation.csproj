@@ -18,6 +18,7 @@
 		<PackageVersion></PackageVersion>
 		<AssemblyVersion></AssemblyVersion>
 		<FileVersion></FileVersion>
+		<PackageReadmeFile>../README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<ItemGroup>
