@@ -4,32 +4,31 @@ using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
 
-namespace DotJEM.Json.Validation.Constraints
+namespace DotJEM.Json.Validation.Constraints;
+
+public sealed class NotJsonConstraint : JsonConstraint
 {
-    public sealed class NotJsonConstraint : JsonConstraint
+    public JsonConstraint Constraint { get; }
+
+    public NotJsonConstraint(JsonConstraint constraint)
     {
-        public JsonConstraint Constraint { get; }
+        Constraint = constraint;
+    }
 
-        public NotJsonConstraint(JsonConstraint constraint)
-        {
-            Constraint = constraint;
-        }
+    public override JsonConstraint Optimize()
+    {
+        NotJsonConstraint not = Constraint as NotJsonConstraint;
+        return not != null ? not.Constraint : base.Optimize();
+    }
 
-        public override JsonConstraint Optimize()
-        {
-            NotJsonConstraint not = Constraint as NotJsonConstraint;
-            return not != null ? not.Constraint : base.Optimize();
-        }
+    public override Result DoMatch(JToken token, IJsonValidationContext context) 
+        => !Constraint.DoMatch(token, context);
 
-        public override Result DoMatch(JToken token, IJsonValidationContext context) 
-            => !Constraint.DoMatch(token, context);
+    public override bool Matches(JToken token, IJsonValidationContext context) 
+        => !Constraint.Matches(token, context);
 
-        public override bool Matches(JToken token, IJsonValidationContext context) 
-            => !Constraint.Matches(token, context);
-
-        public override string ToString()
-        {
-            return $"not {Constraint}";
-        }
+    public override string ToString()
+    {
+        return $"not {Constraint}";
     }
 }

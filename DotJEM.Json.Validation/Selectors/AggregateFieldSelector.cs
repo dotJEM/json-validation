@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-namespace DotJEM.Json.Validation.Selectors
+namespace DotJEM.Json.Validation.Selectors;
+
+public abstract class AggregateFieldSelector : FieldSelector
 {
-    public abstract class AggregateFieldSelector : FieldSelector
+    public FieldSelector Selector { get; }
+
+    protected AggregateFieldSelector(FieldSelector selector)
     {
-        public FieldSelector Selector { get; }
-
-        protected AggregateFieldSelector(FieldSelector selector)
-        {
-            if (selector == null) throw new ArgumentNullException(nameof(selector));
-            Selector = selector;
-        }
-
-        public override IEnumerable<JTokenInfo> SelectTokens(JObject entity)
-            => Selector.SelectTokens(entity);
+        if (selector == null) throw new ArgumentNullException(nameof(selector));
+        Selector = selector;
     }
+
+    public override IEnumerable<JTokenInfo> SelectTokens(JObject entity)
+        => Selector.SelectTokens(entity);
 }

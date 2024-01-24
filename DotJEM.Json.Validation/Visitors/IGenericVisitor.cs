@@ -1,7 +1,6 @@
-namespace DotJEM.Json.Validation.Visitors
+namespace DotJEM.Json.Validation.Visitors;
+
+public interface IGenericVisitor<in TVisitee>
 {
-    public interface IGenericVisitor<in TVisitee>
-    {
-        void Visit(TVisitee visitee);
-    }
+    void Visit(TVisitee visitee);
 }

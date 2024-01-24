@@ -1,21 +1,20 @@
 ﻿using DotJEM.Json.Validation.Constraints;
 using Newtonsoft.Json.Linq;
 
-namespace DotJEM.Json.Validation.Results
+namespace DotJEM.Json.Validation.Results;
+
+public class ConstraintResult : Result
 {
-    public class ConstraintResult : Result
+    public override bool IsValid { get; }
+
+    public JToken Token { get; }
+
+    public JsonConstraint Constraint { get; }
+
+    public ConstraintResult(JsonConstraint constraint, JToken token, bool value)
     {
-        public override bool IsValid { get; }
-
-        public JToken Token { get; }
-
-        public JsonConstraint Constraint { get; }
-
-        public ConstraintResult(JsonConstraint constraint, JToken token, bool value)
-        {
-            Constraint = constraint;
-            Token = token;
-            IsValid = value;
-        }
+        Constraint = constraint;
+        Token = token;
+        IsValid = value;
     }
 }

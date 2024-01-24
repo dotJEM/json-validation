@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DotJEM.Json.Validation.Selectors
+namespace DotJEM.Json.Validation.Selectors;
+
+public abstract class PathBasedFieldSelector : FieldSelector
 {
-    public abstract class PathBasedFieldSelector : FieldSelector
+    public string Path { get; }
+    public override string Alias => Path;
+
+    protected PathBasedFieldSelector(string path)
     {
-        public string Path { get; }
-        public override string Alias => Path;
-
-        protected PathBasedFieldSelector(string path)
-        {
-            Path = path;
-        }
-
+        Path = path;
     }
+
 }

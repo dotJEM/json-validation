@@ -14,176 +14,174 @@ using DotJEM.Json.Validation.Rules;
 using DotJEM.Json.Validation.Selectors;
 using Newtonsoft.Json.Linq;
 
-namespace DotJEM.Json.Validation
+namespace DotJEM.Json.Validation;
+
+public interface IJsonValidator
 {
-    public interface IJsonValidator
+    ValidatorResult Validate(JObject entity, IJsonValidationContext contenxt);
+}
+
+public class JsonValidator : IJsonValidator
+{
+    private readonly List<JsonFieldValidator> validators = new List<JsonFieldValidator>();
+
+    public IEnumerable<JsonFieldValidator> Validators => validators;
+
+    protected IIsConstrainFactory Is { get; } = new ConstraintFactory(null, "is");
+    protected IHasConstraintFactory Has { get; } = new ConstraintFactory(null, "has");
+
+    protected IValidatorConstraintFactory Must { get; } = new ValidatorConstraintFactory(null, "must");
+    protected IValidatorConstraintFactory Should { get; } = new ValidatorConstraintFactory(null, "should");
+
+    protected ISelfReferencingRule It { get; } = new SelfReferencingRule();
+
+    protected IBeConstraintFactory Be { get; } = new ConstraintFactory(null, "be");
+    protected IHaveConstraintFactory Have { get; } = new ConstraintFactory(null, "have");
+
+    protected Rule Any => new AnyRule();
+
+    #region When
+
+    public IJsonValidatorRuleFactory When(Rule rule)
     {
-        ValidatorResult Validate(JObject entity, IJsonValidationContext contenxt);
+        if (rule == null) throw new ArgumentNullException(nameof(rule));
+        //Note: Captured Rule.
+        //rule.ContextInfo = "When";
+        return new JsonValidatorRuleFactory(this, rule);
     }
 
-    public class JsonValidator : IJsonValidator
+    //TODO: There is little reason that these should not be callable from the outside of the validator, so we can make them public at some point. 
+    //      (We might wan't separate interfaces for building the validator and using it)
+    //       - When this happens, many of these WHEN and FIELD methods can actually be extensions (Can't remember if that forces "this.", if so we don't wan't that).
+    public IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc, string explain)
     {
-        private readonly List<JsonFieldValidator> validators = new List<JsonFieldValidator>();
+        return When(new FuncRule(constraintFunc, explain));
+    }
 
-        public IEnumerable<JsonFieldValidator> Validators => validators;
+    public IJsonValidatorRuleFactory When(FieldSelector selector, Func<JToken, bool> constraintFunc, string explain)
+    {
+        return When(Field(selector, Is.Matching(constraintFunc, explain)));
+    }
 
-        protected IIsConstrainFactory Is { get; } = new ConstraintFactory(null, "is");
-        protected IHasConstraintFactory Has { get; } = new ConstraintFactory(null, "has");
+    public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<JToken, bool> constraintFunc, string explain)
+    {
+        return When(Field(new AliasedFieldSelector(alias, selector), Is.Matching(constraintFunc, explain)));
+    }
 
-        protected IValidatorConstraintFactory Must { get; } = new ValidatorConstraintFactory(null, "must");
-        protected IValidatorConstraintFactory Should { get; } = new ValidatorConstraintFactory(null, "should");
+    public IJsonValidatorRuleFactory When(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+    {
+        return When(Field(selector, Is.Matching(constraintFunc, explain)));
+    }
 
-        protected ISelfReferencingRule It { get; } = new SelfReferencingRule();
+    public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+    {
+        return When(Field(new AliasedFieldSelector(alias, selector), Is.Matching(constraintFunc, explain)));
+    }
 
-        protected IBeConstraintFactory Be { get; } = new ConstraintFactory(null, "be");
-        protected IHaveConstraintFactory Have { get; } = new ConstraintFactory(null, "have");
+    public IJsonValidatorRuleFactory When(FieldSelector selector, CapturedConstraint captured)
+    {
+        return When(Field(selector, captured));
+    }
 
-        protected Rule Any => new AnyRule();
+    public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, CapturedConstraint captured)
+    {
+        return When(Field(new AliasedFieldSelector(alias, selector), captured));
+    } 
 
-        #region When
+    #endregion
 
-        public IJsonValidatorRuleFactory When(Rule rule)
-        {
-            if (rule == null) throw new ArgumentNullException(nameof(rule));
-            //Note: Captured Rule.
-            //rule.ContextInfo = "When";
-            return new JsonValidatorRuleFactory(this, rule);
-        }
+    #region Field
 
-        //TODO: There is little reason that these should not be callable from the outside of the validator, so we can make them public at some point. 
-        //      (We might wan't separate interfaces for building the validator and using it)
-        //       - When this happens, many of these WHEN and FIELD methods can actually be extensions (Can't remember if that forces "this.", if so we don't wan't that).
-        public IJsonValidatorRuleFactory When(Func<JObject, bool> constraintFunc, string explain)
-        {
-            return When(new FuncRule(constraintFunc, explain));
-        }
+    public Rule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+    {
+        return Field(selector, Is.Matching(constraintFunc, explain));
+    }
 
-        public IJsonValidatorRuleFactory When(FieldSelector selector, Func<JToken, bool> constraintFunc, string explain)
-        {
-            return When(Field(selector, Is.Matching(constraintFunc, explain)));
-        }
+    public Rule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
+    {
+        return Field(selector, alias, Is.Matching(constraintFunc, explain));
+    }
 
-        public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<JToken, bool> constraintFunc, string explain)
-        {
-            return When(Field(new AliasedFieldSelector(alias, selector), Is.Matching(constraintFunc, explain)));
-        }
+    public Rule Field(FieldSelector selector, string alias, CapturedConstraint captured)
+    {
+        if (selector == null) throw new ArgumentNullException(nameof(selector));
+        if (captured == null) throw new ArgumentNullException(nameof(captured));
+        if (alias == null) throw new ArgumentNullException(nameof(alias));
 
-        public IJsonValidatorRuleFactory When(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
-        {
-            return When(Field(selector, Is.Matching(constraintFunc, explain)));
-        }
+        return Field(new AliasedFieldSelector(alias, selector), captured);
+    }
 
-        public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
-        {
-            return When(Field(new AliasedFieldSelector(alias, selector), Is.Matching(constraintFunc, explain)));
-        }
+    public Rule Field(FieldSelector selector, CapturedConstraint captured)
+    {
+        if (selector == null) throw new ArgumentNullException(nameof(selector));
+        if (captured == null) throw new ArgumentNullException(nameof(captured));
 
-        public IJsonValidatorRuleFactory When(FieldSelector selector, CapturedConstraint captured)
-        {
-            return When(Field(selector, captured));
-        }
-
-        public IJsonValidatorRuleFactory When(FieldSelector selector, string alias, CapturedConstraint captured)
-        {
-            return When(Field(new AliasedFieldSelector(alias, selector), captured));
-        } 
-
-        #endregion
-
-        #region Field
-
-        public Rule Field(FieldSelector selector, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
-        {
-            return Field(selector, Is.Matching(constraintFunc, explain));
-        }
-
-        public Rule Field(FieldSelector selector, string alias, Func<IJsonValidationContext, JToken, bool> constraintFunc, string explain)
-        {
-            return Field(selector, alias, Is.Matching(constraintFunc, explain));
-        }
-
-        public Rule Field(FieldSelector selector, string alias, CapturedConstraint captured)
-        {
-            if (selector == null) throw new ArgumentNullException(nameof(selector));
-            if (captured == null) throw new ArgumentNullException(nameof(captured));
-            if (alias == null) throw new ArgumentNullException(nameof(alias));
-
-            return Field(new AliasedFieldSelector(alias, selector), captured);
-        }
-
-        public Rule Field(FieldSelector selector, CapturedConstraint captured)
-        {
-            if (selector == null) throw new ArgumentNullException(nameof(selector));
-            if (captured == null) throw new ArgumentNullException(nameof(captured));
-
-            return new BasicRule(selector, captured);
-        } 
+        return new BasicRule(selector, captured);
+    } 
         
-        #endregion
+    #endregion
 
-        #region Use
+    #region Use
 
-        public IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()
-        {
-            return When(Any).Use<TValidator>();
-        }
-
-        public IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator
-        {
-            return When(Any).Use(instance);
-        }
-
-        public IForFieldSelector Use(Type validatorType)
-        {
-            return When(Any).Use(validatorType);
-        }
-
-        #endregion
-
-        public FieldSelector All(params FieldSelector[] selectors) => Multiple(selectors);
-        public FieldSelector Multiple(params FieldSelector[] selectors) => new CompositeFieldSelector(selectors);
-
-        public CapturedConstraint ComparedTo(FieldSelector[] selectors, Func<CompareContext, CapturedConstraint> factory)
-        {
-            return new CapturedConstraint(new LazyConstraint(new CompositeFieldSelector(selectors), factory), "compared to");
-        }
-
-        public CapturedConstraint ComparedTo(FieldSelector selector, Func<CompareContext, CapturedConstraint> factory)
-        {
-            return new CapturedConstraint(new LazyConstraint(selector, factory), "compared to");
-        }
-
-        public CapturedConstraint ComparedTo(FieldSelector selector, string alias, Func<CompareContext, CapturedConstraint> factory) 
-            => ComparedTo(new AliasedFieldSelector(alias, selector), factory);
-
-        public CapturedConstraint CompareTo(FieldSelector selector, Func<CompareContext, CapturedConstraint> factory)
-            => ComparedTo(selector, factory);
-
-        public CapturedConstraint CompareTo(FieldSelector selector, string alias, Func<CompareContext, CapturedConstraint> factory)
-            => ComparedTo(selector, alias, factory);
-
-        public virtual ValidatorResult Validate(JObject entity, IJsonValidationContext context)
-        {
-            context = new DynamicContext(context, entity);
-
-            IEnumerable<Result> results
-                = from validator in Validators
-                  let result = validator.Validate(entity, context)
-                  where result != null
-                  select result.Optimize();
-
-            return new ValidatorResult(this, results.ToList());
-        }
-
-        public IFieldValidatorConfig AddValidator(JsonFieldValidator jsonFieldValidator)
-        {
-            if (jsonFieldValidator == null)
-                throw new ArgumentNullException(nameof(jsonFieldValidator));
-
-
-            validators.Add(jsonFieldValidator);
-            return new FieldValidatorConfig(jsonFieldValidator);
-        }
+    public IForFieldSelector Use<TValidator>() where TValidator : JsonValidator, new()
+    {
+        return When(Any).Use<TValidator>();
     }
 
+    public IForFieldSelector Use<TValidator>(TValidator instance) where TValidator : JsonValidator
+    {
+        return When(Any).Use(instance);
+    }
+
+    public IForFieldSelector Use(Type validatorType)
+    {
+        return When(Any).Use(validatorType);
+    }
+
+    #endregion
+
+    public FieldSelector All(params FieldSelector[] selectors) => Multiple(selectors);
+    public FieldSelector Multiple(params FieldSelector[] selectors) => new CompositeFieldSelector(selectors);
+
+    public CapturedConstraint ComparedTo(FieldSelector[] selectors, Func<CompareContext, CapturedConstraint> factory)
+    {
+        return new CapturedConstraint(new LazyConstraint(new CompositeFieldSelector(selectors), factory), "compared to");
+    }
+
+    public CapturedConstraint ComparedTo(FieldSelector selector, Func<CompareContext, CapturedConstraint> factory)
+    {
+        return new CapturedConstraint(new LazyConstraint(selector, factory), "compared to");
+    }
+
+    public CapturedConstraint ComparedTo(FieldSelector selector, string alias, Func<CompareContext, CapturedConstraint> factory) 
+        => ComparedTo(new AliasedFieldSelector(alias, selector), factory);
+
+    public CapturedConstraint CompareTo(FieldSelector selector, Func<CompareContext, CapturedConstraint> factory)
+        => ComparedTo(selector, factory);
+
+    public CapturedConstraint CompareTo(FieldSelector selector, string alias, Func<CompareContext, CapturedConstraint> factory)
+        => ComparedTo(selector, alias, factory);
+
+    public virtual ValidatorResult Validate(JObject entity, IJsonValidationContext context)
+    {
+        context = new DynamicContext(context, entity);
+
+        IEnumerable<Result> results
+            = from validator in Validators
+            let result = validator.Validate(entity, context)
+            where result != null
+            select result.Optimize();
+
+        return new ValidatorResult(this, results.ToList());
+    }
+
+    public IFieldValidatorConfig AddValidator(JsonFieldValidator jsonFieldValidator)
+    {
+        if (jsonFieldValidator == null)
+            throw new ArgumentNullException(nameof(jsonFieldValidator));
+
+
+        validators.Add(jsonFieldValidator);
+        return new FieldValidatorConfig(jsonFieldValidator);
+    }
 }

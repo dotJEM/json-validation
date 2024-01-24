@@ -4,89 +4,88 @@ using System.Text.RegularExpressions;
 using DotJEM.Json.Validation.Constraints.Types;
 using Newtonsoft.Json.Linq;
 
-namespace DotJEM.Json.Validation.Selectors
+namespace DotJEM.Json.Validation.Selectors;
+
+public abstract class FieldSelector
 {
-    public abstract class FieldSelector
-    {
-        private static readonly Regex arraySelector = new Regex(@".*\[\*|.+].*", RegexOptions.Compiled);
-        public abstract string Alias { get; }
+    private static readonly Regex arraySelector = new Regex(@".*\[\*|.+].*", RegexOptions.Compiled);
+    public abstract string Alias { get; }
         
-        public abstract IEnumerable<JTokenInfo> SelectTokens(JObject entity);
+    public abstract IEnumerable<JTokenInfo> SelectTokens(JObject entity);
 
-        public static implicit operator FieldSelector(string path)
-        {
-            return arraySelector.IsMatch(path)
-                ? (PathBasedFieldSelector)new MultiFieldSelector(path)
-                : new SingleFieldSelector(path);
-        }
-
-        public static CompositeFieldSelector operator &(FieldSelector left, FieldSelector right)
-        {
-            CompositeFieldSelector leftComposite = left as CompositeFieldSelector;
-            if (leftComposite != null)
-                return leftComposite.Add(right);
-
-            CompositeFieldSelector rightComposite = right as CompositeFieldSelector;
-            if (rightComposite != null)
-                return rightComposite.Add(left);
-
-            return new CompositeFieldSelector(left, right);
-        }
+    public static implicit operator FieldSelector(string path)
+    {
+        return arraySelector.IsMatch(path)
+            ? (PathBasedFieldSelector)new MultiFieldSelector(path)
+            : new SingleFieldSelector(path);
     }
 
-    public class CompositeFieldSelector : FieldSelector
+    public static CompositeFieldSelector operator &(FieldSelector left, FieldSelector right)
     {
-        public override string Alias => Selectors.Select(selector => selector.Alias).Aggregate((acc, next) => $"{acc} & {next}");
+        CompositeFieldSelector leftComposite = left as CompositeFieldSelector;
+        if (leftComposite != null)
+            return leftComposite.Add(right);
 
-        public List<FieldSelector> Selectors { get; }
+        CompositeFieldSelector rightComposite = right as CompositeFieldSelector;
+        if (rightComposite != null)
+            return rightComposite.Add(left);
 
-        public CompositeFieldSelector(params FieldSelector[] selectors)
-        {
-            Selectors = new List<FieldSelector>(selectors.Length);
-            foreach (FieldSelector selector in selectors)
-                Add(selector);
-        }
+        return new CompositeFieldSelector(left, right);
+    }
+}
 
-        public override IEnumerable<JTokenInfo> SelectTokens(JObject entity)
-        {
-            List<JTokenInfo> tokens = new List<JTokenInfo>();
-            foreach (FieldSelector selector in Selectors)
-                tokens.AddRange(selector.SelectTokens(entity));
-            return tokens;
+public class CompositeFieldSelector : FieldSelector
+{
+    public override string Alias => Selectors.Select(selector => selector.Alias).Aggregate((acc, next) => $"{acc} & {next}");
 
-            //return Selectors.SelectMany(selector => selector.SelectTokens(entity));
-        }
+    public List<FieldSelector> Selectors { get; }
 
-        public CompositeFieldSelector Add(FieldSelector selector)
-        {
-            CompositeFieldSelector composite = selector as CompositeFieldSelector;
-            if (composite != null)
-                Selectors.AddRange(composite.Selectors);
-            else
-                Selectors.Add(selector);
-            return this;
-        }
+    public CompositeFieldSelector(params FieldSelector[] selectors)
+    {
+        Selectors = new List<FieldSelector>(selectors.Length);
+        foreach (FieldSelector selector in selectors)
+            Add(selector);
     }
 
-    public class JTokenInfo
+    public override IEnumerable<JTokenInfo> SelectTokens(JObject entity)
     {
-        public JToken Token { get; }
-        public FieldSelector Selector { get; }
+        List<JTokenInfo> tokens = new List<JTokenInfo>();
+        foreach (FieldSelector selector in Selectors)
+            tokens.AddRange(selector.SelectTokens(entity));
+        return tokens;
 
-        public JTokenInfo(JToken token, FieldSelector selector)
-        {
-            Token = token;
-            Selector = selector;
-        }
+        //return Selectors.SelectMany(selector => selector.SelectTokens(entity));
+    }
 
-        public static implicit operator JToken(JTokenInfo info)
-        {
-            return info?.Token;
-        }
+    public CompositeFieldSelector Add(FieldSelector selector)
+    {
+        CompositeFieldSelector composite = selector as CompositeFieldSelector;
+        if (composite != null)
+            Selectors.AddRange(composite.Selectors);
+        else
+            Selectors.Add(selector);
+        return this;
+    }
+}
 
-        public static implicit operator JTokenInfo(JToken token)
-        {
-            return new JTokenInfo(token, null);
-        }
+public class JTokenInfo
+{
+    public JToken Token { get; }
+    public FieldSelector Selector { get; }
+
+    public JTokenInfo(JToken token, FieldSelector selector)
+    {
+        Token = token;
+        Selector = selector;
+    }
+
+    public static implicit operator JToken(JTokenInfo info)
+    {
+        return info?.Token;
+    }
+
+    public static implicit operator JTokenInfo(JToken token)
+    {
+        return new JTokenInfo(token, null);
     }
 }

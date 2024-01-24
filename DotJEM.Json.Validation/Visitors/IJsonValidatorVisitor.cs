@@ -1,6 +1,5 @@
-namespace DotJEM.Json.Validation.Visitors
-{
-    public interface IJsonValidatorVisitor : IJsonValidatorVisitor<JsonValidator>{}
+namespace DotJEM.Json.Validation.Visitors;
 
-    public interface IJsonValidatorVisitor<in TVisitee> : IGenericVisitor<TVisitee> where TVisitee : JsonValidator { }
-}
+public interface IJsonValidatorVisitor : IJsonValidatorVisitor<JsonValidator>{}
+
+public interface IJsonValidatorVisitor<in TVisitee> : IGenericVisitor<TVisitee> where TVisitee : JsonValidator { }

@@ -4,30 +4,29 @@ using DotJEM.Json.Validation.Descriptive;
 using DotJEM.Json.Validation.Results;
 using Newtonsoft.Json.Linq;
 
-namespace DotJEM.Json.Validation.Rules
+namespace DotJEM.Json.Validation.Rules;
+
+public sealed class AndRule : CompositeRule
 {
-    public sealed class AndRule : CompositeRule
+    public AndRule()
     {
-        public AndRule()
-        {
-        }
+    }
 
-        public AndRule(params Rule[] rules) 
-            : base(rules)
-        {
-        }
+    public AndRule(params Rule[] rules) 
+        : base(rules)
+    {
+    }
 
-        public override Result Test(JObject entity, IJsonValidationContext context)
-        {
-            //TODO: Lazy
-            return Rules
-                .Select(rule => rule.Test(entity, context))
-                .Aggregate((a,b) => a & b);
-        }
+    public override Result Test(JObject entity, IJsonValidationContext context)
+    {
+        //TODO: Lazy
+        return Rules
+            .Select(rule => rule.Test(entity, context))
+            .Aggregate((a,b) => a & b);
+    }
 
-        public override Rule Optimize()
-        {
-            return OptimizeAs<AndRule>();
-        }
+    public override Rule Optimize()
+    {
+        return OptimizeAs<AndRule>();
     }
 }

@@ -1,12 +1,11 @@
 using System;
 
-namespace DotJEM.Json.Validation.Visitors
+namespace DotJEM.Json.Validation.Visitors;
+
+public abstract class JsonValidatorVistor : IJsonValidatorVisitor
 {
-    public abstract class JsonValidatorVistor : IJsonValidatorVisitor
+    public void Visit(JsonValidator visitee)
     {
-        public void Visit(JsonValidator visitee)
-        {
-            throw new NotImplementedException($"No approriate visitor methods was found for type: {visitee.GetType()}.");
-        }
+        throw new NotImplementedException($"No approriate visitor methods was found for type: {visitee.GetType()}.");
     }
 }
