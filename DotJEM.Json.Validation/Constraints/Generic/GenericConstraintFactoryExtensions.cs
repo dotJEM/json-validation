@@ -8,9 +8,9 @@ public static class GenericConstraintFactoryExtensions
 {
     public static CapturedConstraint In<T>(this IBeConstraintFactory self, params T[] args) 
         => self.Capture(new InConstraint<T>(args));
-    public static CapturedConstraint In<T>(this IBeConstraintFactory self, EqualityComparer<T> comparer, params T[] args)
+    public static CapturedConstraint In<T>(this IBeConstraintFactory self, IEqualityComparer<T> comparer, params T[] args)
         => self.Capture(new InConstraint<T>(args, comparer));
 
-    public static CapturedConstraint In<T>(this IBeConstraintFactory self, IEnumerable<T> values, EqualityComparer<T> comparer = null)
+    public static CapturedConstraint In<T>(this IBeConstraintFactory self, IEnumerable<T> values, IEqualityComparer<T> comparer = null)
         => self.Capture(new InConstraint<T>(values, comparer));
 }

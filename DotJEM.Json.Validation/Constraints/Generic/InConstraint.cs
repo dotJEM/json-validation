@@ -15,7 +15,7 @@ public class InConstraint<T> : TypedJsonConstraint<T>
 #pragma warning restore IDE0051
     // ReSharper restore UnusedMember.Local
 
-    public InConstraint(IEnumerable<T> values, EqualityComparer<T> comparer = null)
+    public InConstraint(IEnumerable<T> values, IEqualityComparer<T> comparer = null)
     {
         this.values = new(values, comparer ?? EqualityComparer<T>.Default);
     }

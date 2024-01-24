@@ -17,13 +17,13 @@ public static class CommonConstraintFactoryExtensions
     public static CapturedConstraint EqualTo(this IBeConstraintFactory self, object value)
         => self.Capture(new EqualToConstraint(value));
 
-    public static CapturedConstraint In<T>(this IBeConstraintFactory self, IEnumerable<T> elements, EqualityComparer<T> comparer = null) 
+    public static CapturedConstraint In<T>(this IBeConstraintFactory self, IEnumerable<T> elements, IEqualityComparer<T> comparer = null) 
         => self.Capture(new InConstraint<T>(elements, comparer));
 
     public static CapturedConstraint In<T>(this IBeConstraintFactory self, params T[] elements)
         => self.Capture(new InConstraint<T>(elements));
 
-    public static CapturedConstraint In<T>(this IBeConstraintFactory self, EqualityComparer<T> comparer, params T[] elements)
+    public static CapturedConstraint In<T>(this IBeConstraintFactory self, IEqualityComparer<T> comparer, params T[] elements)
         => self.Capture(new InConstraint<T>(elements, comparer));
 
     public static CapturedConstraint Matching(this IIsConstrainFactory self, Func<JToken, bool> constraintFunc, string explain)
