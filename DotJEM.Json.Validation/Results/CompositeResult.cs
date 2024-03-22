@@ -7,7 +7,7 @@ public abstract class CompositeResult : Result
 {
     private readonly List<Result> results;
 
-    public IEnumerable<Result> Results => results;
+    public IReadOnlyList<Result> Results => results;
 
     protected CompositeResult(IEnumerable<Result> results)
     {
@@ -20,8 +20,7 @@ public abstract class CompositeResult : Result
             .Select(c => c.Optimize())
             .Aggregate(new TResult(), (c, next) =>
             {
-                TResult and = next as TResult;
-                if (and != null)
+                if (next is TResult and)
                 {
                     c.results.AddRange(and.Results);
                 }

@@ -13,7 +13,6 @@ public class NotResult : Result
 
     public override Result Optimize()
     {
-        NotResult not = Result as NotResult;
-        return not != null ? not.Result.Optimize() : new NotResult(Result.Optimize());
+        return Result is NotResult not ? not.Result.Optimize() : new NotResult(Result.Optimize());
     }
 }
